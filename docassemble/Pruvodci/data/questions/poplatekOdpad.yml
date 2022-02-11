@@ -114,7 +114,7 @@ question: |
 subquestion: |
   Vraťte se zpět a zkuste vyhledat obec znovu.
 
-  Případně uveďte identifikátor datové schránky obce, podle které ji poznáme spolehlivě. Identifikátor zpravidla naleznete na webu obce mezi kontakty, ty v [seznamu džitelů](https://www.mojedatovaschranka.cz/sds/search).
+  Případně uveďte identifikátor datové schránky obce, podle které ji poznáme spolehlivě. Identifikátor naleznete v [seznamu džitelů](https://www.mojedatovaschranka.cz/sds/search) a zpravidla i na webu obce mezi kontakty.
 fields:
   - IDDS: pobytIDDS
 ---
