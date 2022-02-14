@@ -26,8 +26,7 @@ code: |
   uvod
   bydliste_pobyt
   Obec.pobyt.obec
-  if pobytDatovkou:
-    pobytDatovkou
+  Obec.pobyt.info
   Obec.pobyt.vyhlasky
   if Obec.pobyt.vyhlaska != "Není":
     if ziskanyText.ready():
@@ -41,8 +40,7 @@ code: |
     data_done
     bydliste_pobyt_stejne
   Obec.bydliste.obec
-  if bydlisteDatovkou:
-    bydlisteDatovkou
+  Obec.bydliste.info
   Obec.bydliste.vyhlasky
   if Obec.bydliste.vyhlaska != "Není":
     if ziskanyText.ready():
@@ -99,15 +97,14 @@ script: |
 ---
 code: |
   pobytInfo = najitObec(Obec.pobyt.obec, Obec.pobyt.kraj)
-  if not pobytInfo:
-    pobytDatovkou = True
-  else:
-    Obec.pobyt.info = pobytInfo
 ---
 code: |
-  Obec.pobyt.info = {}
-  Obec.pobyt.info["datovaSchrankaID"] = pobytIDDS
-  pobytDatovkou = True
+  if not pobytInfo:
+    pobytIDDS
+    Obec.pobyt.info = {}
+    Obec.pobyt.info["datovaSchrankaID"] = pobytIDDS
+  else:
+    Obec.pobyt.info = pobytInfo
 ---
 question: |
     Bohužel se nám obec nepodařilo najít.
@@ -140,15 +137,14 @@ code: |
 ---
 code: |
   bydlisteInfo = najitObec(Obec.bydliste.obec, Obec.bydliste.kraj)
-  if not bydlisteInfo:
-    bydlisteDatovkou = True
-  else:
-    Obec.bydliste.info = bydlisteInfo
 ---
 code: |
-  Obec.bydliste.info = {}
-  Obec.bydliste.info["datovaSchrankaID"] = bydlisteIDDS
-  bydlisteDatovkou = True
+  if not bydlisteInfo:
+    bydlisteIDDS
+    Obec.bydliste.info = {}
+    Obec.bydliste.info["datovaSchrankaID"] = bydlisteIDDS
+  else:
+    Obec.bydliste.info = bydlisteInfo
 ---
 question: |
     Bohužel se nám obec nepodařilo najít.
