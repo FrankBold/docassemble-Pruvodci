@@ -61,13 +61,13 @@ question: |
   Vítejte v průvodci
 subquestion: |
   Tento průvodce vám pomůže připravit **jednací řád zastupitelstva obce** na míru. Vše vyřídíte do několika minut a můžete se kdykoli vrátit a upravit nastavení.
-  
+
   Na konci získáte:
-  
+
   - Jednací řád
   - Informační přehled pro občany obce
   - Vzorové informování o nahrávání zastupitelstva
-  
+
   U řady položek je předvyplněn doporučený obsah. Veškeré položky však můžete upravit, aby lépe fungovali pro vaše zastupitelstvo.
 fields:
   - "[Zásady zpracování osobních údajů](https://frankbold.org/zasady-ochrany-osobnich-udaju-frank-bold)": souhlas
@@ -125,7 +125,7 @@ question: |
   Svolání zasedání zastupitelstva
 subquestion: |
   Nejprve určíme, kdy a kde se typicky zasedání koná a jakým způsobem bude informována veřejnost.
-fields: 
+fields:
   - Kde všude bude obec informovat o chystaném zasedání?: Zasedani.kanaly
     datatype: checkboxes
     none of the above: False
@@ -140,7 +140,7 @@ fields:
     hint: "www."
   - note: |
       **Základní informace k vyhlášení zasedání:**
-      
+
       Zastupitelstvo se schází podle potřeby, nejméně však jedenkrát za 3 měsíce. Termíny nadcházejících zasedání zastupitelstva jsou zveřejněny na [FIELD Zasedani.url]. Zasedání zastupitelstva se konají zpravidla od [FIELD Zasedani.zpravidlaOd].
   - V jakém předstihu bude informace o zasedání zveřejněna?: Zasedani.dniPredem
     default: "14 dní"
@@ -150,7 +150,7 @@ fields:
       Čas není závazný, je však dobré předem určit standardní čas. Je dobré volit takový čas, aby se skutečně mohla účastnit i veřejnost.
   - note: |
       **Kde se typicky koná zasedání?**
-      
+
       Zasedání zastupitelstva je svoláváno do prostor vhodných pro jednání za účasti veřejnosti v územním obvodu ${ Obec.typ[1] } ${ Obec.nazev } zpravidla v [FIELD Zasedani.zpravidlaV].
   - Kde se zasedání zpravidla koná?: Zasedani.zpravidlaV
     default: "budově ${ Obec.urad[2] } úřadu"
@@ -174,13 +174,13 @@ fields:
       ${ nahled_modal_ustne }
   - note: |
       **Kdy se rozesílají podklady zastupitelům?**
-        
+
       Podkladové materiály pro jednání zastupitelstva se jednotlivým členům zastupitelstva rozesílají elektronicky, a to nejpozději [FIELD Zasedani.materialyPredem] před příslušným zasedáním.
   - Kdy nejpozději musí zastupitelé dostat podklady k zasedání?: Zasedani.materialyPredem
     default: "3 dny"
   - note: |
       **Kdy jsou podklady dostupné veřejně?**
-      
+
       Podkladové materiály předkládané členům zastupitelstva jsou [FIELD Zasedani.dostupneKdy] v anonymizované podobě zároveň zveřejněny na internetové stránce ${ Obec.typ[1] }
   - Jak dlouho poté jsou podklady uveřejněny?: Zasedani.dostupneKdy
     default: "v den rozeslání"
@@ -225,7 +225,7 @@ fields:
     default: "do 30 minut"
   - note: |
       **Omezení vystupujících:**
-      
+
       Ke stejnému bodu programu se tentýž vystupující (včetně předkladatele) smí vyjádřit nejvýše [FIELD Zasedani.pocetVyjadreni], přičemž každé jeho jednotlivé vystoupení je omezeno časovým limitem [FIELD Zasedani.limitVystoupeni].
   - Kolikrát se může vystupující vyjádřit ke stejnému bodu?: Zasedani.pocetVyjadreni
     default: "dvakrát"
@@ -295,7 +295,7 @@ fields:
       ### Návrhy
   - note: |
       **Jak veřejnou navrhuje body na program?**
-      
+
       Po zveřejnění návrhu programu písemně zasláním poštou, elektronicky na e-mail [FIELD Obec.email] nebo osobním doručením [FIELD Zasedani.kontaktPodklady] nejpozději do [FIELD Zasedani.deadlinePodkladyEmail] před zasedáním zastupitelstva,
   - Na jaký e-mail může veřejnost posílat podněty?: Obec.email
     hint: "@"
@@ -315,7 +315,7 @@ fields:
     datatype: yesnoradio
   - note: |
       **Omezení vystoupení veřejnosti:**
-      
+
       Časová délka komentáře či ústního vystoupení veřejnosti je stanovena na [FIELD Zasedani.limitVerejnost]
   - Jak dlouho může člen veřejnosti k bodu hovořit?: Zasedani.limitVerejnost
     default: "tři minuty"
@@ -349,10 +349,10 @@ fields:
 ---
 section: Závěrečná ustanovení
 progress: 90
-question: |  
+question: |
   Závěrečná ustanovení
 subquestion: |
-  Tato nepovinná pole může ponechat prázdná a doplnit později přímo v dokumentu. Rovněž budete do dokumentu ještě doplňovat kdy byl jednací řád zastupitelstvem přijat a jakým usnesením.
+  Tato nepovinná pole můžete ponechat prázdná a doplnit později přímo v dokumentu. Rovněž budete do dokumentu ještě doplňovat kdy byl jednací řád zastupitelstvem přijat a jakým usnesením.
 fields:
   - Číslo usnesení, kterým byl přijat předchozí Jednací řád: predchoziJR
     required: False
@@ -365,13 +365,12 @@ question: |
   Jednací řád je připraven
 subquestion: |
   Jednací řád vám zašleme spolu s manuálem pro občany na e-mail.
-  
+
   **Dočaně pro testování odkazy ke stažení přímo**
-  
+
   * [Stáhnout Jednací řád WORD](${ vzor.url_for() })
-  * [Stáhnout Jednací řád WORD](${ vzor.pdf.url_for() })
   * [Stáhnout Průvodce pro občany](${ vzor_pruvodce.url_for() })
-fields: 
+fields:
   - E-mail: email
     datatype: email
 continue button field: potvrditOdeslani
@@ -394,9 +393,9 @@ question: |
   Jednací řád odeslán
 subquestion: |
   Jednací řád i s manuálem pro občany jsme vám odeslali na e-mail **${ email }**. Pokud je v e-mailu chyba vraťte se zpět přes tlačítko níže a adresu opravte.
-  
+
   Pokud budete mít k dokumentům či nástroji jakékoli podněty či otázky, budeme rádi, když nám dáte vědět.
-  
+
   Tuto službu pro připravili společnými silami [Frank Bold](https://frankbold.org/) a [Oživení](https://oziveni.cz/) za finanční podpory [Ministerstva spravedlnosti](https://www.justice.cz/web/msp/dotace-v-oblasti-trestni-politiky?clanek=prevence-korupcniho-jednani).
 ---
 attachment:
