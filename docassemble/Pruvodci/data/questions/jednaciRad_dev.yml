@@ -1,0 +1,387 @@
+metadata:
+  title: |
+    Generátor jednacího řádu
+  short title: |
+    Jednací řád
+  description: |
+    Průvodce tvorbou jednacího řádu pro zastupitelstva obcí.
+  authors:
+    - name: Michal Kuk
+      organization: Frank Bold Society, z.s.
+  revision_date: 2022-09-23
+---
+modules:
+  - .integrace
+---
+include:
+  - docassemble.demo:data/questions/examples/cards.yml
+---
+sections:
+  - Úvod
+  - Informace o obci
+  - Organizace zasedání:
+    - Svolání zasedání
+    - Příprava zasedání
+    - Průběh zasedání
+  - Účast veřejnosti
+  - Záznam ze zasedání
+  - Závěrečná ustanovení
+  - Hotový jednací řád
+---
+features:
+  labels above fields: True
+  progress bar: True
+  progress bar multiplier: 0.2
+  question back button: True
+  navigation back button: False
+  bootstrap theme: https://cdn.jsdelivr.net/npm/bootstrap@5.2.1/dist/css/bootstrap.min.css
+  navigation: True
+  css: jednaciRad.css
+---
+objects:
+  - Obec: Thing
+  - Zasedani: Thing
+---
+mandatory: True
+code: |
+  restart_button = action_button_html(url_of('restart'), label="Restart", color="warning", size="md")
+  set_parts(right=restart_button)
+  obce = ["Praha", "Brno"]
+---
+mandatory: True
+code: |
+  uvod
+  Obec.nazev
+  Zasedani.url
+  Zasedani.organizator
+  Zasedani.zahajeniNejpozdeji
+  Zasedani.casVerejnost
+  Zasedani.onlinePrenos
+  predchoziJR
+  rad_data
+  vysledek
+  final
+---
+section: Úvod
+question: |
+  Vítejte v průvodci
+subquestion: |
+  Tento průvodce vám pomůže připravit **jednací řád zastupitelstva obce** na míru. Vše vyřídíte do několika minut a můžete se kdykoli vrátit a upravit nastavení.
+  
+  Na konci získáte:
+  
+  - Jednací řád
+  - Informační přehled pro občany obce
+  - Vzorové informování o nahrávání zastupitelstva
+  
+  U řady položek je předvyplněn doporučený obsah. Veškeré položky však můžete upravit, aby lépe fungovali pro vaše zastupitelstvo.
+continue button label: Spustit generátor
+continue button field: uvod
+---
+section: Informace o obci
+progress: 10
+question: |
+  Informace o obci
+subquestion: |
+  [TARGET feedback]
+fields:
+  - Název obce: Obec.nazev
+  - Typ obce: typObce
+    input type: radio
+    choices:
+      - Obec: obec
+      - Město: mesto
+      - Městys: městys
+      - Statutární město: statutar_mesto
+  - Má obec radu?: Obec.maRadu
+    datatype: yesnoradio
+  - Má obec tajemníka?: Obec.maTajemnika
+    datatype: yesnoradio
+  - Je obec městskou části Prahy?: praha
+    datatype: yesnoradio
+check in: data_obec
+---
+template: data_obec
+content: |
+  % if action_argument('Obec.nazev') in obce:
+  Pro obec ${ action_argument('Obec.nazev') } byl již dříve Jednací řád připraven.
+  
+  Chcemte načít dříve vyplněná data?
+  % endif
+target: feedback
+---
+sets:
+  - Obec.typ
+  - Obec.statutar
+code: |
+  if typObce == "obec":
+    Obec.typ = ["obec", "obce", "obci", "obcí"]
+    Obec.urad = ["obecní", "obecnímu", "obecního", "obecním"]
+    Obec.statutar = "starosta"
+  elif typObce == "městys":
+    Obec.typ = ["městys", "městyse", "městysu", "městysem"]
+    Obec.urad = ["obecní", "obecnímu", "obecního", "obecním"]
+    Obec.statutar = "starosta"
+  elif typObce in ["mesto","statutar_mesto"]:
+    Obec.typ = ["město", "města", "městu", "městem"]
+    Obec.urad = ["městský", "městskému", "městského", "městským"]
+    Obec.statutar = "starosta"
+  elif typObce == "statutar_mesto":
+    Obec.statutar = "primátor"
+---
+section: Svolání zasedání
+question: |
+  Svolání zasedání zastupitelstva
+subquestion: |
+  Nejprve určíme, kdy a kde se typicky zasedání koná a jakým způsobem bude informována veřejnost.
+fields: 
+  - Kde všude bude obec informovat o chystaném zasedání?: Zasedani.kanaly
+    datatype: checkboxes
+    none of the above: False
+    choices:
+      - Internetové stránky: internetové stránky
+      - Rozhlas: rozhlas
+      - Vývěska: vývěska
+      - Sociální sítě: sociální sítě
+    default:
+      - internetové stránky
+  - Kde na webu jsou informace o nadcházejících zasedáních?: Zasedani.url
+    hint: "www."
+  - note: |
+      **Základní informace k vyhlášení zasedání:**
+      
+      Zastupitelstvo se schází podle potřeby, nejméně však jedenkrát za 3 měsíce. Termíny nadcházejících zasedání zastupitelstva jsou zveřejněny na [FIELD Zasedani.url]. Zasedání zastupitelstva se konají zpravidla od [FIELD Zasedani.zpravidlaOd].
+  - V jakém předstihu bude informace o zasedání zveřejněna?: Zasedani.dniPredem
+    default: "14 dní"
+  - V kolik hodin se zpravidla zasedání koná?: Zasedani.zpravidlaOd
+    default: "17.00 hodin"
+    help: |
+      Čas není závazný, je však dobré předem určit standardní čas. Je dobré volit takový čas, aby se skutečně mohla účastnit i veřejnost.
+  - note: |
+      **Kde se typicky koná zasedání?**
+      
+      Zasedání zastupitelstva je svoláváno do prostor vhodných pro jednání za účasti veřejnosti v územním obvodu ${ Obec.typ[1] } ${ Obec.nazev } zpravidla v [FIELD Zasedani.zpravidlaV].
+  - Kde se zasedání zpravidla koná?: Zasedani.zpravidlaV
+    default: "budově obecního úřadu"
+    help: |
+      Opět není volba závazná. Jde o výchozí možnost.
+---
+section: Příprava zasedání
+progress: 20
+question: |
+  Příprava zasedání zastupitelstva
+fields:
+  - Kdo bude organizovat přípravu zasedání?: Zasedani.organizator
+    default: "starosta"
+  - Kdo navrhuje program zasedání?: Zasedani.navrhovatelProgramu
+    default: "starosta"
+  - Připravuje odbor úřadu podkladový materiály pro body navržené veřejností?: Zasedani.navrhObcanuZpracujeOdbor
+    datatype: yesnoradio
+  - Lze návrhy na projednání podávat ústně?: Zasedani.navrhyUstne
+    datatype: yesnoradio
+  - note: |
+      **Kdy se rozesílají podklady zastupitelům?**
+        
+      Podkladové materiály pro jednání zastupitelstva se jednotlivým členům zastupitelstva rozesílají elektronicky, a to nejpozději [FIELD Zasedani.materialyPredem] před příslušným zasedáním.
+  - Kdy nejpozději musí zastupitelé dostat podklady k zasedání?: Zasedani.materialyPredem
+    default: "3 dny"
+  - note: |
+      **Kdy jsou podklady dostupné veřejně?**
+      
+      Podkladové materiály předkládané členům zastupitelstva jsou [FIELD Zasedani.dostupneKdy] v anonymizované podobě zároveň zveřejněny na internetové stránce ${ Obec.typ[1] }
+  - Jak dlouho poté jsou podklady uveřejněny?: Zasedani.dostupneKdy
+    default: "v den rozeslání"
+  - Kdo zajišťuje účast osob, kterých se týkají projednávané body?: Zasedani.zajistujeUcast
+    default: "starosta"
+  - Kdo se zejména účastní zasedání zastupitelstva?: Zasedani.ucastnici
+    datatype: checkboxes
+    none of the above: False
+    choices:
+      - Radní: radní
+      - Úředníci: úředníci
+---
+section: Průběh zasedání
+progress: 40
+question: |
+  Průběh zasedání zastupitelstva
+fields:
+  - Do kdy nejpozději musí předsedající zahájit zasedání?: Zasedani.zahajeniNejpozdeji
+    default: "do 30 minut"
+  - note: |
+      **Omezení vystupujících:**
+      
+      Ke stejnému bodu programu se tentýž vystupující (včetně předkladatele) smí vyjádřit nejvýše [FIELD Zasedani.pocetVyjadreni], přičemž každé jeho jednotlivé vystoupení je omezeno časovým limitem [FIELD Zasedani.limitVystoupeni].
+  - Kolikrát se může vystupující vyjádřit ke stejnému bodu?: Zasedani.pocetVyjadreni
+    default: "dvakrát"
+  - Jak dlouhé může vyjádření být?: Zasedani.limitVystoupeni
+    default: "5 minut"
+  - Kdo může navrhnout přestávku?: Zasedani.prestavky
+    datatype: checkboxes
+    none of the above: False
+    choices:
+      - Zastupitelé: zastupitele
+  - Alespoň jak dlouho je přístupný výpis usnesení ze zasedání?: Zasedani.zapisLet
+    default: "8 let"
+  - note: |
+      ${ card_start("Upozornění", color="info", icon="square-info") }
+      Výpis usnesení by měl obsahovat upozornění, že nejde o veřejnou listinu a odkázat na kompletní znění zápisu. Stejně tak jako zápis je navíc nutné Výpis usnesení anonymizovat v souladu s GDPR.
+      ${ card_end() }
+  - Jak se označují usnesení zastupitelstva?: Zasedani.oznaceniUsneseni
+    default: "pořadovým číslem usnesení, pořadovým číslem zasedání a kalendářním rokem"
+    help: |
+      Nedoporučujeme označení datem, neb je často matoucí co je den, měsíc či rok, kvůli rozdílné praxi.
+  - "Zahrnout komplexnější úpravu „Dohodovacího řízení”?": dohodovaciRizeni
+    datatype: yesnoradio
+    help: |
+      Jde o postup podle něhož se dosahuje dohody u bodů, kde nebyla nalezena shoda. Pro menší obce postačí jednodušší úprava.
+    note: |
+      ${ nahled_modal }
+---
+template: nahled_modal
+content: |
+  <button type="button" class="btn btn-outline-info" data-bs-toggle="modal" data-bs-target="#exampleModal">
+    Zobrazit varianty <i class="fa-solid fa-magnifying-glass"></i>
+  </button>
+  <div class="modal fade" id="exampleModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+    <div class="modal-dialog">
+      <div class="modal-content">
+        <div class="modal-header">
+          <h5 class="modal-title" id="exampleModalLabel">Varianty řešení dohodovacího řízení</h5>
+          <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+        </div>
+        <div class="modal-body">
+           <h3>Jednodušší varianta</h3>
+           <p>Není-li přijato žádné usnesení, může kterýkoliv člen zastupitelstva požádat o přestávku v délce nejvýše 30 minut k projednání sporné otázky. Předsedající v tomto případě přestávku vyhlásí. Po přestávce sdělí účastníci jednání výsledek jednání předsedajícímu a sdělí zastupitelstvu dohodnutý návrh usnesení či doporučí jiný vhodný postup.</p>
+           <h3>Komplexnější řešení</h3>
+           <ol>
+           <li>Jestliže předložený návrh usnesení nezískal při hlasování potřebnou většinu, může zastupitelstvo ihned po ukončení tohoto hlasování na návrh člena zastupitelstva rozhodnout o vyvolání dohodovacího řízení. </li>
+           <li>V případě schválení návrhu na vyvolání dohodovacího řízení vyzve předsedající všechny politické subjekty zastoupené v zastupitelstvu, aby pro účely dohodovacího řízení jmenovaly každý po jednom svém zástupci. Nestraníci, respektive nezařazení zastupitelé ze svého středu určí pro účely dohodovacího řízení jednoho zástupce. Předsedající následně přeruší zasedání zastupitelstva na dobu nezbytně nutnou pro dosažení eventuální dohody mezi určenými zástupci. Dohodovací řízení je neveřejné a řídí jej předsedající. </li>
+          <li>Dojde-li k dohodě nasvědčující tomu, že původní či upravený návrh usnesení získá potřebnou většinu hlasů, obnoví předsedající přerušené zasedání zastupitelstva a vyzve ty zástupce zúčastněné na dohodovacím řízení, kteří o to projeví zájem, aby zastupitelstvu přednesli svá stanoviska k projednávané věci. Každý zástupce zúčastněný na dohodovacím řízení smí vystoupit se svým stanoviskem k projednávané věci pouze jednou a jeho vystoupení je omezeno časovým limitem 3 minut. Po skončení projevu posledního ze zástupců, jenž projevil o vystoupení zájem, vyhlásí předsedající rozpravu k předloženému návrhu. Po ukončení rozpravy dá předsedající o výsledném návrhu usnesení hlasovat. Nezíská-li předložený návrh potřebnou většinu hlasů, oznámí předsedající, že návrh nebyl přijat.</li>
+          <li>Nenaplní-li dohodovací řízení svůj účel v časovém limitu 60 minut, obnoví předsedající přerušené zasedání zastupitelstva a dá v něm pokračovat dle schváleného programu.</li>
+          <li>Dohodovací řízení lze na témže zasedání zastupitelstva u téhož programového bodu vyvolat pouze jednou.</li></ol>
+        </div>
+        <div class="modal-footer">
+          <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Zavřít</button>
+        </div>
+      </div>
+    </div>
+  </div>
+---
+section: Účast veřejnosti
+progress: 60
+question: |
+  Účast veřejnost
+fields:
+  - V kolik hodin se zpravidla projednávají návrhy veřejnosti?: Zasedani.casVerejnost
+    default: "18.00 hodin"
+  - note: |
+      ### Návrhy
+  - note: |
+      **Jak veřejnou navrhuje body na program?**
+      
+      Po zveřejnění návrhu programu písemně zasláním poštou, elektronicky na e-mail [FIELD Obec.email] nebo osobním doručením [FIELD Zasedani.kontaktPodklady] nejpozději do [FIELD Zasedani.deadlinePodkladyEmail] před zasedáním zastupitelstva,
+  - Na jaký e-mail může veřejnost posílat podněty?: Obec.email
+  - Kam může veřejnost donést podněty osobně?: Zasedani.kontaktPodklady
+    default: "na obecní úřad"
+  - Do kdy nejpozději před zasedáním musí veřejnost podněty předat?: Zasedani.deadlinePodkladyEmail
+    default: "dvou dnů"
+  - note: |
+      V den zasedání zastupitelstva osobně u určeného pracovníka ${ Obec.urad[1] } úřadu nejpozději [FIELD Zasedani.deadlinePodkladyProgram] po schválení programu zasedání, popř. nejpozději 10 minut po doplnění programu zasedání, nejpozději však do ukončení projednávání nově zařazeného bodu programu zasedání zastupitelstva
+  - Kdy nejpozději po schválení programu může veřejnost navrhnout nový bod?: Zasedani.deadlinePodkladyProgram
+  - "Kdy nejpozději může veřejnost zařadit bod na program „Návrhy veřejnosti”?": Zasedani.deadlinePodkladyNavrhy
+  - note: |
+      ### Vystoupení na zasedání
+  - Může se člen veřejnosti přihlásit kdykoli zvednutím ruky?: Zasedani.verejnostKdykoli
+    datatype: yesnoradio
+  - note: |
+      **Omezení vystoupení veřejnosti:**
+      
+      Časová délka komentáře či ústního vystoupení veřejnosti je stanovena na [FIELD Zasedani.limitVerejnost]
+  - Jak dlouho může člen veřejnosti k bodu hovořit?: Zasedani.limitVerejnost
+    default: "tři minuty"
+  - note: |
+      Každý vystupující z řad veřejnosti má právo na jednu repliku v délce [FIELD Zasedani.limitVerejnostReplika]
+  - Jak dlouhá může být replika člena veřejnosti?: Zasedani.limitVerejnostReplika
+    default: "jedné minutu"
+  - note: |
+      Časová délka vystoupení společného zástupce je stanovena na [FIELD Zasedani.limitVerejnostZastupce]. Po skončení diskuse má společný zástupce právo na jednu repliku v délce maximálně [FIELD Zasedani.limitVerejnostZastupceReplika].
+  - Jak dlouhé může být vystoupení zástupce veřejnosti?: Zasedani.limitVerejnostZastupce
+    default: "osm minut"
+  - Jak dlouhá může být replika zástupce veřejnosti?: Zasedani.limitVerejnostZastupceReplika
+    default: "pět minut"
+---
+section: Záznam ze zasedání
+progress: 80
+question: |
+  Záznam ze zasedání zastupitelstva.
+fields:
+  - Je zasedání přenášeno živě on-line?: Zasedani.onlinePrenos
+    datatype: yesnoradio
+  - Na jaké webové adrese?: Zasedani.onlineLink
+    show if: Zasedani.onlinePrenos
+  - Je veřejně přístupný video záznam ze zasedání?: Zasedani.zaznamOnline
+    datatype: yesnoradio
+  - Na jaké webové adrese?: Zasedani.zaznamLink
+    show if: Zasedani.zaznamOnline
+  - Jak dlouho je záznam dostupný?: Zasedani.zaznamLinkDoba
+    show if: Zasedani.zaznamOnline
+    default: "8 let"
+---
+section: Závěrečná ustanovení
+progress: 90
+question: |  
+  Závěrečná ustanovení
+fields:
+  - Číslo usnesení, kterým byl přijat předchozí Jednací řád: predchoziJR
+  - Jméno starosty obce: starosta
+  - Jméno místostarosty: mistostarosta
+---
+question: |
+  Jednací řád je připraven
+subquestion: |
+  Jednací řád vám zašleme spolu s manuálem pro občany na e-mail.
+fields: 
+  - E-mail: email
+    datatype: email
+continue button field: potvrditOdeslani
+---
+code: |
+  rad_data = vzor.docx.url_for(temporary=True, seconds=60)
+  manual_data = vzor_pruvodce.docx.url_for(temporary=True, seconds=60)
+  kanaly_list = ", ".join(Zasedani.kanaly.true_values())
+  ucastnici_list = ", ".join(Zasedani.ucastnici.true_values())
+  prestavky_list = ", ".join(Zasedani.prestavky.true_values())
+  data_all = all_variables(make_copy=True)
+---
+code: |
+    vysledek = odeslatJednaciRad({"email":email,"url_vzor":rad_data,"url_manual":manual_data}, data_all)
+---
+section: Hotový jednací řád
+progress: 100
+event: final
+question: |
+  Jednací řád odeslán
+subquestion: |
+  Můžete si jej i stáhnout zde (dočasně):
+  
+  [Stáhnout Jednací řád](${ vzor.url_for() })
+  
+  [Stáhnout Průvodce pro občany](${ vzor_pruvodce.url_for() })
+---
+attachment:
+  name: Jednací řád
+  filename: Jednací řád
+  variable name: vzor
+  update references: True
+  docx template file: jednaci_rad.docx
+  valid formats:
+    - docx
+---
+attachment:
+  name: Průvodce pro občany
+  filename: Průvodce pro občany
+  variable name: vzor_pruvodce
+  update references: True
+  docx template file: prava_obcana.docx
+  valid formats:
+    - docx

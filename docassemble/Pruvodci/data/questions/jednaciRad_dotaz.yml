@@ -1,0 +1,69 @@
+metadata:
+  title: |
+    Dotaz k jednacím řádům
+  short title: |
+    Dotaz
+  description: |
+    Průvodce tvorbou jednacího řádu pro zastupitelstva obcí.
+  authors:
+    - name: Michal Kuk
+      organization: Frank Bold Society, z.s.
+  revision_date: 2022-09-23
+
+---
+features:
+  question back button: True
+  navigation back button: False
+  bootstrap theme: https://cdn.jsdelivr.net/npm/bootstrap@5.2.1/dist/css/bootstrap.min.css
+  css: jednaciRad.css
+---
+mandatory: True
+code: |
+  email
+  emailOdeslan
+  odeslano
+---
+question: |
+  Váš dotaz či podnět
+subquestion: |  
+  Budeme rádi za jakékoli podněty či dotazy týkající se nástroje, či fungování zastupitelstev obecně. Díky nim můžeme službu nadále zlepšovat.
+fields:
+  - Jméno a příjmení: jmeno
+    required: false
+    hint: |
+      Nepovinné
+  - E-mail: email
+    datatype: email
+  - Mám: typ
+    input type: radio
+    choices:
+      - Dotaz: dotaz
+      - Podnět: podnět
+      - Narazil jsem na chybu: chyba
+      - Jiné: mail
+  - Text: text
+    input type: area
+Continue button label: Odeslat
+---
+code: |
+  emailOdeslan = send_email(to="michal.kuk@frankbold.org", template=feedback)
+---
+event: odeslano
+question: |
+  Děkujeme
+subquestion: |
+  Děkujeme za Vaší zprávu. 
+---
+template: feedback
+subject: |
+  Zpráva z generátoru jednacích řádů
+content: |
+  Nový ${ typ } z generátoru jednacích řádů.
+  
+  Jméno a příjmení: ${ jmeno }
+  
+  E-mail: ${ email }
+  
+  Text:
+  
+  ${ text }

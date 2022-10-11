@@ -1,0 +1,13 @@
+mandatory: True
+code: |
+  import random
+  
+  uvod = random.choice([True,False])
+  bydliste_pobyt = True
+  Obec.pobyt.obec = random.choice(["Stvolínky", "Bruntál", "Rozvadov"])
+#  Vzít hodnotu. Otestovat, když ok. Smazat.
+#  Do tabulky i testovací hodnoty. Z toho bychom to brali.
+#  Do jiné tabulky sepisovat progres a výsledek.
+---
+include:
+  - poplatekOdpad.yml

@@ -1,0 +1,23 @@
+.da-form-group.darequired .da-top-label {
+    font-weight: bold;
+}
+
+@media(min-width:992px){
+  .darlap{
+      top: 32px;
+      left: 10px;
+  }
+}
+
+@media(min-width: 576px){
+  .modal-dialog {
+      max-width: 600px;
+  }
+}
+
+div.da-spinner-container{
+  position:fixed;
+  left:0;
+  width:100%;
+  margin-top:10px;
+}
