@@ -64,11 +64,10 @@ subquestion: |
 
   Na konci získáte:
 
-  - Jednací řád
-  - Informační přehled pro občany obce
-  - Vzorové informování o nahrávání zastupitelstva
+  - Jednací řád.
+  - Informační přehled pro občany obce.
 
-  U řady položek je předvyplněn doporučený obsah. Veškeré položky však můžete upravit, aby lépe fungovali pro vaše zastupitelstvo.
+  U řady položek je předvyplněn doporučený obsah. Veškeré položky však můžete upravit, aby lépe fungovaly pro vaše zastupitelstvo.
 fields:
   - "[Zásady zpracování osobních údajů](https://frankbold.org/zasady-ochrany-osobnich-udaju-frank-bold)": souhlas
     datatype: checkboxes
@@ -93,12 +92,16 @@ fields:
       - Obec: obec
       - Město: mesto
       - Městys: městys
+      - Městská část: mestska_cast
       - Statutární město: statutar_mesto
+  - Jde městskou část Prahy?: praha
+    datatype: yesnoradio
+    show if:
+      variable: typObce
+      is: mestska_cast
   - Má obec radu?: Obec.maRadu
     datatype: yesnoradio
   - Má obec tajemníka?: Obec.maTajemnika
-    datatype: yesnoradio
-  - Je obec městskou části Prahy?: praha
     datatype: yesnoradio
 ---
 sets:
@@ -113,6 +116,10 @@ code: |
     Obec.typ = ["městys", "městyse", "městysu", "městysem"]
     Obec.urad = ["obecní", "obecnímu", "obecního", "obecním"]
     Obec.statutar = "starosta"
+  elif typObce in ["mestska_cast"]:
+      Obec.typ = ["městská část", "městské části", "městské části", "městskou částí"]
+      Obec.urad = ["obecní", "obecnímu", "obecního", "obecním"]
+      Obec.statutar = "starosta"
   elif typObce in ["mesto","statutar_mesto"]:
     Obec.typ = ["město", "města", "městu", "městem"]
     Obec.urad = ["městský", "městskému", "městského", "městským"]
@@ -154,6 +161,7 @@ fields:
       Zasedání zastupitelstva je svoláváno do prostor vhodných pro jednání za účasti veřejnosti v územním obvodu ${ Obec.typ[1] } ${ Obec.nazev } zpravidla v [FIELD Zasedani.zpravidlaV].
   - Kde se zasedání zpravidla koná?: Zasedani.zpravidlaV
     default: "budově ${ Obec.urad[2] } úřadu"
+    inline width: 200px
     help: |
       Opět není volba závazná. Jde o výchozí možnost.
 ---
@@ -166,7 +174,7 @@ fields:
     default: "starosta"
   - Kdo navrhuje program zasedání?: Zasedani.navrhovatelProgramu
     default: "Svolavatel (obvykle starosta)"
-  - Připravuje odbor úřadu podkladový materiály pro body navržené veřejností?: Zasedani.navrhObcanuZpracujeOdbor
+  - Připravuje odbor úřadu podkladové materiály pro body navržené veřejností?: Zasedani.navrhObcanuZpracujeOdbor
     datatype: yesnoradio
   - Přidat možnost výjimečného ústního předložení návrhu či předložení po lhůtě?: Zasedani.navrhyUstne
     datatype: yesnoradio
@@ -221,7 +229,7 @@ progress: 40
 question: |
   Průběh zasedání zastupitelstva
 fields:
-  - Do kdy nejpozději musí předsedající zahájit zasedání?: Zasedani.zahajeniNejpozdeji
+  - Do kdy nejpozději po stanoveném začátku musí předsedající zahájit zasedání?: Zasedani.zahajeniNejpozdeji
     default: "do 30 minut"
   - note: |
       **Omezení vystupujících:**
@@ -250,7 +258,7 @@ fields:
   - "Zahrnout komplexnější úpravu „Dohodovacího řízení”?": dohodovaciRizeni
     datatype: yesnoradio
     help: |
-      Jde o postup podle něhož se dosahuje dohody u bodů, kde nebyla nalezena shoda. Pro menší obce postačí jednodušší úprava.
+      Jde o postup, podle něhož se dosahuje dohody u bodů, kde nebyla nalezena shoda. Pro menší obce postačí jednodušší úprava.
     note: |
       ${ nahled_modal_dohodovaci }
 ---
@@ -294,20 +302,22 @@ fields:
   - note: |
       ### Návrhy
   - note: |
-      **Jak veřejnou navrhuje body na program?**
+      **Jak veřejnost navrhuje body na program?**
 
       Po zveřejnění návrhu programu písemně zasláním poštou, elektronicky na e-mail [FIELD Obec.email] nebo osobním doručením [FIELD Zasedani.kontaktPodklady] nejpozději do [FIELD Zasedani.deadlinePodkladyEmail] před zasedáním zastupitelstva,
   - Na jaký e-mail může veřejnost posílat podněty?: Obec.email
-    hint: "@"
+    hint: "email@obec.cz"
+    inline width: 150px
   - Kam může veřejnost donést podněty osobně?: Zasedani.kontaktPodklady
     default: "na obecní úřad"
+    inline width: 150px
   - Do kdy nejpozději před zasedáním musí veřejnost podněty předat?: Zasedani.deadlinePodkladyEmail
     default: "dvou dnů"
   - note: |
-      V den zasedání zastupitelstva osobně u určeného pracovníka ${ Obec.urad[1] } úřadu nejpozději [FIELD Zasedani.deadlinePodkladyProgram] po schválení programu zasedání, popř. nejpozději 10 minut po doplnění programu zasedání, nejpozději však do ukončení projednávání nově zařazeného bodu programu zasedání zastupitelstva
+      V den zasedání zastupitelstva osobně u určeného pracovníka ${ Obec.urad[2] } úřadu nejpozději [FIELD Zasedani.deadlinePodkladyProgram] po schválení programu zasedání, popř. nejpozději 10 minut po doplnění programu zasedání, nejpozději však do ukončení projednávání nově zařazeného bodu programu zasedání zastupitelstva
   - Kdy nejpozději po schválení programu může veřejnost navrhnout nový bod?: Zasedani.deadlinePodkladyProgram
     default: "10 minut"
-  - "Kdy nejpozději může veřejnost zařadit bod na program „Návrhy veřejnosti”?": Zasedani.deadlinePodkladyNavrhy
+  - "Kdy nejpozději po schválení programu může veřejnost zařadit bod na program „Návrhy veřejnosti”?": Zasedani.deadlinePodkladyNavrhy
     default: "30 minut"
   - note: |
       ### Vystoupení na zasedání
@@ -316,13 +326,13 @@ fields:
   - note: |
       **Omezení vystoupení veřejnosti:**
 
-      Časová délka komentáře či ústního vystoupení veřejnosti je stanovena na [FIELD Zasedani.limitVerejnost]
+      Časová délka komentáře či ústního vystoupení veřejnosti je stanovena na [FIELD Zasedani.limitVerejnost].
   - Jak dlouho může člen veřejnosti k bodu hovořit?: Zasedani.limitVerejnost
     default: "tři minuty"
   - note: |
-      Každý vystupující z řad veřejnosti má právo na jednu repliku v délce [FIELD Zasedani.limitVerejnostReplika]
+      Každý vystupující z řad veřejnosti má právo na jednu repliku v délce [FIELD Zasedani.limitVerejnostReplika].
   - Jak dlouhá může být replika člena veřejnosti?: Zasedani.limitVerejnostReplika
-    default: "jedné minutu"
+    default: "jedné minuty"
   - note: |
       Časová délka vystoupení společného zástupce je stanovena na [FIELD Zasedani.limitVerejnostZastupce]. Po skončení diskuse má společný zástupce právo na jednu repliku v délce maximálně [FIELD Zasedani.limitVerejnostZastupceReplika].
   - Jak dlouhé může být vystoupení zástupce veřejnosti?: Zasedani.limitVerejnostZastupce
@@ -352,7 +362,7 @@ progress: 90
 question: |
   Závěrečná ustanovení
 subquestion: |
-  Tato nepovinná pole můžete ponechat prázdná a doplnit později přímo v dokumentu. Rovněž budete do dokumentu ještě doplňovat kdy byl jednací řád zastupitelstvem přijat a jakým usnesením.
+  Tato nepovinná pole můžete ponechat prázdná a doplnit později přímo v dokumentu. Do dokumentu budete později ještě doplňovat, kdy byl jednací řád zastupitelstvem přijat a jakým usnesením.
 fields:
   - Číslo usnesení, kterým byl přijat předchozí Jednací řád: predchoziJR
     required: False
@@ -376,12 +386,19 @@ fields:
 continue button field: potvrditOdeslani
 ---
 code: |
-  rad_data = vzor.docx.url_for(temporary=True, seconds=60)
-  manual_data = vzor_pruvodce.docx.url_for(temporary=True, seconds=60)
-  kanaly_list = ", ".join(Zasedani.kanaly.true_values())
   ucastnici_list = ", ".join(Zasedani.ucastnici.true_values())
+---
+code: |
+  rad_data = vzor.docx.url_for(temporary=True, seconds=600)
+  manual_data = vzor_pruvodce.docx.url_for(temporary=True, seconds=600)
+  kanaly_list = ", ".join(Zasedani.kanaly.true_values())
   prestavky_list = ", ".join(Zasedani.prestavky.true_values())
   data_all = all_variables(make_copy=True)
+---
+sets: praha
+code: |
+  if not defined('praha'):
+    praha = False
 ---
 code: |
     vysledek = odeslatJednaciRad({"email":email,"url_vzor":rad_data,"url_manual":manual_data}, data_all)
@@ -396,7 +413,7 @@ subquestion: |
 
   Pokud budete mít k dokumentům či nástroji jakékoli podněty či otázky, budeme rádi, když nám dáte vědět.
 
-  Tuto službu pro připravili společnými silami [Frank Bold](https://frankbold.org/) a [Oživení](https://oziveni.cz/) za finanční podpory [Ministerstva spravedlnosti](https://www.justice.cz/web/msp/dotace-v-oblasti-trestni-politiky?clanek=prevence-korupcniho-jednani).
+  Tuto službu pro Vás připravili společnými silami [Frank Bold](https://frankbold.org/) a [Oživení](https://oziveni.cz/) za finanční podpory [Ministerstva spravedlnosti](https://www.justice.cz/web/msp/dotace-v-oblasti-trestni-politiky?clanek=prevence-korupcniho-jednani).
 ---
 attachment:
   name: Jednací řád
