@@ -32,6 +32,7 @@ features:
   labels above fields: True
   progress bar: True
   progress bar multiplier: 0.2
+  hide standard menu: True
   question back button: True
   navigation back button: False
   bootstrap theme: https://cdn.jsdelivr.net/npm/bootstrap@5.2.1/dist/css/bootstrap.min.css
