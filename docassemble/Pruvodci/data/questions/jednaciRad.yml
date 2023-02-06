@@ -94,6 +94,7 @@ fields:
       - Město: mesto
       - Městys: městys
       - Městská část: mestska_cast
+      - Městský obvod: mestsky_obvod
       - Statutární město: statutar_mesto
   - Jde městskou část Prahy?: praha
     datatype: yesnoradio
@@ -118,9 +119,13 @@ code: |
     Obec.urad = ["obecní", "obecnímu", "obecního", "obecním"]
     Obec.statutar = "starosta"
   elif typObce in ["mestska_cast"]:
-      Obec.typ = ["městská část", "městské části", "městské části", "městskou částí"]
-      Obec.urad = ["obecní", "obecnímu", "obecního", "obecním"]
-      Obec.statutar = "starosta"
+    Obec.typ = ["městská část", "městské části", "městské části", "městskou částí"]
+    Obec.urad = ["obecní", "obecnímu", "obecního", "obecním"]
+    Obec.statutar = "starosta"
+  elif typObce in ["mestsky_obvod"]:
+    Obec.typ = ["městský obvod", "městského obvodu", "městskému obvodu", "městským obvodem"]
+    Obec.urad = ["obecní", "obecnímu", "obecního", "obecním"]
+    Obec.statutar = "starosta"
   elif typObce in ["mesto","statutar_mesto"]:
     Obec.typ = ["město", "města", "městu", "městem"]
     Obec.urad = ["městský", "městskému", "městského", "městským"]
