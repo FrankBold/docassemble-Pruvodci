@@ -1,0 +1,260 @@
+{
+  "s1_1": {
+    "question": "Spočítali jste si už spotřebu energií ve vašich obecních budovách (příp. i dalších budovách - domácnostech obyvatel, místních podniků)?",
+    "type": "yesnomaybe",
+    "if": "",
+    "sets": "k1"
+  },
+  "s1_2": {
+    "question": "Spočítali jste si už reálný potenciál výroby energie z FVE ve vaší obci?",
+    "type": "yesnomaybe",
+    "if": "",
+    "sets": "k1"
+  },
+  "s1_3": {
+    "question": "Provozuje vaše obec už nějakou FVE? Pokud máte přehled o celkovém instalovaném výkonu všech těchto výroben, uveďte ho prosím níže.",
+    "type": "yesnomaybe",
+    "if": "",
+    "sets": "k5, k7, k8, k12"
+  },
+  "s1_3_1": {
+    "question": "Jaký je celkový instalovaný výkon?",
+    "type": "currency",
+    "if": "s1_3 is True",
+    "sets": ""
+  },
+  "s1_4": {
+    "question": "Plánujete v budoucnu výstavbu FVE (ať už nových nebo dalších)? Pokud máte představu o plánovaném instalovaném výkonu těchto výroben, uveďte ho prosím níže.",
+    "type": "yesnomaybe",
+    "if": "s1_3 is Not True",
+    "sets": ""
+  },
+  "s1_4_1": {
+    "question": "Jaký je celkový plánovaný výkon?",
+    "type": "currency",
+    "if": "s1_4 is True",
+    "sets": ""
+  },
+  "s1_5": {
+    "question": "Vybrali jste si již projektanta FVE a zpracovali projektovou dokumentaci?",
+    "type": "yesnomaybe",
+    "if": "s1_3 is Not True",
+    "sets": "k7, k8"
+  },
+  "s1_6": {
+    "question": "Má vaše obec k dispozici služby tzv. energetického manažera (např. byla-li tato pozice zřízena ve spolupráci s dalšími obcemi či regionem)?",
+    "type": "yesnomaybe",
+    "if": "",
+    "sets": ""
+  },
+  "s1_7": {
+    "question": "Zřídila již vaše obec specializovanou společnost, která se věnuje energetice?  Pokud ano, zaznačte prosím níže právní formu této společnosti.",
+    "type": "yesnomaybe",
+    "if": "",
+    "sets": "k3"
+  },
+  "s1_7_1": {
+    "question": "Jaký typ společnosti jste zřídili?",
+    "type": "radio",
+    "if": "s1_7 is True",
+    "sets": ""
+  },
+  "s1_8": {
+    "question": "Uvažujete ve vaší obci o zřízení specializované společnosti, která se věnuje tématu energetiky (jak byla zmíněna v předchozí otázce)? Pokud ne, uveďte prosím důvody vašeho rozhodnutí.",
+    "type": "yesnomaybe",
+    "if": "s1_7 is False",
+    "sets": ""
+  },
+  "s1_8_1": {
+    "question": "Proč o tom neuvažujete?",
+    "type": "radio",
+    "if": "s1_8 is False",
+    "sets": ""
+  },
+  "s1_8_2": {
+    "question": "Prosím rozveďte",
+    "type": "area",
+    "if": "s1_8_1 is Jiné",
+    "sets": ""
+  },
+  "s2_1": {
+    "question": "Máte již nastavený plán financování projektu FVE?",
+    "type": "yesnomaybe",
+    "if": "",
+    "sets": "k2"
+  },
+  "s2_2": {
+    "question": "Jaké finanční zdroje jste již pro projekt FVE využili?",
+    "type": "checkboxes",
+    "if": "",
+    "sets": "k4"
+  },
+  "s2_2_1": {
+    "question": "Jaké konkrétní typy investic?",
+    "type": "radio",
+    "if": "s2_2 is investice",
+    "sets": ""
+  },
+  "s2_3": {
+    "question": "Jaké finanční zdroje pro projekt FVE teprve plánujete využít?",
+    "type": "checkboxes",
+    "if": "",
+    "sets": ""
+  },
+  "s2_3_1": {
+    "question": "Jaké konkrétní typy investic?",
+    "type": "radio",
+    "if": "s2_3 is investice",
+    "sets": ""
+  },
+  "s2_3_2": {
+    "question": "Prosím rozveďte",
+    "type": "area",
+    "if": "s2_3 is jiné",
+    "sets": ""
+  },
+  "s3_1": {
+    "question": "Zajistili jste již připojení FVE k distribuční soustavě a uzavřeli smlouvu o připojení s provozovatelem distribuční soustavy?",
+    "type": "radio",
+    "if": "",
+    "sets": "k5, k15"
+  },
+  "s3_2": {
+    "question": "Zajistili jste si již potřebná povolení pro výstavbu a provoz FVE (např. územní souhlas, stavební povolení, licenci na výrobu elektřiny od ERÚ)?",
+    "type": "radio",
+    "if": "",
+    "sets": "k11, k13"
+  },
+  "s3_3": {
+    "question": "Vysoutěžili jste již dodavatele/zhotovitele FVE?",
+    "type": "yesnomaybe",
+    "if": "",
+    "sets": "k10"
+  },
+  "s3_4": {
+    "question": "Zvolili jste si již odpovědného zástupce u projektu FVE nad 50kW?",
+    "type": "radio",
+    "if": "",
+    "sets": "k9"
+  },
+  "s3_5": {
+    "question": "Registrovali jste se již u operátora trhu?",
+    "type": "yesnomaybe",
+    "if": "",
+    "sets": "k14"
+  },
+  "s3_6": {
+    "question": "Máte již smluvně zajištěnou správu a provoz FVE",
+    "type": "yesnomaybe",
+    "if": "",
+    "sets": "k6, k16, k17, k18"
+  },
+  "s4_1": {
+    "question": "Plánujete v budoucnu zapojovat vaše občany do projektů obnovitelných zdrojů energie a vytvářet tzv. energetické společenství? Případně zatím plánujete projekt pouze jako obec, tedy na obecních budovách či pozemcích?",
+    "type": "radio",
+    "if": "",
+    "sets": "k19"
+  },
+  "s4_2": {
+    "question": "Jakou právní formu má vaše energetické společenství? Prosím zaznačte, o jakou formu se jedná.",
+    "type": "radio",
+    "if": "s4_1 is již máme",
+    "sets": ""
+  },
+  "s4_2_1": {
+    "question": "Prosím rozveďte",
+    "type": "area",
+    "if": "s4_2 is jiné",
+    "sets": ""
+  },
+  "s4_3": {
+    "question": "Jaké subjekty (odběrná místa) jsou členy vašeho energetického společenství? Zaznačte prosím níže, o jaké subjekty se jedná.",
+    "type": "checkboxes",
+    "if": "s4_1 is již máme",
+    "sets": ""
+  },
+  "s4_3_1": {
+    "question": "Prosím rozveďte",
+    "type": "area",
+    "if": "s4_3 is jiné",
+    "sets": ""
+  },
+  "s4_4": {
+    "question": "Plánujete v rámci vašeho energetické společenství sdílení elektřiny i mimo území vaší obce (např. na úrovni svazku obcí, regionu)",
+    "type": "yesnomaybe",
+    "if": "s4_1 is již máme",
+    "sets": ""
+  },
+  "s4_5": {
+    "question": "Má vaše energetické společenství již právní formu? Pokud ano, zaznačte prosím jakou.",
+    "type": "yesnomaybe",
+    "if": "s4_1 is již máme",
+    "sets": ""
+  },
+  "s4_5_1": {
+    "question": "Jakou právní formu?",
+    "type": "radio",
+    "if": "s4_5 is True",
+    "sets": ""
+  },
+  "s4_6": {
+    "question": "Máte již představu, jaké subjekty (odběrná místa) by se mohly zapojit do vašeho energetického společenství? Pokud ano, zaznačte prosím níže, o jaké subjekty by se mohlo jednat.",
+    "type": "yesnomaybe",
+    "if": "s4_1 is plánujeme",
+    "sets": ""
+  },
+  "s4_6_1": {
+    "question": "O jaké subjekty by se mohlo jednat?",
+    "type": "checkboxes",
+    "if": "s4_6 is True",
+    "sets": ""
+  },
+  "s4_6_2": {
+    "question": "Prosím rozveďte",
+    "type": "area",
+    "if": "s4_6_1 is jiné",
+    "sets": ""
+  },
+  "s4_7": {
+    "question": "Máte přehled o existujících výrobnách elektřiny z OZE, které by se mohly do energetického společenství zapojit?",
+    "type": "yesnomaybe",
+    "if": "s4_1 is plánujeme",
+    "sets": ""
+  },
+  "s4_8": {
+    "question": "Pakliže plánujete vytvořit energetické společenství, uvažujete o sdílení elektřiny i mimo území vaší obce (např. na úrovni svazku obcí, regionu)?",
+    "type": "yesnomaybe",
+    "if": "s4_1 is plánujeme",
+    "sets": ""
+  },
+  "s4_9": {
+    "question": "Máte již smluvně zajištěné sdílení elektřiny mezi členy ES (dodávky elektřiny členům, smlouva s obchodníkem o výkupu elektřiny)?",
+    "type": "yesnomaybe",
+    "if": "s4_1 is plánujeme",
+    "sets": ""
+  },
+  "s4_10": {
+    "question": "Komunikujete s občany ohledně projektů výstavby OZE a možnosti jejich zapojení? Pokud ano, zaznačte prosím jakou formou.",
+    "type": "yesnomaybe",
+    "if": "s4_1 is plánujeme",
+    "sets": ""
+  },
+  "s4_10_1": {
+    "question": "Jakou formou s občany komunikujete?",
+    "type": "checkboxes",
+    "if": "s4_10 is True",
+    "sets": ""
+  },
+  "s4_10_2": {
+    "question": "Doplňte jaké",
+    "type": "area",
+    "if": "s4_10_1 is jiné",
+    "sets": ""
+  },
+  "s4_11": {
+    "question": "Mají vaše projekty výstavby OZE podporu místních obyvatel?",
+    "type": "radio",
+    "if": "",
+    "sets": ""
+  }
+}

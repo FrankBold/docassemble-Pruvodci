@@ -1,0 +1,76 @@
+# Šablony pro jednotlivé nápovědy v celém průvodci. Jsou na jednom místě pro snazší editaci a údržbu.
+template: h_technicka
+content: |
+  ### Jak spočítat spotřebu?
+  Kolik ročně zaplatíte za teplo a elektřinu obecních budov si snadno spočítáte díky fakturám za energie. Nemusíte ale zůstat jen u obecních budov. Pokud v budoucnu plánujete založit energetické společenství, zahrňte i další aktéry - domácnosti a místní podnikatele. K určení spotřeby domácností mohou pomoci [data ze sčítání lidu, domů a bytů](https://www.scitani.cz/). Místní podnikatele oslovte s žádostí o spolupráci, zvlášť pokud je plánujete aktivně zapojovat do přípravy projektu energetického společenství. Případně můžete o data o spotřebě požádat u místních dodavatelů energie.
+  
+  ### Reálný potenciál
+  Reálný potenciál: Základní odhad instalovaného výkonu a výroby solární energie si spočítáte sami.
+  Pokud znáte velikost plochy střech vašich budov, máte téměř vyhráno. Na 5 m2 nainstalujete 1 kWp, který v českých podmínkách vyrobí asi 1 MW ročně. Pokud plochu střech neznáte, změřte si ji na [mapy.cz](https://mapy.cz) pomocí nástroje měření vzdálenosti a plochy.
+  
+  Abyste se dostali k přesnějšímu odhadu instalovaného výkonu a výroby elektřiny, volte jen střechy s jižní, případně východní a západní orientací bez zastínění (jiných budov, stromů apod.). Fotovoltaické panely také nenainstalujete na střechu plnou komínů nebo jiných překážek. I v tomto vám ale může pomoci nástroj mapy.cz, pokud nemáte k dispozici přesné údaje z vlastní dokumentace budov.
+
+  S přesným výpočtem vám pak pomůže již specializovaná firma či energetický manažer.
+---
+template: h_pravo
+content: |
+  ###Dodavatel/zhotovitel FVE:
+  Výběru dodavatele/zhotovitele FVE věnujte pozornost a snažte se nastavit si dostatečně přísná kritéria pro jejich výběr. Situace na trhu je dnes složitá, doporučujeme proto řídit se aspoň těmito základními pravidly:
+  
+  - Nemějte pořizovací cenu jako hlavní rozhodovací faktor. 
+  - Zohledněte garance a záruky, které firma za provedenou práci nabízí. 
+  - V případě subdodavatelů nezapomeňte prověřit konkrétní subjekty a jejich kvalifikaci.
+  - Pamatujte na to, že na trhu je nedostatek kvalifikovaných firem, a naopak velký boom vzniku nových firem v důsledku nárůstu poptávky po obnovitelných zdrojích. Chtějte služby zahrnující pravidelný servis a monitoring systému FVE. 
+  - Vyžádejte si reference na konkrétní projekty dané firmy, a domluvte si u několika zákazníků prohlídku systému. Zákazníků se můžete zeptat na spokojenost s dodávkou služby. 
+  - Vyžádejte si reference na realizované projekty s podobnou velikostí instalovaného výkonu FVE (+-20 %).
+  - Zkontrolujte, zda dodavatel poskytuje mechanickou záruku na systém na dobu alespoň 15 let (využijete ji například při mechanickém poškození) a disponuje pojištěním odpovědnosti.
+
+
+  ### Odpovědný zástupce
+  Žadatel o licenci na výrobu elektřiny musí vždy ustanovit odpovědného zástupce, pokud sám nesplňuje podmínky odborné způsobilosti. Odborná způsobilost může být splněna tímto vzděláním a praxí:
+  
+  - ukončeným vysokoškolským vzděláním technického směru a min. 3 roky praxe v oboru nebo úplným středním odborným vzděláním technického směru s maturitou a min. 6 lety praxe v oboru;
+  - u výroby elektřiny nebo tepelné energie do instalovaného výkonu výroby 1 MW včetně a samostatného distribučního zařízení elektřiny nebo rozvodného zařízení tepelné energie s instalovaným výkonem do 1 MW včetně postačuje vyučení v oboru a min. 3 roky praxe v oboru nebo osvědčení o rekvalifikaci k provozování malých energetických zdrojů nebo obdobné osvědčení vydané v jiném státě (tuto rekvalifikaci a osvědčení lze získat u Svazu podnikatelů pro využití energetických zdrojů).
+
+  Podrobnosti k odborné způsobilosti naleznete na [stránkách ERÚ](https://www.eru.cz/udeleni-licence).
+---
+terms:
+  provoz FVE: |
+    Aby projekt FVE ve vaší obci prakticky fungoval, je nutné předem zvolit vhodný obchodně-provozní model. Projektu FVE se ve většině případů účastní vícero dotčených subjektů (obec, příspěvkové organizace nebo jiné společnosti zajišťující veřejné služby atd.) a je nutné jejich vzájemné vztahy pečlivě upravit ve smlouvách. Jde typicky o smlouvy mezi institucí, která bude elektřinu z FVE odebírat (např. škola, pečovatelský dům apod.) a obcí či městskou energetickou společností. Řadíme sem například smlouvy o správě odběrného místa, dodávkách elektřiny z FVE či nájemní smlouvu na FVE (resp. střechu s FVE). Dále je nutné uzavřít dodatek k platné smlouvě o sdružených službách dodávek elektřiny mezi obchodníkem s elektřinou a vlastníkem FVE. Dodatek zohlední uvedení FVE do provozu (výrobu elektřiny), možnost sdílení elektřiny do dalších odběrných míst (v rámci obecních budov) a možnost přetoků do distribuční sítě (výkupu nespotřebované elektřiny z FVE).
+  správa FVE: |
+    Energetika je pro mnohé obce novinkou, proto je vhodné mít správu a provoz FVE ošetřenou. Lze toho docílit několika způsoby, například založením městské / obecní energetické společnosti nebo smlouvou o facility managementu (o správě a údržbě výroben). Obce tím navíc získají lepší přehled o spotřebované a vyrobené energii a mohou tyto data dále využívat ke zvyšování energetické účinnosti.
+  FVE: |
+    Fotovoltaika    
+---
+# Nastavení Temrs tooltips
+auto terms:
+  instalovaném výkonu: |
+    Instalovaný výkon se u střešních fotovoltaik udává v kWp, což označuje množství (a výkon) elektřiny, kterou je panel schopen vyrábět za standardizovaných podmínek (tzv. standardizovaný test - STC). V českých podmínkách fotovoltaická elektrárna o instalovaném výkonu 1 kWp vyrobí přibližně 1 000 kWh (1 MWh) ročně.
+  projektanta FVE: |
+    Výběr kvalitního projektanta pro FVE může být zvlášť dnes složitý, buďte proto obezřetní a vybírejte pečlivě. Volte osvědčené firmy a kontakty. Hledat můžete na [stránkách Ministerstva průmyslu a obchodu](https://www.mpo-enex.cz/experti/) nebo v seznamu [České komory autorizovaných inženýrů a techniků činných ve výstavbě](https://www.ckait.cz/autorizovane-osoby). Poptávejte přímým oslovením tří až pěti dodavatelů, vyžádejte si poctivou nabídku, včetně referencí a kontaktů na ně. Požadujte i seznam konkrétních lidí, kteří budou na projektu pracovat. Vyžádejte si osobní setkání.
+  projektovou dokumentaci: |
+    Projektová dokumentace musí odpovídat danému řízení. Pokud není třeba stavební ani územní řízení (projekty do 50 kWp), pak požadujte projektovou dokumentaci minimálně v rozsahu, který specifikují [pravidla výzev RES+ Modernizačního fondu](https://www.sfzp.cz/dokumenty/detail/?id=2816).
+  energetického manažera: |
+    Energetický manažer je osoba specializující se na činnosti vedoucí ke zlepšování energetické náročnosti vymezeného energetického hospodářství, např. obce nebo podniku. Kvalifikace energetického manažera se řídí normou ISO 50001. Cílem energetického managementu je systematické a dlouhodobé provádění činností vedoucích k úsporám energie.
+  specializovanou společnost: |
+    Specializovaná společnost může mít podobu příspěvkové organizace obce nebo města či jiné právnické osoby (např. s.r.o.) zřízené obcí. Tato společnost je pověřena vznikem a správou výroben elektřiny, sběrem dat, podáváním žádostí o dotace, zasmluvněním projektů OZE apod. Hlavní výhodou takové společnosti je komplexní přehled o energetice ve městě či obci a její správa. Více informací [naleznete zde](https://www.fbadvokati.cz/cs/clanky/8846-mestska-energeticka-spolecnost-pomuze-rozvoji-komunitni-energetiky-v-obci-jak-s-ni-zacit).
+  plán financování: |
+    Plánem financování rozumíme zhodnocení zdrojů, které můžete na pořízení vlastních výroben elektřiny vynaložit, včetně rozložení těchto investic v čase. Účelem je mimo jiné zjistit návratnost projektu fotovoltaických elektráren. Kromě peněz z vlastního rozpočtu můžete využít úvěry nebo dotace z [Modernizačního fondu](https://www.sfzp.cz/dotace-a-pujcky/modernizacni-fond/vyzvy/) či dalších programů ([Operační program Životní prostředí](https://opzp.cz/) nebo [Nová zelená úsporám](https://novazelenausporam.cz/bytove-domy/))
+  emise dluhopisů: |
+    Komunální dluhopisy mohou představovat významný zdroj financování zejména finančně náročnějších investic obce (vodovody, kanalizace, apod.). Jejich emisi upravuje zákon o dluhopisech (č. 190/2004 Sb).
+  připojení FVE k distribuční soustavě: |
+    Připojení k distribuční soustavě je pro projekt zásadní, řešte jej proto přednostně, u příslušného distributora si ověřte dostupnou kapacitu sítě a rezervujte si výkon pro fotovoltaickou elektrárnu. S příslušným provozovatelem distribuční soustavy pak uzavřete smlouvu o budoucím připojení FVE.
+  provozovatelem distribuční soustavy: |
+    Česká republika je rozdělena na území tří provozovatelů distribučních soustav – [ČEZ Distribuce](https://www.cezdistribuce.cz/), [PRE Distribuce](https://www.predistribuce.cz/cs/) a [EG.D](https://www.egd.cz/). 
+  ERÚ: |
+    Energetický regulační úřad
+  operátora trhu: |
+    [Operátor trhu](https://www.ote-cr.cz/cs/o-spolecnosti/zakladni-udaje) (OTE a.s.) se stará o to, aby na trhu s elektřinou a plynem panovala rovnováha mezi nabídkou a poptávkou. Pravidelně vyhodnocuje odchylky mezi výrobou a spotřebou elektřiny na území České republiky a slouží jako informační centrum pro provozovatele distribuční soustavy i dodavatele elektřiny. Registraci výrobce energie provedete na [stránkách OTE](https://www.ote-cr.cz/cs/poze/registrace/registrace-vyrobce).
+  energetické společenství: |
+    Energetické společenství umožňuje zapojení občanů a místních firem do společného projektu, díky tomu se zvyšuje potenciál jak pro výrobu energie, tak i pro její lokální spotřebu. Z pohledu obce či města se jedná o zajímavou službu/spolupráci, kterou může občanům nabízet. V současnosti zatím neexistuje platná legislativa, která by založení a provoz energetického společenství upravovala, ale příslušný [návrh novely energetického zákona (Lex OZE II)](https://www.psp.cz/sqw/historie.sqw?o=9&t=487) se již projednává v parlamentu.
+  energetického společenství: |
+    Energetické společenství umožňuje zapojení občanů a místních firem do společného projektu, díky tomu se zvyšuje potenciál jak pro výrobu energie, tak i pro její lokální spotřebu. Z pohledu obce či města se jedná o zajímavou službu/spolupráci, kterou může občanům nabízet. V současnosti zatím neexistuje platná legislativa, která by založení a provoz energetického společenství upravovala, ale příslušný [návrh novely energetického zákona (Lex OZE II)](https://www.psp.cz/sqw/historie.sqw?o=9&t=487) se již projednává v parlamentu.
+  sdílení elektřiny: |
+    Sdílení elektřiny mezi jednotlivými členy energetického společenství je podstatou jeho fungování. Z toho důvodu je pro komunity zásadní, aby mohly elektřinu sdílet prostřednictvím veřejné distribuční soustavy. V současném návrhu novely energetického zákona Lex OZE II má být v první fázi (do poloviny roku 2026) sdílení dočasně omezeno na území 3 obcí s rozšířenou působností.
+  výrobných elektřiny OZE: |
+    Nacházejí se na území uvažovaného energetického společenství výrobny elektřiny z obnovitelných zdrojů? Pokud ano, oslovte jejich vlastníky či provozovatele, zda se chtějí do společenství zapojit a v jaké míře.

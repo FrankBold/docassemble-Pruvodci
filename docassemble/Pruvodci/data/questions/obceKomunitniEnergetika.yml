@@ -1,0 +1,526 @@
+metadata:
+  title: |
+    Online nástroj pro obce
+  short title: |
+    FVE na obci
+  description: |
+    Test připravenosti města: Máte vše pro realizaci komunální a komunitní energetiky?
+  revision_date: 2023-05-24
+---
+features:
+  labels above fields: True
+  question back button: True
+  navigation back button: False
+  progress bar: True
+  hide standard menu: True
+  navigation: True
+  css: uken.css
+---
+default screen parts:
+  under: |
+    % if show_save_resume_message:
+    [Uložit a pokračovat později](${ url_action('save_and_resume') })
+    % endif
+---
+modules:
+  - .integrace
+  - .seznamObci
+---
+sections:
+  - Úvod
+  - Technická a institucionální připravenost
+  - Ekonomická připravenost
+  - Právní dokumenty, povolovací řízení zasmluvnění
+  - Zapojování komunity (občanů)
+  - Výstup
+---
+objects:
+  - Info: DADict.using(gathered=True)
+  - check_true: DAStaticFile.using(filename='icon_check_true.png')
+  - check_false: DAStaticFile.using(filename='icon_check_false.png')
+  - otazky_seznam: DAStaticFile.using(filename='energo_obce_otazky.json')
+---
+include:
+ - obceKomunitniEnergetika_help.yml
+ - obceKomunitniEnergetika_doporuceni.yml
+ - docassemble.demo:data/questions/examples/cards.yml
+---
+mandatory: True
+code: |
+  target = 'normal'
+  show_save_resume_message = True
+  multi_user = True
+---
+scan for variables: False
+mandatory: True
+code: |
+  if target == 'save_and_resume':
+    if wants_email:
+      if email_sent:
+        log("We sent an e-mail to your e-mail address.", "info")
+      else:
+        log("There was a problem with e-mailing.", "danger")
+      show_save_resume_message = False
+    undefine('wants_email')
+    undefine('email_sent')
+    target = 'normal'
+  otazky
+  uvod
+  prvni
+  druhy
+  treti
+  ctvrty
+  vysledky
+---
+code: |
+  otazky = json.loads(otazky_seznam.slurp())
+---
+code: |
+  Krokomer = []
+  for i in range(19):
+    Krokomer.append({"name": "", "icon": check_false})
+---
+section: |
+  Úvod
+question: |
+  Vítejte v nástroji
+subquestion: |
+  O co jde (primárně o FVE), co to umí, co čekat, co potřebujete.
+
+  Na začátek jen pár informačních údajů.
+fields:
+  - note: |
+      #### O vaší obci:
+  - Obec: obec
+    default: Brno
+  - Kraj: kraj
+    code: |
+      ['Hlavní město Praha', 'Zlínský kraj', 'Liberecký kraj', 'Moravskoslezský kraj', 'Jihočeský kraj', 'Středočeský kraj', 'Jihomoravský kraj', 'Plzeňský kraj', 'Olomoucký kraj', 'Kraja Vysočina', 'Ústecký kraj', 'Karlovarský kraj', 'Pardubický kraj', 'Královéhradecký kraj']
+    default: |
+      Jihomoravský kraj
+  - note: |
+      <span id="resultsArea"></span>
+  - note: |
+      #### O vás:
+  - Jméno a příjmení: jmeno
+    default: |
+      Jan Novák
+  - Funkce: funkce
+    default: |
+      Starosta
+  - E-mail: email
+    datatype: email
+    default: |
+      email@email.com
+  - Telefon: tel
+    required: False
+continue button field: uvod
+script: |
+  <script src="https://api.mapy.cz/loader.js"></script>
+  <script src="/packagestatic/docassemble.playground1Experimenty/loader.js"></script>
+  <script src="${ url_of('mapy_api_obec2.js')}"></script>
+---
+event: dohledat_obec
+code: |
+  obec = action_argument("obec")
+  kraj = action_argument("kraj")
+  idds = najitObec(obec, kraj)
+  json_response(dict(idds=idds))
+---
+section: |
+  Technická a institucionální připravenost
+question: |
+  Jak jste na tom s technickou připraveností?
+fields:
+  - "Spočítali jste si už spotřebu energií [<i class='fa-regular fa-circle-question'></i>](${url_of('help')}) ve vašich obecních budovách (příp. i dalších budovách - domácnostech obyvatel, místních podniků)?": Info['s1_1']
+    datatype: yesnomaybe
+  - "Spočítali jste si už reálný potenciál [<i class='fa-regular fa-circle-question'></i>](${url_of('help')}) výroby energie z {FVE} ve vaší obci?": Info['s1_2']
+    datatype: yesnomaybe
+  - "Provozuje už vaše obec nějakou {FVE}? Pokud máte přehled o celkovém instalovaném výkonu všech těchto výroben, uveďte ho prosím níže.": Info['s1_3']
+    datatype: yesnomaybe
+  - "Jaký je celkový instalovaný výkon?": Info['s1_3_1']
+    datatype: currency
+    min: 0
+    currency symbol: kWp
+    show if: Info['s1_3']
+  - "Plánujete v budoucnu výstavbu {FVE} ve vaší obci? Pokud máte představu o plánovaném instalovaném výkonu těchto výroben, uveďte ho prosím níže.": Info['s1_4']
+    datatype: yesnomaybe
+    hide if: Info['s1_3']
+  - "Jaký je celkový plánovaný výkon?": Info['s1_4_1']
+    datatype: currency
+    min: 0
+    currency symbol: kWp
+    show if: Info['s1_4']
+  - "Vybrali jste si již projektanta FVE a zpracovali projektovou dokumentaci?": Info['s1_5']
+    input type: radio
+    choices:
+      - Ano: True
+      - "Zatím jsme pouze vybrali projektanta": projektant
+      - Ne: False
+      - Nevím: "maybe"
+    hide if: Info['s1_3']
+  - "Má vaše obec k dispozici služby tzv. energetického manažera (i pokud byla tato pozice zřízena například ve spolupráci s dalšími obcemi či regionem)?": Info['s1_6']
+    datatype: yesnomaybe
+  - "Zřídila již vaše obec specializovanou společnost, která se věnuje energetice? Pokud ano, zaznačte prosím níže právní formu této společnosti.": Info['s1_7']
+    datatype: yesnomaybe
+  - "Jaký typ společnosti jste zřídili?": Info['s1_7_1']
+    input type: radio
+    choices:
+      - "příspěvková organizace"
+      - "s.r.o"
+      - "a.s."
+      - "jiné"
+    show if: Info['s1_7']
+  - "Specifikujte jaký jiný typ společnosti jste zřídili": Info['s1_7_2']
+    show if:
+      variable: Info['s1_7_1']
+      is: "jiné"
+  - "Uvažujete ve vaší obci o zřízení specializované společnosti, která se věnuje tématu energetiky? Pokud ne, uveďte prosím důvody vašeho rozhodnutí.": Info['s1_8']
+    datatype: yesnomaybe
+    show if: 
+      variable: Info['s1_7']
+      is: False
+  - "Proč o tom neuvažujete?": Info['s1_8_1']
+    datatype: checkboxes
+    choices:
+      - "chybějící informace o fungování a přínosech této společnosti"
+      - "administrativní náročnost"
+      - "nedostatek financí"
+      - "nedostatek personálního zajištění"
+      - "jiné"
+    show if:
+      variable: Info['s1_8']
+      is: False
+  - "Prosím rozveďte": Info['s1_8_2']
+    input type: area
+    js show if: |
+      val("Info['s1_8_1']['jiné']")
+help: 
+  label: |
+    Nápověda
+  content: |
+    ${h_technicka}
+continue button field: prvni
+---
+section: |
+  Ekonomická připravenost
+question: |
+  Jak jste na tom s ekonomickou připraveností?
+fields:
+  - "Máte již nastavený plán financování projektu {FVE}?": Info['s2_1']
+    datatype: yesnomaybe
+  - "Jaké finanční zdroje jste již pro projekt {FVE} využili?": Info['s2_2']
+    datatype: checkboxes
+    choices:
+      - "obecní rozpočet"
+      - "dotace (Modernizační fond, OPŽP, NZÚ)": dotace
+      - "bankovní úvěr"
+      - "investice občanů, místních podnikatelů, jiných investorů": investice
+      - "jiné"
+      - "žádné"
+      - "nevím"
+  - "Jaké konkrétní typy investic?": Info['s2_2_1']
+    input type: radio
+    choices: 
+      - "emise dluhopisů": emise
+        help: |
+          Komunální dluhopisy mohou představovat významný zdroj financování zejména finančně náročnějších investic obce (vodovody, kanalizace, apod.). Jejich emisi upravuje [zákon o dluhopisech](https://www.zakonyprolidi.cz/cs/2004-190) (č. 190/2004 Sb).
+      - "investiční smlouva / smlouva o spolupráci": investice
+        help: |
+          Tyto smlouvy upravují vztahy mezi obcí a externím investorem, např. developerem staveb obnovitelných zdrojů. Obec či město je mohou využít ve chvíli, kdy nemohou nebo nechtějí financovat projekt samy, ale mohou investorovi poskytnout prostor pro realizaci jeho záměru a současně za to získat kompenzace. Smlouva oběma stranám poskytuje vyšší míru jistoty a zvyšuje pravděpodobnost, že záměr bude úspěšně realizován.
+      - "podílové financování se zapojením občanů / místních firem": podil
+        help: |
+          Členům případného energetického společenství tento způsob financování umožňuje získat podíl, a tedy i právo na část budoucího zisku či podíl na rozhodování o směřování projektu. Financování prostřednictvím prodeje podílů je vhodné zejména z dlouhodobého hlediska. Podíl může vlastnit jak občan, obec, tak i malý nebo střední podnik zapojený do energetického společenství.
+    js show if: |
+      val("Info['s2_2']['investice']")
+  - "Rozveďte jaké jiné finanční zdroje jste využili": Info['s2_2_2']
+    input type: area
+    js show if: |
+      val("Info['s2_2']['jiné']")
+  - "Jaké finanční zdroje pro projekt {FVE} teprve plánujete využít?": Info['s2_3']
+    datatype: checkboxes
+    choices:
+      - "obecní rozpočet"
+      - "dotace (Modernizační fond, OPŽP, NZÚ)": dotace
+      - "bankovní úvěr"
+      - "investice občanů, místních podnikatelů, investorů aj. osob v rámci ES": investice
+      - "jiné"
+      - "žádné"
+      - "nevím"
+  - "Jaké konkrétní typy investic?": Info['s2_3_1']
+    input type: radio
+    choices: 
+      - "emise dluhopisů": emise
+        help: |
+          Komunální dluhopisy mohou představovat významný zdroj financování zejména finančně náročnějších investic obce (vodovody, kanalizace, apod.). Jejich emisi upravuje zákon o dluhopisech (č. 190/2004 Sb).
+      - "investiční smlouva / smlouva o spolupráci": investice
+        help: |
+          Tyto smlouvy upravují vztahy mezi obcí a externím investorem, např. developerem staveb obnovitelných zdrojů. Obec či město je mohou využít ve chvíli, kdy nemohou nebo nechtějí financovat projekt samy, ale mohou investorovi poskytnout prostor pro realizaci a současně za to získat kompenzace. Smlouva oběma stranám poskytuje vyšší míru jistoty a zvyšuje pravděpodobnost, že záměr bude úspěšně realizován.
+      - "podílové financování se zapojením občanů / místních firem": podil
+        help: |
+          Členům případného energetického společenství tento způsob financování umožňuje získat podíl, a tedy i právo na část budoucího zisku či podíl na rozhodování o směřování projektu. Financování prostřednictvím prodeje podílů je vhodné zejména z dlouhodobého hlediska. Podíl může vlastnit jak občan, obec, tak i malý nebo střední podnik zapojený do energetického společenství.
+    js show if: |
+      val("Info['s2_3']['investice']")
+  - "Jaké jiné zdroje financování plánujete využít?": Info['s2_3_2']
+    input type: area
+    js show if: |
+      val("Info['s2_3']['jiné']")
+continue button field: druhy
+---
+section: |
+  Právní dokumenty, povolovací řízení zasmluvnění
+question: |
+  Jak jste na tom s právní přípravou?
+fields:
+  - "Zajistili jste již připojení {FVE} k distribuční soustavě a uzavřeli smlouvu o připojení s provozovatelem distribuční soustavy?": Info['s3_1']
+    input type: radio
+    choices:
+      - Ano: True
+      - "Zatím jsme pouze rezervovali výkon pro {FVE} u distributora": rezervace
+      - Ne: False
+      - Nevím: "Nevím"
+  - "Zajistili jste si již potřebná povolení pro výstavbu a {provoz FVE} (např. územní rozhodnutí nebo souhlas, licenci na výrobu elektřiny od ERÚ)?": Info['s3_2']
+    input type: radio
+    choices:
+      - Ano: True
+      - "Ne, obec plánuje projekty {FVE} o instalovaném výkonu **do** 50kW": ne_pod50
+        help: |
+          U instalací {FVE} do 50 kW máte vše jednodušší, zpravidla nemusíte řešit licenci na výrobu elektřiny od ERÚ, stavební povolení ani odbornou způsobilost (odpovědného zástupce). 
+      - "NE, obec plánuje projekty {FVE} o instalovaném výkonu **nad** 50kW": ne_nad50
+        help: |
+          Pro {FVE} s instalovaným výkonem nad 50 kW potřebujete zažádat a získat licenci na výrobu elektřiny od ERÚ, řešit odbornou způsobilost (postup pro zisk obojího [naleznete na stránkách ERÚ](https://www.eru.cz/udeleni-licence)) i stavební povolení.
+      - "Ne, instalovaným výkonem si nejsem jistý": False
+      - Nevím: "maybe"
+  - "Vysoutěžili jste již dodavatele/zhotovitele {FVE} [<i class='fa-regular fa-circle-question'></i>](${url_of('help')})?": Info['s3_3']
+    datatype: yesnomaybe
+  - "Zvolili jste si již odpovědného zástupce [<i class='fa-regular fa-circle-question'></i>](${url_of('help')}) u projektu {FVE} nad 50kW?": Info['s3_4']
+    input type: radio
+    choices:
+      - Ano: True
+      - Ne: False
+      - "Není nutné jedná se o projekt s nižším instalovaným výkonem": "není nutné"
+      - Nevím: "maybe"
+  - "Registrovali jste se již u operátora trhu?": Info['s3_5']
+    datatype: yesnomaybe
+  - "Máte již smluvně zajištěnou {správa FVE|správu} a {provoz FVE}": Info['s3_6']
+    datatype: yesnomaybe
+continue button field: treti
+---
+section: |
+  Zapojování komunity (občanů)
+question: |
+  Jak jste na tom se zapojováním komunit a občanů?
+fields:
+  - "Plánujete v budoucnu zapojovat vaše občany do projektů obnovitelných zdrojů energie a vytvářet tzv. energetické společenství? Případně zatím plánujete projekt pouze jako obec, tedy na obecních budovách či pozemcích?": Info['s4_1']
+    input type: radio
+    choices:
+      - "již máme vytvořené energetické společenství": "již máme"
+      - "plánujeme vytvářet energetické společenství": "plánujeme"
+      - "plánujeme projekty OZE pouze samostatně jako obec": "plánujeme jako obec"
+      - "neplánujeme projekty OZE v rámci energetického společenství, ani samostatně jako obec": "neplánujeme"
+      - "nevím"
+  - "Jakou právní formu má vaše energetické společenství? Prosím zaznačte, o jakou formu se jedná.": Info['s4_2']
+    input type: radio
+    choices:
+      - spolek
+      - družstvo
+      - s.r.o.
+      - a.s.
+      - jiné
+      - nevím
+    show if:
+      variable: Info['s4_1']
+      is: "již máme"
+  - "Prosím rozvěďte jakou právní formu jste zvolili": Info['s4_2_1']
+    input type: area
+    show if:
+      variable: Info['s4_2']
+      is: jiné
+  - "Jaké subjekty (odběrná místa) jsou členy vašeho energetického společenství? Zaznačte prosím níže, o jaké subjekty se jedná.": Info['s4_3']
+    datatype: checkboxes
+    choices: 
+      - bytové domy
+      - rodinné domy
+      - místní podniky
+      - jiné
+      - nevím
+    show if:
+      variable: Info['s4_1']
+      is: "již máme"
+  - "Prosím rozveďte jaké jiné subjekty jsou členem vašeho energetického společenství": Info['s4_3_1']
+    input type: area
+    js show if: |
+      val("Info['s4_3']['jiné']")
+  - "Plánujete v rámci vašeho energetické společenství sdílení elektřiny i mimo území vaší obce (např. na úrovni svazku obcí, regionu)?": Info['s4_4']
+    datatype: yesnomaybe
+    show if:
+      variable: Info['s4_1']
+      is: "již máme"
+  - "Má vaše energetické společenství již právní formu? Pokud ano, zaznačte prosím jakou.": Info['s4_5']
+    datatype: yesnomaybe
+    show if:
+      variable: Info['s4_1']
+      is: "již máme"
+  - "Jakou právní formu?": Info['s4_5_1']
+    input type: radio
+    choices:
+      - spolek
+      - družstvo
+      - s.r.o.
+      - a.s.
+      - jiné
+    show if: Info['s4_5']
+  - "Prosím rozveďte jakou jinou právní formu?": Info['s4_5_2']
+    input type: area
+    show if:
+      variable: Info['s4_5_1']
+      is: jiné
+  - "Máte již představu, jaké subjekty (odběrná místa) by se mohly zapojit do vašeho energetického společenství? Pokud ano, zaznačte prosím níže, o jaké subjekty by se mohlo jednat.": Info['s4_6']
+    datatype: yesnomaybe
+    show if:
+      variable: Info['s4_1']
+      is: "plánujeme"
+  - "O jaké subjekty by se mohlo jednat?": Info['s4_6_1']
+    datatype: checkboxes
+    choices:
+      - bytové domy
+      - rodinné domy
+      - místní podniky
+      - jiné
+      - nevím
+    show if: Info['s4_6']
+  - "Prosím rozveďte o jaké jiné subjekty by se mohlo jednat": Info['s4_6_2']
+    input type: area
+    js show if: |
+      val("Info['s4_6_1']['jiné']")
+  - "Máte přehled o existujících výrobnách elektřiny z OZE, které by se mohly do energetického společenství zapojit?": Info['s4_7']
+    datatype: yesnomaybe
+    show if:
+      variable: Info['s4_1']
+      is: "plánujeme"
+  - "Pakliže plánujete vytvořit energetické společenství, uvažujete o sdílení elektřiny i mimo území vaší obce (např. na úrovni svazku obcí, regionu)?": Info['s4_8']
+    datatype: yesnomaybe
+    show if:
+      variable: Info['s4_1']
+      is: "plánujeme"
+  - "Máte již smluvně zajištěné sdílení elektřiny mezi členy ES (dodávky elektřiny členům, smlouva s obchodníkem o výkupu elektřiny)?": Info['s4_9']
+    datatype: yesnomaybe
+    show if:
+      variable: Info['s4_1']
+      is: "plánujeme"
+  - "Komunikujete s občany ohledně projektů výstavby OZE a možnosti jejich zapojení? Pokud ano, zaznačte prosím jakou formou.": Info['s4_10']
+    datatype: yesnomaybe
+    show if:
+      variable: Info['s4_1']
+      is: "plánujeme"
+  - "Jakou formou s občany komunikujete?": Info['s4_10_1']
+    datatype: checkboxes
+    choices: 
+      - obecní zpravodaj
+      - "veřejná setkání - semináře, konzultace, vzdělávací akce": "veřejná setkání"
+      - "internetová stránky obce": "web"
+      - jiné
+    show if: Info['s4_10']
+  - "Doplně jaké": Info['s4_10_2']
+    input type: area
+    js show if: |
+      val("Info['s4_10_1']['jiné']")
+  - "Mají vaše projekty výstavby OZE podporu místních obyvatel?": Info['s4_11']
+    input type: radio
+    choices:
+      - určitě ano
+      - spíše ano
+      - spíše ne
+      - určitě ne
+      - nevím
+continue button field: ctvrty
+---
+code: |
+  seznam_odpovedi = list(Info.items())
+---
+event: vysledky
+code: |
+  if Info["s1_1"] and Info["s1_2"]: Krokomer[0]["icon"] = check_true
+  if Info["s2_1"]: Krokomer[1]["icon"] = check_true
+  if Info["s1_7"]: Krokomer[2]["icon"] = check_true
+  if Info["s2_2"]["investice"]: Krokomer[3]["icon"] = check_true
+  if Info["s3_1"] == "True" or Info["s3_1"] == "rezervace": Krokomer[4]["icon"] = check_true
+  if Info["s3_6"] and Info["s1_7"]: Krokomer[5]["icon"] = check_true
+  if (Info.get("s1_5", False) == True or Info.get("s1_5", False) == "projektant") or Info["s1_3"] == True: Krokomer[6]["icon"] = check_true
+  if Info.get("s1_5", False) == True or Info["s1_3"] == True: Krokomer[7]["icon"] = check_true
+  if Info["s3_4"] == "True" or Info["s3_4"] == "není nutné": Krokomer[8]["icon"] = check_true
+  if Info["s3_3"] == True: Krokomer[9]["icon"] = check_true
+  if Info["s3_2"] == "True" or Info["s3_2"] == "ne_pod50": Krokomer[10]["icon"] = check_true
+  if Info["s1_3"] == True: Krokomer[11]["icon"] = check_true
+  if Info["s3_5"] == True or Info["s3_5"] == "ne_nad50": Krokomer[12]["icon"] = check_true
+  if Info["s3_5"]: Krokomer[13]["icon"] = check_true
+  if Info["s3_1"] == "True": Krokomer[14]["icon"] = check_true
+  if Info["s3_6"]: Krokomer[15]["icon"] = check_true
+  if Info["s3_6"] == True: Krokomer[16]["icon"] = check_true
+  if Info["s3_6"]: Krokomer[17]["icon"] = check_true
+  if Info["s4_1"] == "již máme": Krokomer[18]["icon"] = check_true
+  
+  odpovedi = {}
+  
+  for key in Info.keys():
+    if otazky[key]["type"] == "yesnomaybe":
+      odpovedi[otazky[key]["question"]] =  Info[key]
+    elif otazky[key]["type"] == "checkboxes":
+      odpovedi[otazky[key]["question"]] =  ", ".join(Info[key].true_values())
+    else:
+      odpovedi[otazky[key]["question"]] =  Info[key]
+  
+  final
+---
+event: final
+section: |
+  Výstup
+question: |
+  Tož jste připraveni jak cip
+subquestion: |
+  ${t_doporuceni}
+
+  [Stáhnout PDF](${ analyza.pdf.url_for() })
+  [Stáhnout Word](${ analyza.url_for() })
+---
+attachment:
+  name: Analýza
+  filename: Analyza
+  variable name: analyza
+  docx template file: Analyza_Obce_Energetika.docx
+  valid formats:
+    - docx
+    - pdf
+---
+event: save_and_resume
+code: |
+  target = 'save_and_resume'
+---
+code: |
+  send_email(to=user_email_address, template=save_resume_template)
+  email_sent = True
+---
+question: |
+  Uložení formuláře na později
+subquestion: |
+  Na e-mail vám zašleme odkaz pod který můžete kdykoli pokračovat ve vyplňování formuláře.
+
+  Odkaz je platný po dobu 30 dní.
+fields:
+  - no label: wants_email
+    input type: radio
+    choices:
+      - "Dobře, pošlete mi e-mail": True
+      - "Ne, děkuji": False
+    default: True
+  - E-mail address: user_email_address
+    datatype: email
+    show if: wants_email
+under: ""
+---
+template: save_resume_template
+subject: |
+  Váš formulář
+content: |
+  Pro pokračování ve formuláří, 
+  [klikněte zde](${ interview_url() }).

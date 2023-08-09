@@ -1,0 +1,119 @@
+# Šablona pro výsledná stručná doporučení.
+template: t_doporuceni
+content: |
+  #### Technická a institucionální připravenost
+  
+  % if Info["s1_3"] and Info["s1_7"]:
+  > Komunální energetiku poctivě rozvíjíte
+  
+  Skvělé, vaše obec si zaslouží pochvalu za realizaci projektu FVE! Je vidět, že jdete s dobou a snažíte se být energeticky soběstační a nezávislí. Díky, že přispíváte k rozvoji obnovitelných zdrojů i k decentralizaci energetiky v ČR.
+  
+  Vidíme, že fungování a správa energetiky ve vaší obci/městě jsou také institucionálně zajištěny, jelikož jste pro tyto činnosti zřídili samostatný subjekt (obecní/městskou energetickou společnost). Možná už v praxi narážíte na to, že je zároveň nutné mít jasnou představu o obchodně-provozním modelu projektu FVE. V rámci něj vyřešíte například otázky ohledně toho, kdo bude FVE vlastnit či provozovat, kdo bude do FVE investovat a žádat o dotaci nebo kdo bude držitelem licence na výrobu elektřiny. Projektu FVE se ve většině případů účastní vícero dotčených subjektů (obec, příspěvkové organizace nebo jiné společnosti zajišťující veřejné služby atd.) a je nutné jejich vzájemné vztahy pečlivě upravit ve smlouvách. Smlouvu je třeba upravit i mezi obchodníkem s elektřinou a vlastníkem FVE, aby zohledňovala uvedení FVE do provozu. S nastavením obchodně-provozního modelu a zasmluvněním vám rádi pomůžou advokáti Frank Bold.
+  % elif Info["s1_3"] and Info["s1_7"] != True:
+  > Instalací FVE jste nastartovali rozvoj vaší komunální energetiky
+
+  Skvělé, vaše obec si zaslouží pochvalu za realizaci projektu FVE! Je vidět, že jdete s dobou a snažíte se být energeticky soběstační a nezávislí. Díky, že přispíváte k rozvoji obnovitelných zdrojů i k decentralizaci energetiky v ČR.
+  
+  Další příležitostí k rozvoji fungování a správy energetiky ve vaší obci/městě by mohlo být zřízení obecní/městské energetické společnosti (“MES”). Hlavní výhodou takové společnosti je komplexní přehled o energetice ve městě či obci a její správa. Konkrétně může zabezpečovat realizaci a správu výroben elektřiny, podávání žádostí o dotace, zasmluvnění projektů OZE a analýzu dat kvůli zajišťování energetických úspor. MES může mít vícero právních forem, a to zpravidla formy příspěvkové organizace, s.r.o. nebo akciové společnosti. Forma příspěvkové organizace obce nebo města, zajišťuje větší kontrolu ze strany samosprávy a může těžit z některých daňových zvýhodnění jako veřejně prospěšný poplatník. Na druhou stranu ji může někdy chybět podnikatelský drive. MES zřízená jako s.r.o. či a.s. je zase méně závislá na vůli samosprávy a může rozhodovat flexibilněji, avšak za cenu omezení možnosti investic samosprávy do jejího majetku. 
+  
+  Naše praktické zkušenosti ukazují, že je zároveň nutné mít jasnou představu o obchodně-provozním modelu projektu FVE. Například tedy vyřešit, kdo bude FVE vlastnit či provozovat, kdo bude do FVE investovat a žádat o dotaci nebo kdo bude držitelem licence na výrobu elektřiny. Všechny tyto aspekty projektu je nutné náležitě upravit ve smlouvách. Se založením MES, nastavením obchodně-provozního modelu a zasmluvněním vám rádi pomůžou advokáti Frank Bold.
+  
+  Zajímavou možností je i využití služeb energetického manažera, který vám pomůže nastavit procesy vedoucí k úsporám energie.
+  % elif Info["s1_4"]:
+  > Máte touhu rozvíjet komunální energetiku
+  
+  První důležitý krok máte za sebou - vaše obec se rozhodla v budoucnu realizovat projekt FVE. Za to vám zcela jistě náleží pochvala. Je vidět, že jdete s dobou a snažíte se, abyste v budoucnu mohli být více energeticky soběstační a nezávislí. Obyvatelé vaší obce to v budoucnu zcela jistě ocení.
+  
+  Prvním krokem v procesu rozvoje fungování a správy energetiky ve vaší obci/městě by mohlo být zřízení obecní/městské energetické společnosti (“MES”). Hlavní výhodou takové společnosti je komplexní přehled o energetice ve městě či obci a její správa. Konkrétně může zabezpečovat realizaci a správu výroben elektřiny, podávání žádostí o dotace, zasmluvnění projektů OZE a analýzu dat kvůli zajišťování energetických úspor. MES může mít vícero právních forem, a to zpravidla formy příspěvkové organizace, s.r.o. nebo akciové společnosti. Forma příspěvkové organizace obce nebo města, zajišťuje větší kontrolu ze strany samosprávy a může těžit z některých daňových zvýhodnění jako veřejně prospěšný poplatník. Na druhou stranu ji může někdy chybět podnikatelský drive. MES zřízená jako s.r.o. či a.s. je zase méně  závislá na rozhodování samosprávy a může rozhodovat flexibilněji avšak za cenu omezení možnosti investic samosprávy do jejího majetku.
+  
+  Naše praktické zkušenosti ukazují, že je zároveň nutné mít jasnou představu o obchodně-provozním modelu projektu FVE. Například tedy vyřešit, kdo bude FVE vlastnit či provozovat, kdo bude do FVE investovat a žádat o dotaci nebo kdo bude držitelem licence na výrobu elektřiny. Všechny tyto aspekty projektu je nutné náležitě upravit ve smlouvách. Se založením MES, nastavením obchodně-provozního modelu a zasmluvněním vám rádi pomůžou advokáti Frank Bold.
+  
+  Zajímavou možností je i využití služeb energetického manažera, který vám pomůže nastavit procesy vedoucí k úsporám energie.
+  % elif Info["s1_4"] != True:
+  > Dejte obnovitelným zdrojům šanci, vyzkoušejte je na pilotním projektu
+  
+  Z vašich odpovědí vyplývá, že jako obec zatím neplánujete projekt FVE. Výhodou je, že tento postoj se může snadno změnit. V současné době samosprávy čím dál víc přemýšlí, jak ušetřit na energiích, stát se soběstačnějšími a nezávislejšími na výkyvech trhu. Moderním trendem je, že část potřeb, kterou za samosprávy dosud zajišťoval někdo jiný, převezmou obce do své vlastní správy. To sice vyžaduje nové znalosti, ale také přináší potenciál úspor a vlastního svobodného rozhodování v oblastech, kde obce a města dosud byly jen konzumenty. Začít můžete v malém. Vytipujte si například dva, tři objekty, kam umístíte FVE, a pusťte se do toho. Po vyhodnocení vašich zkušenosti z tohoto pilotního projektu můžete poté pokračovat dál.
+  
+  Prvním krokem v procesu rozvoje fungování a správy energetiky ve vaší obci/městě by mohlo být zřízení obecní/městské energetické společnosti (“MES”). Hlavní výhodou takové společnosti je komplexní přehled o energetice ve městě či obci a její správa. Konkrétně může zabezpečovat realizaci a správu výroben elektřiny, podávání žádostí o dotace, zasmluvnění projektů OZE a analýzu dat kvůli zajišťování energetických úspor. MES může mít vícero právních forem, a to zpravidla formy příspěvkové organizace, s.r.o. nebo akciové společnosti. Forma příspěvkové organizace obce nebo města, zajišťuje větší kontrolu ze strany samosprávy a může těžit z některých daňových zvýhodnění jako veřejně prospěšný poplatník. Na druhou stranu ji může někdy chybět podnikatelský drive. MES zřízená jako s.r.o. či a.s. je zase méně  závislá na rozhodování samosprávy a může rozhodovat flexibilněji avšak za cenu omezení možnosti investic samosprávy do jejího majetku. Se založením MES, nastavením obchodně-provozního modelu a zasmluvněním vám rádi pomůžou advokáti Frank Bold.
+  
+  Zajímavou možností je i využití služeb energetického manažera, který vám pomůže nastavit procesy vedoucí k úsporám energie.
+  % endif
+
+  #### Ekonommická připravenost
+  
+  % if Info["s2_1"]:
+  > Financování projektu FVE jste již poctivě naplánovali
+  
+  Dobrá práce! Učinili jste důležitý krok v rámci příprav projektu FVE. Vytvoření plánu financování projektu je nutný předpoklad jeho dalšího postupu. Je vidět, že si vaše obec (zastupitelstvo) již určila logické pořadí jednotlivých investičních záměrů, včetně jejich finančního pokrytí. Ekonomická analýza vám zároveň dala odpověď na základní otázku ohledně budoucí návratnosti vaší investice do FVE. Na tento postup nezapomínejte ani u budoucích projektů.
+  
+  Financovat instalaci FVE v obci je možné hned několika způsoby. Obec přitom vůbec nemusí elektrárnu hradit pouze ze svých prostředků. Asi nejvýznamnějším zdrojem jsou dotace, které výrazně zkrátí dobu návratnosti projektu. Pro obce je možné využívat zejména program RES+ v rámci Modernizačního fondu, který byl aktuálně prodloužen do 29.9.2023. Obce mohou díky němu získat dotaci až 75 % na FVE včetně bateriového systému a i na tzv. vyvolané investice čili rekonstrukci střech, na které budou umístěny fotovoltaické panely. Další možností jsou i dotační tituly z Operačního programu Životní prostředí nebo Nové zelené úsporám. Vhodným finančním nástrojem je i předfinancování skrze bankovní úvěr. Jelikož dotační podporu fondy poskytují zpravidla až ex post (tzn. po uskutečnění projektu), musí obce projekt nejprve celý samy zafinancovat, a tak zde bankovní úvěr může pomoci.
+  % elif Info["s2_1"] != True:
+  > Práce na plánu financování VTE vás ještě čeká, její výsledek vám určitě přijde vhod
+  
+  Zde vás ještě čeká trocha práce. Vytvoření plánu financování projektu je důležitý krok v rámci příprav projektu FVE a nutný předpoklad jeho dalšího postupu. Obec (zastupitelstvo) tak určí logické pořadí jednotlivých investičních záměrů, včetně jejich finančního pokrytí. Ekonomická analýza vám zároveň dá odpověď na základní otázku ohledně budoucí návratnosti vaší investice do FVE. Než se pustíte do realizace FVE, doporučujeme tedy plán financování zpracovat.
+  
+  Financovat instalaci FVE v obci je možné hned několika způsoby. Obec přitom vůbec nemusí elektrárnu hradit pouze ze svých prostředků. Asi nejvýznamnějším zdrojem jsou dotace, které výrazně zkrátí dobu návratnosti projektu. Pro obce je možné využívat zejména program RES+ v rámci Modernizačního fondu, který byl aktuálně prodloužen do 29.9.2023. Obce mohou díky němu získat dotaci až 75 % na FVE včetně bateriového systému a i na tzv. vyvolané investice čili rekonstrukci střech, na které budou umístěny fotovoltaické panely. Další možností jsou i dotační tituly z Operačního programu Životní prostředí nebo Nové zelené úsporám. Vhodným finančním nástrojem je i předfinancování skrze bankovní úvěr. Jelikož dotační podporu fondy poskytují zpravidla až ex post (tzn. po uskutečnění projektu), musí obce projekt nejprve celý samy zafinancovat, a tak zde bankovní úvěr může pomoci.
+
+  % endif
+
+  #### Právní dokumenty, povolovací řízení a zasmluvnění
+  
+  % if Info["s1_3"]:
+  > Povolovací proces FVE jste úspěšně zvládli
+
+  Oceňujeme, že se vám již podařilo projít celým povolovacím procesem a realizovat FVE. Zvládnout všechny kroky na této cestě určitě nebylo jednoduché a o to je cennější, že nyní již provozujete FVE.
+  
+  Pro účely budoucích instalací FVE upozorňujeme na zjednodušení procesu povolování FVE o instalovaném výkonu do 50 kW. U těchto záměrů máte vše jednodušší a nemusíte řešit licenci na výrobu elektřiny od ERÚ, povolení či rozhodnutí podle stavebního zákona ani odbornou způsobilost (odpovědného zástupce).
+  
+  Jak již bylo uvedeno výše, upozorňujeme i na důležitost nastavení obchodně-provozního modelu a s ním souvisejícího smluvního zajištění správy a provozu FVE. S nastavením obchodně-provozního modelu a zasmluvněním vám rádi pomůžou advokáti Frank Bold.
+  % elif Info["s1_3"] != True:
+  > Zajištění všech právních podkladů a povolení vás ještě čeká, začněte s žádostí o připojení
+  
+  Proces povolování a realizace FVE včetně uzavření smluv se všemi dotčenými osobami se může někdy zdát poměrně složitý. Zvládnout definovat si správný postup na této cestě vaší obci však pomůže i náš seznam jednotlivých kroků projektu FVE. Pro zajištění právní stránky projektu a nastavení jasných a závazných pravidel budoucího fungování FVE vždy doporučujeme využít služeb odborníků (advokátů, energetických poradců).
+  
+  Pro účely budoucí instalace FVE upozorňujeme zejména na krok týkající se žádosti o připojení k distribuční soustavě a rezervaci výkonu. Na začátku projektu tak zjistíte, zda bude v budoucnu FVE z kapacitních důvodů možné připojit a pojistíte si, že vám regionální distributor výkon pro FVE zarezervuje. Zároveň upozorňujeme i na zjednodušení procesu povolování FVE o instalovaném výkonu do 50 kW. U těchto záměrů máte vše jednodušší a nemusíte řešit licenci na výrobu elektřiny od ERÚ, povolení či rozhodnutí podle stavebního zákona ani odbornou způsobilost (odpovědného zástupce).
+  
+  Jak již bylo uvedeno v doporučeních výše, upozorňujeme i na důležitost nastavení obchodně-provozního modelu a s ním souvisejícího smluvního zajištění správy a provozu FVE. S nastavením obchodně-provozního modelu a zasmluvněním vám rádi pomůžou advokáti Frank Bold.
+  % endif
+  
+  #### Zapojování komunity
+  
+  % if Info["s4_1"] == "již máme":
+  > Jste průkopníky komunitní energetiky v ČR
+
+  Založili jste energetické společenství. To je skvělé! Nepochybně se stáváte průkopníky v této oblasti a my vám gratulujeme. Obce jako vy budou v budoucnu hrát zásadní roli v decentralizaci a demokratizaci energetiky ČR.
+  
+  Pokud už  vaše obec není členem, doporučujeme vám zvážit účast v Unii komunitní energetiky (UKEN). UKEN je spolek založený za účelem podpory vzniku a rozvoje komunitní energetiky v ČR. Za tímto účelem sdružuje odborníky s širokým spektrem znalostí a zkušeností. Členskou základnu tvoří zástupci samospráv a místních akčních skupin, firmy a profesní sdružení, asociace z oblasti energetiky, životního prostředí, či stavitelství. V rámci členství v UKEN můžete zejména získat informace o aktuálním vývoji chystané právní úpravy komunitní energetiky. Zároveň se vaše obec může stát členem jednotlivých pracovních skupin UKEN, které se zabývají mimo zmíněnou legislativu také dotačními příležitostmi či sdílením know-how a dobré praxe.
+  % elif Info["s4_1"] == "plánujeme":
+  > Máte možnost být jedním z prvních projektů komunitní energetiky
+  
+  Plánujete založit energetické společenství a to je skvělé! Rozhodli jste se, že se vaše obec spolu s místními obyvateli a podniky stane více soběstačnou skrze společné investice do obnovitelných zdrojů energie. Momentálně máte šanci stát se průkopníky v této oblasti. Obce jako vy budou hrát zásadní roli v decentralizaci a demokratizaci energetiky ČR.
+  
+  Hlavní výhody komunitní energetiky jsou zejména následující:
+  
+  - umožní obci, místním domácnostem a podnikům sdílet si mezi sebou elektřinu ze společných výroben
+  - projekty obnovitelných zdrojů jsou snadněji financovány skrze investice členů komunity
+  - obecním objektům i domácnostem umožní snížit si účty za elektřinu
+  - sníží závislost účastníků na dodavatelích elektřiny
+  - přispěje k rozvoji obnovitelných zdrojů, transformaci energetiky a lokální spotřebě elektřiny
+  
+  Pokud ještě obec není členem, doporučujeme vám zvážit účast v Unii komunitní energetiky (UKEN). UKEN je spolek založený za účelem podpory vzniku a rozvoje komunitní energetiky v ČR. Za tímto účelem sdružuje odborníky s širokým spektrem znalostí a zkušeností. Členskou základnu tvoří zástupci samospráv a místních akčních skupin, firmy a profesní sdružení, asociace z oblasti energetiky, životního prostředí, či stavitelství. V rámci členství v UKEN můžete zejména získat informace o aktuálním vývoji chystané právní úpravy komunitní energetiky. Zároveň se vaše obec může stát členem jednotlivých pracovních skupin UKEN, které se zabývají mimo zmíněnou legislativu také dotačními příležitostmi či sdílením know-how a dobré praxe.
+
+  V současnosti zatím neexistuje platná legislativa, která by založení a provoz energetického společenství upravovala, ale příslušný návrh novely energetického zákona (Lex OZE II) se již projednává v parlamentu. Pro aktuální informace doporučujeme sledovat webové stránky UKEN.
+  % else:
+  > Komunitní energetika je příležitost pro zajištění větší soběstačnosti
+
+  Ačkoliv momentálně neplánujete založit energetické společenství, doporučujeme i nadále se touto otázkou zabývat. Vaše obec se spolu s místními obyvateli a podniky má díky komunitní energetice šanci stát více soběstačnou skrze společné investice do obnovitelných zdrojů energie. Zároveň máte šanci stát se průkopníky v této oblasti. Obce jako vy budou hrát zásadní roli v decentralizaci a demokratizaci energetiky ČR.
+  
+  Hlavní výhody komunitní energetiky jsou zejména následující:
+  
+  - umožní obci, místním domácnostem a podnikům sdílet si mezi sebou elektřinu ze společných výroben
+  - projekty obnovitelných zdrojů jsou snadněji financovány skrze investice členů komunity
+  - obecním objektům i domácnostem umožní snížit si účty za elektřinu
+  - sníží závislost účastníků na dodavatelích elektřiny
+  - přispěje k rozvoji obnovitelných zdrojů, transformaci energetiky a lokální spotřebě elektřiny
+
+  Aby se vaše obec stále držela v obraze, doporučujeme vám zvážit účast v Unii komunitní energetiky (UKEN). UKEN je spolek založený za účelem podpory vzniku a rozvoje komunitní energetiky v ČR. Za tímto účelem sdružuje odborníky s širokým spektrem znalostí a zkušeností. Členskou základnu tvoří zástupci samospráv a místních akčních skupin, firmy a profesní sdružení, asociace z oblasti energetiky, životního prostředí, či stavitelství. V rámci členství v UKEN můžete zejména získat informace o aktuálním vývoji chystané právní úpravy komunitní energetiky. Zároveň se vaše obec může stát členem jednotlivých pracovních skupin UKEN, které se zabývají mimo zmíněnou legislativu také dotačními příležitostmi či sdílením know-how a dobré praxe.
+
+  V současnosti zatím neexistuje platná legislativa, která by založení a provoz energetického společenství upravovala, ale příslušný návrh novely energetického zákona (Lex OZE II) se již projednává v parlamentu. Pro aktuální informace doporučujeme sledovat webové stránky UKEN.
+  % endif
