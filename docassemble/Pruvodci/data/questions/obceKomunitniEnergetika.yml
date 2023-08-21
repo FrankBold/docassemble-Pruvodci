@@ -479,6 +479,8 @@ question: |
   Tož jste připraveni jak cip
 subquestion: |
   ${t_doporuceni}
+  
+  ${ nahled_modal }
 
   [Stáhnout PDF](${ analyza.pdf.url_for() })
   [Stáhnout Word](${ analyza.url_for() })
@@ -524,3 +526,26 @@ subject: |
 content: |
   Pro pokračování ve formuláří, 
   [klikněte zde](${ interview_url() }).
+---
+---
+template: nahled_modal
+content: |
+  <button type="button" class="btn btn-outline-info" data-bs-toggle="modal" data-bs-target="#exampleModal">
+    Náhled dokumentu <i class="fa-solid fa-magnifying-glass"></i>
+  </button>
+  <div class="modal fade" id="exampleModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+    <div class="modal-dialog">
+      <div class="modal-content">
+        <div class="modal-header">
+          <h5 class="modal-title" id="exampleModalLabel">Náhled dokumentu</h5>
+          <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+        </div>
+        <div class="modal-body">
+           <img src="${ analyza.pdf.url_for(page=1, size='screen') }" class="img-thumbnail shadow" />
+        </div>
+        <div class="modal-footer">
+          <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Zavřít</button>
+        </div>
+      </div>
+    </div>
+  </div>
