@@ -3,8 +3,14 @@
  }
 
 .field-radio label:nth-of-type(1) {
- background: #a4f5c0
+ background: #a4f5c0;
+ border: none
 }
+
+.field-radio label:nth-of-type(1)>span.labelauty-checked {
+  background: #45fa84;
+  border: none
+ }
 
 .field-radio label:nth-of-type(2) {
  background: #EACDC2
