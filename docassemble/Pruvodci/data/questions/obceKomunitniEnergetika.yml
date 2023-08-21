@@ -13,7 +13,7 @@ features:
   navigation back button: False
   progress bar: True
   hide standard menu: True
-  navigation: horizontal
+  navigation: True
   hide navbar: True
   css: uken.css
 ---
