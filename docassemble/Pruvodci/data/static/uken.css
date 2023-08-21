@@ -26,3 +26,13 @@
 .da-top-label {
   color: #21262E
 }
+
+#dablock {
+  font-family: Open Sans, sans-serif
+}
+
+.nav-pills .nav-link {
+  padding:10px;
+  margin: 20px 0;
+  display:block
+}
