@@ -14,6 +14,7 @@ features:
   progress bar: True
   hide standard menu: True
   navigation: True
+  hide navbar: True
   css: uken.css
 ---
 default screen parts:
@@ -117,7 +118,7 @@ fields:
 continue button field: uvod
 script: |
   <script src="https://api.mapy.cz/loader.js"></script>
-  <script src="/packagestatic/docassemble.playground1Experimenty/loader.js"></script>
+  <script src="${ url_of('loader.js')}"></script>
   <script src="${ url_of('mapy_api_obec2.js')}"></script>
 ---
 event: dohledat_obec
