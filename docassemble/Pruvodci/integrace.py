@@ -14,3 +14,7 @@ def odeslatEmail(data):
 
 def odeslatData(data):
   return requests.post('https://hook.eu1.make.com/8em6i5dm31jn10nz52wc5nlme0tf7w7l', data=json.dumps(data), headers={'Content-Type': 'application/json'})
+
+def odeslat_sendgrid(webhook, data):
+  response = requests.post(webhook, data=data, headers={'Content-Type': 'application/json'})
+  return response
