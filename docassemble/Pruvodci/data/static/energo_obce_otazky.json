@@ -59,6 +59,12 @@
     "if": "s1_7 is True",
     "sets": ""
   },
+  "s1_7_2": {
+    "question": "Specifikujte jaký jiný typ společnosti jste zřídili",
+    "type": "area",
+    "if": "",
+    "sets": ""
+  },
   "s1_8": {
     "question": "Uvažujete ve vaší obci o zřízení specializované společnosti, která se věnuje tématu energetiky (jak byla zmíněna v předchozí otázce)? Pokud ne, uveďte prosím důvody vašeho rozhodnutí.",
     "type": "yesnomaybe",
@@ -93,6 +99,12 @@
     "question": "Jaké konkrétní typy investic?",
     "type": "radio",
     "if": "s2_2 is investice",
+    "sets": ""
+  },
+  "s2_2_2": {
+    "question": "Rozveďte jaké jiné finanční zdroje jste využili",
+    "type": "area",
+    "if": "",
     "sets": ""
   },
   "s2_3": {
@@ -195,6 +207,12 @@
     "question": "Jakou právní formu?",
     "type": "radio",
     "if": "s4_5 is True",
+    "sets": ""
+  },
+  "s4_5_2": {
+    "question": "Prosím rozveďte jakou jinou právní formu?",
+    "type": "area",
+    "if": "",
     "sets": ""
   },
   "s4_6": {
