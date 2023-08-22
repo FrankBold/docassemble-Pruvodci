@@ -14,7 +14,7 @@ features:
   progress bar: True
   hide standard menu: True
   navigation: True
-  hide navbar: True
+  hide navbar: False
   css: uken.css
 ---
 default screen parts:
@@ -71,7 +71,9 @@ code: |
   druhy
   treti
   ctvrty
-  vysledky
+  odpovedi
+  odeslat_analyzu
+  odeslat_analyzu_code
 ---
 code: |
   otazky = json.loads(otazky_seznam.slurp())
@@ -443,6 +445,7 @@ continue button field: ctvrty
 code: |
   seznam_odpovedi = list(Info.items())
 ---
+sets: odpovedi
 event: vysledky
 code: |
   if Info["s1_1"] and Info["s1_2"]: Krokomer[0]["icon"] = check_true
@@ -465,31 +468,58 @@ code: |
   if Info["s3_6"]: Krokomer[17]["icon"] = check_true
   if Info["s4_1"] == "již máme": Krokomer[18]["icon"] = check_true
   
-  odpovedi = {}
+  odpovedi = []
   
-  for key in Info.keys():
-    if otazky[key]["type"] == "yesnomaybe":
-      odpovedi[otazky[key]["question"]] =  Info[key]
-    elif otazky[key]["type"] == "checkboxes":
-      odpovedi[otazky[key]["question"]] =  ", ".join(Info[key].true_values())
+  preklad={True: "Ano", False: "Ne", None: "Nevím", "True": "Ano", "False": "Ne", "maybe": "Nevím"}
+  
+  for keys, values in otazky.items():
+    odpoved = []
+    if keys in Info.keys():
+      if values["type"] == "yesnomaybe":
+        odpoved+=[values["question"], preklad[Info[keys]]]
+      elif values["type"] == "checkboxes":
+        odpoved+=[values["question"], ", ".join(Info[keys].true_values())]
+      else:
+        try: 
+          odpoved+=[values["question"], preklad[Info[keys]]]
+        except:
+          odpoved+=[values["question"], Info[keys]]
+      odpoved.append(True)
     else:
-      odpovedi[otazky[key]["question"]] =  Info[key]
-  
-  final
+      odpoved+=[values["question"], "", False]
+      
+    odpovedi.append({keys: odpoved})
 ---
 progress: 100
 event: final
 section: |
   Výstup
 question: |
-  Tož jste připraveni jak cip
+  Hotovo! Analýza je připravena.
 subquestion: |
   ${t_doporuceni}
   
   ${ nahled_modal }
 
-  [Stáhnout PDF](${ analyza.pdf.url_for() })
-  [Stáhnout Word](${ analyza.url_for() })
+  [Stáhnout PDF](${ analyza.pdf.url_for() }) (dočasné pro testing)
+  [Stáhnout Word](${ analyza.url_for() }) (dočasné pro testing)
+
+  Analýzu vám rádi zdarma zašleme na e-mail: ${ email }, ať ji máte stále k dispozici.
+continue button label: Pošlete mi analýzu
+continue button field: odeslat_analyzu
+---
+code: |
+  data_all = json.dumps(all_variables())
+---
+event: odeslat_analyzu_code
+code: |
+  vzor_data = analyza.pdf.url_for(temporary=True, seconds=60)
+  emailOdeslan = odeslat_sendgrid('https://hook.eu1.make.com/fri3t2nhfysltlu2qh8esk5vy9ijv85w', data_all)
+  final
+---
+event: final
+question: |
+  Odesláno
 ---
 attachment:
   name: Analýza
@@ -547,7 +577,7 @@ content: |
           <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
         </div>
         <div class="modal-body">
-           <img src="${ analyza.pdf.url_for(page=1, size='screen') }" class="img-thumbnail shadow" />
+           <img src="${ analyza.pdf.url_for(page=1, size='screen') }" class="img-thumbnail shadow" /><br><img src="${ analyza.pdf.url_for(page=2, size='screen') }" class="img-thumbnail shadow" /><br><img src="${ analyza.pdf.url_for(page=3, size='screen') }" class="img-thumbnail shadow" />
         </div>
         <div class="modal-footer">
           <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Zavřít</button>
