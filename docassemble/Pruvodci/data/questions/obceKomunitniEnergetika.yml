@@ -14,7 +14,7 @@ features:
   progress bar: True
   hide standard menu: True
   navigation: True
-  hide navbar: False
+  hide navbar: True
   css: uken.css
 ---
 default screen parts:
