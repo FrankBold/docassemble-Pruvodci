@@ -81,6 +81,7 @@ code: |
   for i in range(19):
     Krokomer.append({"name": "", "icon": check_false})
 ---
+progress: 1
 section: |
   Úvod
 question: |
@@ -127,6 +128,7 @@ code: |
   idds = najitObec(obec, kraj)
   json_response(dict(idds=idds))
 ---
+progress: 15
 section: |
   Technická a institucionální připravenost
 question: |
@@ -202,6 +204,7 @@ help:
     ${h_technicka}
 continue button field: prvni
 ---
+progress: 50
 section: |
   Ekonomická připravenost
 question: |
@@ -267,6 +270,7 @@ fields:
       val("Info['s2_3']['jiné']")
 continue button field: druhy
 ---
+progress: 70
 section: |
   Právní dokumenty, povolovací řízení zasmluvnění
 question: |
@@ -306,6 +310,7 @@ fields:
     datatype: yesnomaybe
 continue button field: treti
 ---
+progress: 90
 section: |
   Zapojování komunity (občanů)
 question: |
@@ -472,6 +477,7 @@ code: |
   
   final
 ---
+progress: 100
 event: final
 section: |
   Výstup
