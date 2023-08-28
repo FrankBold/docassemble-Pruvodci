@@ -28,11 +28,11 @@ modules:
   - .seznamObci
 ---
 sections:
-  - Úvod
-  - Technická a institucionální připravenost
-  - Ekonomická připravenost
-  - Právní dokumenty, povolovací řízení zasmluvnění
-  - Zapojování komunity (občanů)
+  - uvod: Úvod
+  - technika: Technická a institucionální připravenost
+  - ekonomika: Ekonomická připravenost
+  - pravo: Právní dokumenty, povolovací řízení zasmluvnění
+  - komunita: Zapojování komunity (občanů)
   - Výstup
 ---
 objects:
@@ -51,6 +51,7 @@ code: |
   target = 'normal'
   show_save_resume_message = True
   multi_user = True
+  nav.progressive = False
 ---
 scan for variables: False
 mandatory: True
@@ -67,10 +68,10 @@ code: |
     target = 'normal'
   otazky
   uvod
-  prvni
-  druhy
-  treti
-  ctvrty
+  technika
+  ekonimika
+  pravo
+  komunita
   odpovedi
   odeslat_analyzu
   odeslat_analyzu_code
@@ -84,8 +85,7 @@ code: |
     Krokomer.append({"name": "", "icon": check_false})
 ---
 progress: 1
-section: |
-  Úvod
+section: uvod
 question: |
   Vítejte v nástroji
 subquestion: |
@@ -120,8 +120,8 @@ fields:
     required: False
 continue button field: uvod
 script: |
-  <script src="${ url_of('loader.js')}"></script>
-  <script src="${ url_of('mapy_api_obec2.js')}"></script>
+  <script src="${ url_of('loader.js')}" defer></script>
+  <script src="${ url_of('mapy_api_obec2.js')}" defer></script>
 ---
 event: dohledat_obec
 code: |
@@ -131,8 +131,7 @@ code: |
   json_response(dict(idds=idds))
 ---
 progress: 15
-section: |
-  Technická a institucionální připravenost
+section: technika
 question: |
   Jak jste na tom s technickou připraveností?
 fields:
@@ -204,11 +203,11 @@ help:
     Nápověda
   content: |
     ${h_technicka}
-continue button field: prvni
+continue button field: technika
+check in: autosave
 ---
 progress: 50
-section: |
-  Ekonomická připravenost
+section: ekonomika
 question: |
   Jak jste na tom s ekonomickou připraveností?
 fields:
@@ -270,11 +269,10 @@ fields:
     input type: area
     js show if: |
       val("Info['s2_3']['jiné']")
-continue button field: druhy
+continue button field: ekonomika
 ---
 progress: 70
-section: |
-  Právní dokumenty, povolovací řízení zasmluvnění
+section: pravo
 question: |
   Jak jste na tom s právní přípravou?
 fields:
@@ -310,11 +308,10 @@ fields:
     datatype: yesnomaybe
   - "Máte již smluvně zajištěnou {správa FVE|správu} a {provoz FVE}": Info['s3_6']
     datatype: yesnomaybe
-continue button field: treti
+continue button field: pravo
 ---
 progress: 90
-section: |
-  Zapojování komunity (občanů)
+section: komunita
 question: |
   Jak jste na tom se zapojováním komunit a občanů?
 fields:
@@ -440,7 +437,7 @@ fields:
       - spíše ne
       - určitě ne
       - nevím
-continue button field: ctvrty
+continue button field: komunita
 ---
 code: |
   seznam_odpovedi = list(Info.items())
@@ -558,12 +555,18 @@ fields:
     show if: wants_email
 under: ""
 ---
+event: autosave
+code: |
+  set_save_status('overwrite')
+  for variable_name, variable_value in action_arguments().items():
+    if variable_value:
+      define(variable_name, variable_value)
+---
 template: save_resume_template
 subject: |
   Váš formulář
 content: |
   Pro pokračování ve formuláři, [klikněte zde](www.energie-pro-mesta.frankbold.org/nastroj?session=${ user_info().session }).
----
 ---
 template: nahled_modal
 content: |
