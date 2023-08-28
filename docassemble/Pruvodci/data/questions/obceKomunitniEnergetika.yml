@@ -120,6 +120,7 @@ fields:
     required: False
 continue button field: uvod
 script: |
+  <script src="https://api.mapy.cz/loader.js" async></script> 
   <script src="${ url_of('loader.js')}" defer></script>
   <script src="${ url_of('mapy_api_obec2.js')}" defer></script>
 ---
