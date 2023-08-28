@@ -69,7 +69,7 @@ code: |
   otazky
   uvod
   technika
-  ekonimika
+  ekonomika
   pravo
   komunita
   odpovedi
@@ -120,7 +120,6 @@ fields:
     required: False
 continue button field: uvod
 script: |
-  <script src="https://api.mapy.cz/loader.js" async></script> 
   <script src="${ url_of('loader.js')}" defer></script>
   <script src="${ url_of('mapy_api_obec2.js')}" defer></script>
 ---
@@ -195,6 +194,7 @@ fields:
     show if:
       variable: Info['s1_8']
       is: False
+    none of the above: False
   - "Prosím rozveďte": Info['s1_8_2']
     input type: area
     js show if: |
@@ -224,6 +224,7 @@ fields:
       - "jiné"
       - "žádné"
       - "nevím"
+    none of the above: False
   - "Jaké konkrétní typy investic?": Info['s2_2_1']
     input type: radio
     choices: 
@@ -252,6 +253,7 @@ fields:
       - "jiné"
       - "žádné"
       - "nevím"
+    none of the above: False
   - "Jaké konkrétní typy investic?": Info['s2_3_1']
     input type: radio
     choices: 
@@ -271,6 +273,7 @@ fields:
     js show if: |
       val("Info['s2_3']['jiné']")
 continue button field: ekonomika
+check in: autosave
 ---
 progress: 70
 section: pravo
@@ -305,11 +308,15 @@ fields:
       - Ne: False
       - "Není nutné jedná se o projekt s nižším instalovaným výkonem": "není nutné"
       - Nevím: "maybe"
+    show if:
+      variable: Info['s3_2']
+      is: "ne_nad50"
   - "Registrovali jste se již u operátora trhu?": Info['s3_5']
     datatype: yesnomaybe
   - "Máte již smluvně zajištěnou {správa FVE|správu} a {provoz FVE}": Info['s3_6']
     datatype: yesnomaybe
 continue button field: pravo
+check in: autosave
 ---
 progress: 90
 section: komunita
@@ -352,6 +359,7 @@ fields:
     show if:
       variable: Info['s4_1']
       is: "již máme"
+    none of the above: False
   - "Prosím rozveďte jaké jiné subjekty jsou členem vašeho energetického společenství": Info['s4_3_1']
     input type: area
     js show if: |
@@ -365,7 +373,7 @@ fields:
     datatype: yesnomaybe
     show if:
       variable: Info['s4_1']
-      is: "již máme"
+      is: "plánujeme"
   - "Jakou právní formu?": Info['s4_5_1']
     input type: radio
     choices:
@@ -394,6 +402,7 @@ fields:
       - jiné
       - nevím
     show if: Info['s4_6']
+    none of the above: False
   - "Prosím rozveďte o jaké jiné subjekty by se mohlo jednat": Info['s4_6_2']
     input type: area
     js show if: |
@@ -410,14 +419,12 @@ fields:
       is: "plánujeme"
   - "Máte již smluvně zajištěné sdílení elektřiny mezi členy ES (dodávky elektřiny členům, smlouva s obchodníkem o výkupu elektřiny)?": Info['s4_9']
     datatype: yesnomaybe
-    show if:
-      variable: Info['s4_1']
-      is: "plánujeme"
+    js show if: |
+      val("Info['s4_1']") == "již máme" || val("Info['s4_1']") == "plánujeme"
   - "Komunikujete s občany ohledně projektů výstavby OZE a možnosti jejich zapojení? Pokud ano, zaznačte prosím jakou formou.": Info['s4_10']
     datatype: yesnomaybe
-    show if:
-      variable: Info['s4_1']
-      is: "plánujeme"
+    js show if: |
+      val("Info['s4_1']") == "již máme" || val("Info['s4_1']") == "plánujeme" || val("Info['s4_1']") == "plánujeme jako obec"
   - "Jakou formou s občany komunikujete?": Info['s4_10_1']
     datatype: checkboxes
     choices: 
@@ -426,6 +433,7 @@ fields:
       - "internetová stránky obce": "web"
       - jiné
     show if: Info['s4_10']
+    none of the above: False
   - "Doplně jaké": Info['s4_10_2']
     input type: area
     js show if: |
@@ -438,7 +446,10 @@ fields:
       - spíše ne
       - určitě ne
       - nevím
+    js show if: |
+      val("Info['s4_1']") == "již máme" || val("Info['s4_1']") == "plánujeme" || val("Info['s4_1']") == "plánujeme jako obec"
 continue button field: komunita
+check in: autosave
 ---
 code: |
   seznam_odpovedi = list(Info.items())
