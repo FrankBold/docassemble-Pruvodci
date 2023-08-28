@@ -552,6 +552,8 @@ fields:
       - "Ne, děkuji": False
     default: True
   - E-mail address: user_email_address
+    default: |
+      ${email}
     datatype: email
     show if: wants_email
 under: ""
@@ -560,8 +562,7 @@ template: save_resume_template
 subject: |
   Váš formulář
 content: |
-  Pro pokračování ve formuláří, 
-  [klikněte zde](${ interview_url() }).
+  Pro pokračování ve formuláři, [klikněte zde](www.energie-pro-mesta.frankbold.org/nastroj?session=${ user_info().session }).
 ---
 ---
 template: nahled_modal
