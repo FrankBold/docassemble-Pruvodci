@@ -37,7 +37,7 @@
   },
   "s1_5": {
     "question": "Vybrali jste si již projektanta FVE a zpracovali projektovou dokumentaci?",
-    "type": "yesnomaybe",
+    "type": "radio",
     "if": "s1_3 is Not True",
     "sets": "k7, k8"
   },
