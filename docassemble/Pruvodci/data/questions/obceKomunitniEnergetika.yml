@@ -465,7 +465,7 @@ code: |
   if Info["s3_6"] and Info["s1_7"]: Krokomer[5]["icon"] = check_true
   if (Info.get("s1_5", False) == True or Info.get("s1_5", False) == "projektant") or Info["s1_3"] == True: Krokomer[6]["icon"] = check_true
   if Info.get("s1_5", False) == True or Info["s1_3"] == True: Krokomer[7]["icon"] = check_true
-  if Info["s3_4"] == "True" or Info["s3_4"] == "není nutné": Krokomer[8]["icon"] = check_true
+  if Info.get("s3_4", False) == "True" or Info.get("s3_4", False) == "není nutné": Krokomer[8]["icon"] = check_true
   if Info["s3_3"] == True: Krokomer[9]["icon"] = check_true
   if Info["s3_2"] == "True" or Info["s3_2"] == "ne_pod50": Krokomer[10]["icon"] = check_true
   if Info["s1_3"] == True: Krokomer[11]["icon"] = check_true
