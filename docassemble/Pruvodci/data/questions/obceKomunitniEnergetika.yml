@@ -20,6 +20,7 @@ features:
 default screen parts:
   under: |
     % if show_save_resume_message:
+    ${ action_button_html(url_action('save_and_resume'), label="Uložit a pokračovat později", color="secondary", size="sm", icon="floppy-disk") }
     [Uložit a pokračovat později](${ url_action('save_and_resume') })
     % endif
 ---
@@ -117,6 +118,14 @@ fields:
       minlength: |
         Pro položení dotazu musíte se zásadami souhlasit.
 continue button field: uvod
+css: |
+  <style>
+  .da-form-group {
+      background: none;
+      padding: 10px;
+      border-radius: none;
+  }
+  </style>
 ---
 event: dohledat_obec
 code: |
