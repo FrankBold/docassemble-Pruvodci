@@ -108,6 +108,8 @@ fields:
     datatype: email
   - Telefon: tel
     required: False
+  - "Spočítali jste si už spotřebu energií [<i class='fa-regular fa-circle-question'></i>](${url_of('help')}) ve vašich obecních budovách (příp. i dalších budovách - domácnostech obyvatel, místních podniků)?": Info['s1_1']
+    datatype: yesnomaybe
 continue button field: uvod
 ---
 event: dohledat_obec

@@ -40,6 +40,13 @@
   margin: 20px 0;
   display:block;
   border-radius: 0;
+  color:#21262E;
+}
+
+.nav-pills .nav-link.active, .nav-pills .show > .nav-link {
+  color:#D70B3B;
+  font-weight: 800;
+  background:none;
 }
 
 h1 {
@@ -81,7 +88,7 @@ h1 {
 
 /* Style for the active step (add .active class to the appropriate nav-link) */
 .danavlink.active::before {
-  background-color: #007bff; /* Change the color for the active step */
+  background-color: #D70B3B; /* Change the color for the active step */
 }
 
 /* Hover style for the nav-link */
