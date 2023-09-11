@@ -138,9 +138,9 @@ section: technika
 question: |
   Jak jste na tom s technickou připraveností?
 fields:
-  - "Spočítali jste si už spotřebu energií [<i class='fa-regular fa-circle-question'></i>](${url_of('help')}) ve vašich obecních budovách (příp. i dalších budovách - domácnostech obyvatel, místních podniků)?": Info['s1_1']
+  - "Spočítali jste si už spotřebu energií [(?)](${url_of('help')}) ve vašich obecních budovách (příp. i dalších budovách - domácnostech obyvatel, místních podniků)?": Info['s1_1']
     datatype: yesnomaybe
-  - "Spočítali jste si už reálný potenciál [<i class='fa-regular fa-circle-question'></i>](${url_of('help')}) výroby energie z {FVE} ve vaší obci?": Info['s1_2']
+  - "Spočítali jste si už reálný potenciál [(?)](${url_of('help')}) výroby energie z {FVE} ve vaší obci?": Info['s1_2']
     datatype: yesnomaybe
   - "Provozuje už vaše obec nějakou {FVE}? Pokud máte přehled o celkovém instalovaném výkonu všech těchto výroben, uveďte ho prosím níže.": Info['s1_3']
     datatype: yesnomaybe
@@ -287,24 +287,24 @@ fields:
     input type: radio
     choices:
       - Ano: True
-      - "Zatím jsme pouze rezervovali výkon pro {FVE} u distributora": rezervace
+      - "Zatím jsme pouze rezervovali výkon pro FVE u distributora": rezervace
       - Ne: False
       - Nevím: "Nevím"
   - "Zajistili jste si již potřebná povolení pro výstavbu a {provoz FVE} (např. územní rozhodnutí nebo souhlas, licenci na výrobu elektřiny od ERÚ)?": Info['s3_2']
     input type: radio
     choices:
       - Ano: True
-      - "Ne, obec plánuje projekty {FVE} o instalovaném výkonu **do** 50kW": ne_pod50
+      - "Ne, obec plánuje projekty FVE o instalovaném výkonu **do** 50kW": ne_pod50
         help: |
           U instalací {FVE} do 50 kW máte vše jednodušší, zpravidla nemusíte řešit licenci na výrobu elektřiny od ERÚ, stavební povolení ani odbornou způsobilost (odpovědného zástupce). 
-      - "NE, obec plánuje projekty {FVE} o instalovaném výkonu **nad** 50kW": ne_nad50
+      - "NE, obec plánuje projekty FVE o instalovaném výkonu **nad** 50kW": ne_nad50
         help: |
           Pro {FVE} s instalovaným výkonem nad 50 kW potřebujete zažádat a získat licenci na výrobu elektřiny od ERÚ, řešit odbornou způsobilost (postup pro zisk obojího [naleznete na stránkách ERÚ](https://www.eru.cz/udeleni-licence)) i stavební povolení.
       - "Ne, instalovaným výkonem si nejsem jistý": False
       - Nevím: "maybe"
-  - "Vysoutěžili jste již dodavatele/zhotovitele {FVE} [<i class='fa-regular fa-circle-question'></i>](${url_of('help')})?": Info['s3_3']
+  - "Vysoutěžili jste již dodavatele/zhotovitele {FVE} [(?)](${url_of('help')})?": Info['s3_3']
     datatype: yesnomaybe
-  - "Zvolili jste si již odpovědného zástupce [<i class='fa-regular fa-circle-question'></i>](${url_of('help')}) u projektu {FVE} nad 50kW?": Info['s3_4']
+  - "Zvolili jste si již odpovědného zástupce [(?)](${url_of('help')}) u projektu {FVE} nad 50kW?": Info['s3_4']
     input type: radio
     choices:
       - Ano: True
