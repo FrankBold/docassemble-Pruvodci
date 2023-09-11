@@ -20,6 +20,7 @@
 .da-form-group {
     background: #eee;
     padding: 10px;
+    border-radius:0.4rem;
 }
 
 .btn-light {
@@ -37,9 +38,70 @@
 .nav-pills .nav-link {
   padding:10px;
   margin: 20px 0;
-  display:block
+  display:block;
+  border-radius: 0;
 }
 
 h1 {
   text-transform: none;
+}
+
+/* Style for the stepper container */
+.danav {
+  display: flex;
+  flex-direction: column;
+  border-left: 2px solid #333; /* Left border for the entire box */
+  padding-left: 20px; /* Adjust as needed */
+}
+
+/* Style for each step (nav-link) */
+.danavlink {
+  display: flex;
+  align-items: center;
+  margin-bottom: 20px; /* Adjust spacing between steps as needed */
+}
+
+/* Style for the step circle */
+.danavlink::before {
+  content: attr(data-index); /* Use the data-index attribute as the step number */
+  width: 30px;
+  height: 30px;
+  background-color: #333;
+  color: #fff;
+  border-radius: 50%;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  font-weight: bold;
+  font-size: 16px;
+  margin-right: 10px; /* Adjust spacing between circle and content as needed */
+  margin-left:-45px;
+  position:absolute;
+}
+
+/* Style for the active step (add .active class to the appropriate nav-link) */
+.danavlink.active::before {
+  background-color: #007bff; /* Change the color for the active step */
+}
+
+/* Hover style for the nav-link */
+.danavlink:hover {
+  text-decoration: underline;
+}
+@media (max-width: 768px) {
+  /* Adjust styles for smaller screens here */
+  .danav {
+    border-left: none; /* Remove the left border */
+    padding-left: 0; /* Remove the left padding */
+  }
+
+  /* Adjust the circle size for smaller screens */
+  .danavlink::before {
+    width: 20px;
+    height: 20px;
+    font-size: 12px;
+  }
+  .danavlink::before {
+  content: none
+}
 }
