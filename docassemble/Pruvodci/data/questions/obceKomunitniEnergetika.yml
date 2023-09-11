@@ -550,7 +550,12 @@ code: |
 ---
 event: final
 question: |
-  Odesláno
+  Analýza úspěšně odeslána
+subquestion: |
+  Děkujeme za využítí nástroje.
+buttons:
+  - Zavřít: exit
+    url: https://frankbold.org
 ---
 attachment:
   name: Analýza
