@@ -320,6 +320,11 @@ fields:
     datatype: yesnomaybe
   - "Máte již smluvně zajištěnou {správa FVE|správu} a {provoz FVE}": Info['s3_6']
     datatype: yesnomaybe
+help: 
+  label: |
+    Nápověda
+  content: |
+    ${h_pravo}
 continue button field: pravo
 check in: autosave
 ---
