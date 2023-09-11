@@ -308,9 +308,9 @@ fields:
       - Ne: False
       - "Není nutné jedná se o projekt s nižším instalovaným výkonem": "není nutné"
       - Nevím: "maybe"
-    show if:
+    hide if:
       variable: Info['s3_2']
-      is: "ne_nad50"
+      is: "ne_pod50"
   - "Registrovali jste se již u operátora trhu?": Info['s3_5']
     datatype: yesnomaybe
   - "Máte již smluvně zajištěnou {správa FVE|správu} a {provoz FVE}": Info['s3_6']
