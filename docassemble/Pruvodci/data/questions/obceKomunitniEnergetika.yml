@@ -459,30 +459,32 @@ check in: autosave
 code: |
   seznam_odpovedi = list(Info.items())
 ---
-sets: odpovedi
+sets: 
+  - odpovedi
+  - pocet_done
 event: vysledky
 code: |
   pocet_done = 0
 
-  if Info["s1_1"] and Info["s1_2"]: Krokomer[0]["icon"] = check_true; i+=1
-  if Info["s2_1"]: Krokomer[1]["icon"] = check_true; i+=1
-  if Info["s1_7"]: Krokomer[2]["icon"] = check_true; i+=1
-  if Info["s2_2"]["investice"]: Krokomer[3]["icon"] = check_true; i+=1
-  if Info["s3_1"] == "True" or Info["s3_1"] == "rezervace": Krokomer[4]["icon"] = check_true; i+=1
-  if Info["s3_6"] and Info["s1_7"]: Krokomer[5]["icon"] = check_true; i+=1
-  if (Info.get("s1_5", False) == True or Info.get("s1_5", False) == "projektant") or Info["s1_3"] == True: Krokomer[6]["icon"] = check_true; i+=1
-  if Info.get("s1_5", False) == True or Info["s1_3"] == True: Krokomer[7]["icon"] = check_true; i+=1
-  if Info.get("s3_4", False) == "True" or Info.get("s3_4", False) == "není nutné": Krokomer[8]["icon"] = check_true; i+=1
-  if Info["s3_3"] == True: Krokomer[9]["icon"] = check_true; i+=1
-  if Info["s3_2"] == "True" or Info["s3_2"] == "ne_pod50": Krokomer[10]["icon"] = check_true; i+=1
-  if Info["s1_3"] == True: Krokomer[11]["icon"] = check_true; i+=1
-  if Info["s3_5"] == True or Info["s3_5"] == "ne_nad50": Krokomer[12]["icon"] = check_true; i+=1
-  if Info["s3_5"]: Krokomer[13]["icon"] = check_true; i+=1
-  if Info["s3_1"] == "True": Krokomer[14]["icon"] = check_true; i+=1
-  if Info["s3_6"]: Krokomer[15]["icon"] = check_true; i+=1
-  if Info["s3_6"] == True: Krokomer[16]["icon"] = check_true; i+=1
-  if Info["s3_6"]: Krokomer[17]["icon"] = check_true; i+=1
-  if Info["s4_1"] == "již máme": Krokomer[18]["icon"] = check_true; i+=1
+  if Info["s1_1"] and Info["s1_2"]: Krokomer[0]["icon"] = check_true; pocet_done+=1
+  if Info["s2_1"]: Krokomer[1]["icon"] = check_true; pocet_done+=1
+  if Info["s1_7"]: Krokomer[2]["icon"] = check_true; pocet_done+=1
+  if Info["s2_2"]["investice"]: Krokomer[3]["icon"] = check_true; pocet_done+=1
+  if Info["s3_1"] == "True" or Info["s3_1"] == "rezervace": Krokomer[4]["icon"] = check_true; pocet_done+=1
+  if Info["s3_6"] and Info["s1_7"]: Krokomer[5]["icon"] = check_true; pocet_done+=1
+  if (Info.get("s1_5", False) == True or Info.get("s1_5", False) == "projektant") or Info["s1_3"] == True: Krokomer[6]["icon"] = check_true; pocet_done+=1
+  if Info.get("s1_5", False) == True or Info["s1_3"] == True: Krokomer[7]["icon"] = check_true; pocet_done+=1
+  if Info.get("s3_4", False) == "True" or Info.get("s3_4", False) == "není nutné": Krokomer[8]["icon"] = check_true; pocet_done+=1
+  if Info["s3_3"] == True: Krokomer[9]["icon"] = check_true; pocet_done+=1
+  if Info["s3_2"] == "True" or Info["s3_2"] == "ne_pod50": Krokomer[10]["icon"] = check_true; pocet_done+=1
+  if Info["s1_3"] == True: Krokomer[11]["icon"] = check_true; pocet_done+=1
+  if Info["s3_5"] == True or Info["s3_5"] == "ne_nad50": Krokomer[12]["icon"] = check_true; pocet_done+=1
+  if Info["s3_5"]: Krokomer[13]["icon"] = check_true; pocet_done+=1
+  if Info["s3_1"] == "True": Krokomer[14]["icon"] = check_true; pocet_done+=1
+  if Info["s3_6"]: Krokomer[15]["icon"] = check_true; pocet_done+=1
+  if Info["s3_6"] == True: Krokomer[16]["icon"] = check_true; pocet_done+=1
+  if Info["s3_6"]: Krokomer[17]["icon"] = check_true; pocet_done+=1
+  if Info["s4_1"] == "již máme": Krokomer[18]["icon"] = check_true; pocet_done+=1
   
   odpovedi = []
   
