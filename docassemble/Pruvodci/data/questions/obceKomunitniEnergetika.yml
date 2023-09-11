@@ -21,7 +21,6 @@ default screen parts:
   under: |
     % if show_save_resume_message:
     ${ action_button_html(url_action('save_and_resume'), label="Uložit a pokračovat později", color="secondary", size="sm", icon="floppy-disk") }
-    [Uložit a pokračovat později](${ url_action('save_and_resume') })
     % endif
 ---
 modules:
