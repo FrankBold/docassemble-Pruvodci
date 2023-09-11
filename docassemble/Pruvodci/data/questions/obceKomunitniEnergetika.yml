@@ -81,8 +81,9 @@ code: |
 ---
 code: |
   Krokomer = []
+  names = ["energetická bilance","ekonomická analýza","založení městské/obecní energetické společnosti („MES“)","začlenění investorů","rezervace výkonu","smlouvy s MES","výběr projektanta FVE","projektová dokumentace a rozpočet","ustanovení odpovědného zástupce","výběr dodavatele FVE","územní a stavební řízení","instalace FVE","licence od ERÚ","registrace u operátora trhu","smlouva o připojení","smlouva s obchodníkem s elektřinou","dodávka elektřiny z FVE","správa FVE","založení ES"]
   for i in range(19):
-    Krokomer.append({"name": "", "icon": check_false})
+    Krokomer.append({"name": names[i], "icon": check_false})
 ---
 progress: 1
 section: uvod
@@ -96,32 +97,18 @@ fields:
   - note: |
       #### O vaší obci:
   - Obec: obec
-    default: Brno
   - Kraj: kraj
     code: |
       ['Hlavní město Praha', 'Zlínský kraj', 'Liberecký kraj', 'Moravskoslezský kraj', 'Jihočeský kraj', 'Středočeský kraj', 'Jihomoravský kraj', 'Plzeňský kraj', 'Olomoucký kraj', 'Kraja Vysočina', 'Ústecký kraj', 'Karlovarský kraj', 'Pardubický kraj', 'Královéhradecký kraj']
-    default: |
-      Jihomoravský kraj
-  - note: |
-      <span id="resultsArea"></span>
   - note: |
       #### O vás:
   - Jméno a příjmení: jmeno
-    default: |
-      Jan Novák
   - Funkce: funkce
-    default: |
-      Starosta
   - E-mail: email
     datatype: email
-    default: |
-      email@email.com
   - Telefon: tel
     required: False
 continue button field: uvod
-script: |
-  <script src="${ url_of('loader.js')}" defer></script>
-  <script src="${ url_of('mapy_api_obec2.js')}" defer></script>
 ---
 event: dohledat_obec
 code: |
@@ -506,9 +493,11 @@ section: |
 question: |
   Hotovo! Analýza je připravena.
 subquestion: |
-  ${t_doporuceni}
+  % for item in Krokomer:
   
-  ${ nahled_modal }
+  ${ item["icon"] } – ${ item["name"] }
+
+  % endfor
 
   [Stáhnout PDF](${ analyza.pdf.url_for() }) (dočasné pro testing)
   [Stáhnout Word](${ analyza.url_for() }) (dočasné pro testing)
