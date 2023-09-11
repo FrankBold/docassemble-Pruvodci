@@ -90,9 +90,11 @@ section: uvod
 question: |
   Vítejte v nástroji
 subquestion: |
-  O co jde (primárně o FVE), co to umí, co čekat, co potřebujete.
+  Postup aplikací si můžete kdykoli uložit tlačítkem ve spodní části.
 
-  Na začátek jen pár informačních údajů.
+  Na základě informací z toho dotazníků vám automaticky vygenerujeme analýzu na míru zdarma.  
+
+  Nejprve několik informačních údajů.
 fields:
   - note: |
       #### O vaší obci:
@@ -460,25 +462,27 @@ code: |
 sets: odpovedi
 event: vysledky
 code: |
-  if Info["s1_1"] and Info["s1_2"]: Krokomer[0]["icon"] = check_true
-  if Info["s2_1"]: Krokomer[1]["icon"] = check_true
-  if Info["s1_7"]: Krokomer[2]["icon"] = check_true
-  if Info["s2_2"]["investice"]: Krokomer[3]["icon"] = check_true
-  if Info["s3_1"] == "True" or Info["s3_1"] == "rezervace": Krokomer[4]["icon"] = check_true
-  if Info["s3_6"] and Info["s1_7"]: Krokomer[5]["icon"] = check_true
-  if (Info.get("s1_5", False) == True or Info.get("s1_5", False) == "projektant") or Info["s1_3"] == True: Krokomer[6]["icon"] = check_true
-  if Info.get("s1_5", False) == True or Info["s1_3"] == True: Krokomer[7]["icon"] = check_true
-  if Info.get("s3_4", False) == "True" or Info.get("s3_4", False) == "není nutné": Krokomer[8]["icon"] = check_true
-  if Info["s3_3"] == True: Krokomer[9]["icon"] = check_true
-  if Info["s3_2"] == "True" or Info["s3_2"] == "ne_pod50": Krokomer[10]["icon"] = check_true
-  if Info["s1_3"] == True: Krokomer[11]["icon"] = check_true
-  if Info["s3_5"] == True or Info["s3_5"] == "ne_nad50": Krokomer[12]["icon"] = check_true
-  if Info["s3_5"]: Krokomer[13]["icon"] = check_true
-  if Info["s3_1"] == "True": Krokomer[14]["icon"] = check_true
-  if Info["s3_6"]: Krokomer[15]["icon"] = check_true
-  if Info["s3_6"] == True: Krokomer[16]["icon"] = check_true
-  if Info["s3_6"]: Krokomer[17]["icon"] = check_true
-  if Info["s4_1"] == "již máme": Krokomer[18]["icon"] = check_true
+  pocet_done = 0
+
+  if Info["s1_1"] and Info["s1_2"]: Krokomer[0]["icon"] = check_true; i+=1
+  if Info["s2_1"]: Krokomer[1]["icon"] = check_true; i+=1
+  if Info["s1_7"]: Krokomer[2]["icon"] = check_true; i+=1
+  if Info["s2_2"]["investice"]: Krokomer[3]["icon"] = check_true; i+=1
+  if Info["s3_1"] == "True" or Info["s3_1"] == "rezervace": Krokomer[4]["icon"] = check_true; i+=1
+  if Info["s3_6"] and Info["s1_7"]: Krokomer[5]["icon"] = check_true; i+=1
+  if (Info.get("s1_5", False) == True or Info.get("s1_5", False) == "projektant") or Info["s1_3"] == True: Krokomer[6]["icon"] = check_true; i+=1
+  if Info.get("s1_5", False) == True or Info["s1_3"] == True: Krokomer[7]["icon"] = check_true; i+=1
+  if Info.get("s3_4", False) == "True" or Info.get("s3_4", False) == "není nutné": Krokomer[8]["icon"] = check_true; i+=1
+  if Info["s3_3"] == True: Krokomer[9]["icon"] = check_true; i+=1
+  if Info["s3_2"] == "True" or Info["s3_2"] == "ne_pod50": Krokomer[10]["icon"] = check_true; i+=1
+  if Info["s1_3"] == True: Krokomer[11]["icon"] = check_true; i+=1
+  if Info["s3_5"] == True or Info["s3_5"] == "ne_nad50": Krokomer[12]["icon"] = check_true; i+=1
+  if Info["s3_5"]: Krokomer[13]["icon"] = check_true; i+=1
+  if Info["s3_1"] == "True": Krokomer[14]["icon"] = check_true; i+=1
+  if Info["s3_6"]: Krokomer[15]["icon"] = check_true; i+=1
+  if Info["s3_6"] == True: Krokomer[16]["icon"] = check_true; i+=1
+  if Info["s3_6"]: Krokomer[17]["icon"] = check_true; i+=1
+  if Info["s4_1"] == "již máme": Krokomer[18]["icon"] = check_true; i+=1
   
   odpovedi = []
   
@@ -509,18 +513,24 @@ section: |
 question: |
   Hotovo! Analýza je připravena.
 subquestion: |
-  % for item in Krokomer:
-  
-  ${ item["icon"] } – ${ item["name"] }
+  Vaše obec již splňuje ${ str(pocet_done) } / 19 kroků k úplné připravenosti na FVE.
 
+  % for item in Krokomer:
+  - ${ item["icon"].show(width=10) } – ${ item["name"] }
   % endfor
 
-  [Stáhnout PDF](${ analyza.pdf.url_for() }) (dočasné pro testing)
-  [Stáhnout Word](${ analyza.url_for() }) (dočasné pro testing)
+  Rovněž jsme vygenerovali podrobnější analýzu ve které najdete:
+  
+  - Podrobnosti k jednotlivým krokům.
+  - Obecné zakladní doporučení k tomu, jak dále postupovat.
+  - Rozcestník na řadu užitečných zdrojů informací.
 
-  Analýzu vám rádi zdarma zašleme na e-mail: ${ email }, ať ji máte stále k dispozici.
+  Pokud souhlasíte, analýzu vám rádi zdarma zašleme na e-mail ${ email }.
 continue button label: Pošlete mi analýzu
 continue button field: odeslat_analyzu
+under: |
+  [Stáhnout PDF](${ analyza.pdf.url_for() }) (dočasné pro testing)
+  [Stáhnout Word](${ analyza.url_for() }) (dočasné pro testing)
 ---
 code: |
   data_all = json.dumps(all_variables())
