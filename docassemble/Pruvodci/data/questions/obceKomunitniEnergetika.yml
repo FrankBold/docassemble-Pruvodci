@@ -325,6 +325,11 @@ fields:
     datatype: yesnomaybe
 continue button field: pravo
 check in: autosave
+help: 
+  label: |
+    Nápověda
+  content: |
+    ${h_pravo}
 ---
 progress: 90
 section: komunita
@@ -760,19 +765,19 @@ content: |
 		<text transform="matrix(1 0 0 1 105.6152 130.4835)" class="st3 ${kg[2][1]} st5">Založení energetické společnosti („MES“)</text>
 		<text transform="matrix(1 0 0 1 105.6152 167.4755)" class="st3 ${kg[3][1]} st5">Začlenění investorů</text>
 		<text transform="matrix(1 0 0 1 105.6152 204.4675)" class="st3 ${kg[4][1]} st5">Rezervace výkonu</text>
-		<text transform="matrix(1 0 0 1 105.6152 241.4594)" class="st3 ${kg[5][1]} st5">Smlouvy s MES</text>
+		<text transform="matrix(1 0 0 1 105.6152 241.4594)" class="st3 ${kg[5][1]} st5">Smlouvy s ES</text>
 		<text transform="matrix(1 0 0 1 105.6152 278.4514)" class="st3 ${kg[6][1]} st5">Výběr projektanta FVE</text>
 		<text transform="matrix(1 0 0 1 105.6152 315.4433)" class="st3 ${kg[7][1]} st5">Projektová dokumentace a rozpočet</text>
 		<text transform="matrix(1 0 0 1 105.6152 352.4352)" class="st3 ${kg[8][1]} st5">Ustanovení odpovědného zástupce</text>
 		<text transform="matrix(1 0 0 1 105.6152 389.4272)" class="st3 ${kg[9][1]} st5">Výběr dodavatele FVE</text>
 		<text transform="matrix(1 0 0 1 105.6152 426.4189)" class="st3 ${kg[10][1]} st5">Územní a stavební řízení</text>
 		<text transform="matrix(1 0 0 1 105.6152 463.4111)" class="st3 ${kg[11][1]} st5">Instalace FVE</text>
-		<text transform="matrix(1 0 0 1 105.6152 500.403)" class="st3 ${kg[12][1]} st5">Licence od ERU</text>
+		<text transform="matrix(1 0 0 1 105.6152 500.403)" class="st3 ${kg[12][1]} st5">Licence od ERÚ</text>
 		<text transform="matrix(1 0 0 1 105.6152 537.395)" class="st3 ${kg[13][1]} st5">Registrace u operátora trhu</text>
 		<text transform="matrix(1 0 0 1 105.6152 574.387)" class="st3 ${kg[14][1]} st5">Smlouva o připojení</text>
 		<text transform="matrix(1 0 0 1 105.6152 611.3789)" class="st3 ${kg[15][1]} st5">Smlouva s obchodníkem s elektřinou</text>
 		<text transform="matrix(1 0 0 1 105.6152 648.3708)" class="st3 ${kg[16][1]} st5">Dodávka elektřiny z FVE</text>
 		<text transform="matrix(1 0 0 1 105.6152 685.3628)" class="st3 ${kg[17][1]} st5">Správa FVE</text>
-		<text transform="matrix(1 0 0 1 105.6152 722.3547)" class="st3 ${kg[18][1]} st5">Založení energetické společnosti</text>
+		<text transform="matrix(1 0 0 1 105.6152 722.3547)" class="st3 ${kg[18][1]} st5">Založení energetického společenství</text>
 	</g>
 	</svg>

@@ -112,3 +112,8 @@ h1 {
   content: none
 }
 }
+
+.da-button-set .da-field-buttons {
+  display: flex;
+  justify-content: space-between;
+}
