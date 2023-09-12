@@ -11,7 +11,7 @@ features:
   labels above fields: True
   question back button: True
   navigation back button: False
-  progress bar: True
+  progress bar: False
   hide standard menu: True
   navigation: True
   hide navbar: True
@@ -40,6 +40,7 @@ objects:
   - check_true: DAStaticFile.using(filename='icon_check_true.png')
   - check_false: DAStaticFile.using(filename='icon_check_false.png')
   - otazky_seznam: DAStaticFile.using(filename='energo_obce_otazky.json')
+  - krokomer_svg: DAFile
 ---
 include:
  - obceKomunitniEnergetika_help.yml
@@ -52,6 +53,8 @@ code: |
   show_save_resume_message = True
   multi_user = True
   nav.progressive = False
+  krokomer_svg.initialize(filename="krokomer.svg")
+  krokomer_svg.set_mimetype("image/svg+xml")
 ---
 scan for variables: False
 mandatory: True
@@ -83,7 +86,7 @@ code: |
   Krokomer = []
   names = ["energetická bilance","ekonomická analýza","založení městské/obecní energetické společnosti („MES“)","začlenění investorů","rezervace výkonu","smlouvy s MES","výběr projektanta FVE","projektová dokumentace a rozpočet","ustanovení odpovědného zástupce","výběr dodavatele FVE","územní a stavební řízení","instalace FVE","licence od ERÚ","registrace u operátora trhu","smlouva o připojení","smlouva s obchodníkem s elektřinou","dodávka elektřiny z FVE","správa FVE","založení ES"]
   for i in range(19):
-    Krokomer.append({"name": names[i], "icon": check_false})
+    Krokomer.append({"name": names[i], "icon": check_false, "value": False})
 ---
 progress: 1
 section: uvod
@@ -320,11 +323,6 @@ fields:
     datatype: yesnomaybe
   - "Máte již smluvně zajištěnou {správa FVE|správu} a {provoz FVE}": Info['s3_6']
     datatype: yesnomaybe
-help: 
-  label: |
-    Nápověda
-  content: |
-    ${h_pravo}
 continue button field: pravo
 check in: autosave
 ---
@@ -464,32 +462,30 @@ check in: autosave
 code: |
   seznam_odpovedi = list(Info.items())
 ---
-sets: 
-  - odpovedi
-  - pocet_done
+sets: odpovedi
 event: vysledky
 code: |
   pocet_done = 0
 
-  if Info["s1_1"] and Info["s1_2"]: Krokomer[0]["icon"] = check_true; pocet_done+=1
-  if Info["s2_1"]: Krokomer[1]["icon"] = check_true; pocet_done+=1
-  if Info["s1_7"]: Krokomer[2]["icon"] = check_true; pocet_done+=1
-  if Info["s2_2"]["investice"]: Krokomer[3]["icon"] = check_true; pocet_done+=1
-  if Info["s3_1"] == "True" or Info["s3_1"] == "rezervace": Krokomer[4]["icon"] = check_true; pocet_done+=1
-  if Info["s3_6"] and Info["s1_7"]: Krokomer[5]["icon"] = check_true; pocet_done+=1
-  if (Info.get("s1_5", False) == True or Info.get("s1_5", False) == "projektant") or Info["s1_3"] == True: Krokomer[6]["icon"] = check_true; pocet_done+=1
-  if Info.get("s1_5", False) == True or Info["s1_3"] == True: Krokomer[7]["icon"] = check_true; pocet_done+=1
-  if Info.get("s3_4", False) == "True" or Info.get("s3_4", False) == "není nutné": Krokomer[8]["icon"] = check_true; pocet_done+=1
-  if Info["s3_3"] == True: Krokomer[9]["icon"] = check_true; pocet_done+=1
-  if Info["s3_2"] == "True" or Info["s3_2"] == "ne_pod50": Krokomer[10]["icon"] = check_true; pocet_done+=1
-  if Info["s1_3"] == True: Krokomer[11]["icon"] = check_true; pocet_done+=1
-  if Info["s3_5"] == True or Info["s3_5"] == "ne_nad50": Krokomer[12]["icon"] = check_true; pocet_done+=1
-  if Info["s3_5"]: Krokomer[13]["icon"] = check_true; pocet_done+=1
-  if Info["s3_1"] == "True": Krokomer[14]["icon"] = check_true; pocet_done+=1
-  if Info["s3_6"]: Krokomer[15]["icon"] = check_true; pocet_done+=1
-  if Info["s3_6"] == True: Krokomer[16]["icon"] = check_true; pocet_done+=1
-  if Info["s3_6"]: Krokomer[17]["icon"] = check_true; pocet_done+=1
-  if Info["s4_1"] == "již máme": Krokomer[18]["icon"] = check_true; pocet_done+=1
+  if Info["s1_1"] and Info["s1_2"]: Krokomer[0]["icon"] = check_true; i+=1; Krokomer[0]["value"] = True
+  if Info["s2_1"]: Krokomer[1]["icon"] = check_true; i+=1; Krokomer[1]["value"] = True
+  if Info["s1_7"]: Krokomer[2]["icon"] = check_true; i+=1; Krokomer[2]["value"] = True
+  if Info["s2_2"]["investice"]: Krokomer[3]["icon"] = check_true; i+=1; Krokomer[3]["value"] = True
+  if Info["s3_1"] == "True" or Info["s3_1"] == "rezervace": Krokomer[4]["icon"] = check_true; i+=1; Krokomer[4]["value"] = True
+  if Info["s3_6"] and Info["s1_7"]: Krokomer[5]["icon"] = check_true; i+=1; Krokomer[5]["value"] = True
+  if (Info.get("s1_5", False) == True or Info.get("s1_5", False) == "projektant") or Info["s1_3"] == True: Krokomer[6]["icon"] = check_true; i+=1; Krokomer[6]["value"] = True
+  if Info.get("s1_5", False) == True or Info["s1_3"] == True: Krokomer[7]["icon"] = check_true; i+=1; Krokomer[7]["value"] = True
+  if Info.get("s3_4", False) == "True" or Info.get("s3_4", False) == "není nutné": Krokomer[8]["icon"] = check_true; i+=1; Krokomer[8]["value"] = True
+  if Info["s3_3"] == True: Krokomer[9]["icon"] = check_true; i+=1; Krokomer[9]["value"] = True
+  if Info["s3_2"] == "True" or Info["s3_2"] == "ne_pod50": Krokomer[10]["icon"] = check_true; i+=1; Krokomer[10]["value"] = True
+  if Info["s1_3"] == True: Krokomer[11]["icon"] = check_true; i+=1; Krokomer[11]["value"] = True
+  if Info["s3_5"] == True or Info["s3_5"] == "ne_nad50": Krokomer[12]["icon"] = check_true; i+=1; Krokomer[12]["value"] = True
+  if Info["s3_5"]: Krokomer[13]["icon"] = check_true; i+=1; Krokomer[13]["value"] = True
+  if Info["s3_1"] == "True": Krokomer[14]["icon"] = check_true; i+=1; Krokomer[14]["value"] = True
+  if Info["s3_6"]: Krokomer[15]["icon"] = check_true; i+=1; Krokomer[15]["value"] = True
+  if Info["s3_6"] == True: Krokomer[16]["icon"] = check_true; i+=1; Krokomer[16]["value"] = True
+  if Info["s3_6"]: Krokomer[17]["icon"] = check_true; i+=1; Krokomer[17]["value"] = True
+  if Info["s4_1"] == "již máme": Krokomer[18]["icon"] = check_true; i+=1; Krokomer[18]["value"] = True
   
   odpovedi = []
   
@@ -512,6 +508,15 @@ code: |
       odpoved+=[values["question"], "", False]
       
     odpovedi.append({keys: odpoved})
+    
+    kg = []
+    for item in Krokomer:
+      if item["value"]:
+        kg.append(["st1", "st4"])
+      else:
+        kg.append(["st2", "st6"])
+    
+    krokomer_svg.write(svg_s.content)
 ---
 progress: 100
 event: final
@@ -522,9 +527,7 @@ question: |
 subquestion: |
   Vaše obec již splňuje ${ str(pocet_done) } / 19 kroků k úplné připravenosti na FVE.
 
-  % for item in Krokomer:
-  - ${ item["icon"].show(width=10) } – ${ item["name"] }
-  % endfor
+  ${ krokomer_svg.show(width="100%") }
 
   Rovněž jsme vygenerovali podrobnější analýzu ve které najdete:
   
@@ -550,12 +553,7 @@ code: |
 ---
 event: final
 question: |
-  Analýza úspěšně odeslána
-subquestion: |
-  Děkujeme za využítí nástroje.
-buttons:
-  - Zavřít: exit
-    url: https://frankbold.org
+  Odesláno
 ---
 attachment:
   name: Analýza
@@ -628,3 +626,153 @@ content: |
       </div>
     </div>
   </div>
+---
+template: svg_s
+content: |
+	<?xml version="1.0" encoding="utf-8"?>
+	<!-- Generator: Adobe Illustrator 27.8.1, SVG Export Plug-In . SVG Version: 6.00 Build 0)  -->
+	<svg version="1.1" id="Layer_1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" x="0px" y="0px"
+		viewBox="0 0 636 768" style="enable-background:new 0 0 636 768;" xml:space="preserve">
+	<style type="text/css">
+		.st0{fill:none;stroke:#1D1D1B;stroke-miterlimit:10;}
+		.st1{fill:#66BC9A;stroke:#20252E;stroke-miterlimit:10;}
+		.st2{fill:#FFFFFF;stroke:#20252E;stroke-miterlimit:10;}
+		.st3{fill:#20252E;}
+		.st4{font-family:'Open Sans';}
+		.st5{font-size:18px;}
+		.st6{font-family:'Open Sans'; font-weight:bold}
+	</style>
+	<g id="Grafika">
+		<line class="st0" x1="83.9" y1="50" x2="83.9" y2="715.5"/>
+		<circle class="${kg[0][0]}" cx="83.9" cy="48.8" r="9.4"/>
+		<circle class="${kg[1][0]}" cx="83.9" cy="85.8" r="9.4"/>
+		<circle class="${kg[2][0]}" cx="83.9" cy="122.8" r="9.4"/>
+		<circle class="${kg[3][0]}" cx="83.9" cy="159.8" r="9.4"/>
+		<circle class="${kg[4][0]}" cx="83.9" cy="196.8" r="9.4"/>
+		<circle class="${kg[5][0]}" cx="83.9" cy="233.8" r="9.4"/>
+		<circle class="${kg[6][0]}" cx="83.9" cy="270.8" r="9.4"/>
+		<circle class="${kg[7][0]}" cx="83.9" cy="307.7" r="9.4"/>
+		<circle class="${kg[8][0]}" cx="83.9" cy="344.7" r="9.4"/>
+		<circle class="${kg[9][0]}" cx="83.9" cy="381.7" r="9.4"/>
+		<circle class="${kg[10][0]}" cx="83.9" cy="418.7" r="9.4"/>
+		<circle class="${kg[11][0]}" cx="83.9" cy="455.7" r="9.4"/>
+		<circle class="${kg[12][0]}" cx="83.9" cy="492.7" r="9.4"/>
+		<circle class="${kg[13][0]}" cx="83.9" cy="529.7" r="9.4"/>
+		<circle class="${kg[14][0]}" cx="83.9" cy="566.7" r="9.4"/>
+		<circle class="${kg[15][0]}" cx="83.9" cy="603.7" r="9.4"/>
+		<circle class="${kg[16][0]}" cx="83.9" cy="640.7" r="9.4"/>
+		<circle class="${kg[17][0]}" cx="83.9" cy="677.7" r="9.4"/>
+		<circle class="${kg[18][0]}" cx="83.9" cy="714.7" r="9.4"/>
+	</g>
+	<g id="Texty">
+		<g>
+			<path class="st3" d="M83.4,46.7l-2,1.2l-0.3-1.3l2.4-1.4H85v8.2h-1.6V46.7z"/>
+		</g>
+		<g>
+			<path class="st3" d="M81,89.2c2.3-1.9,3.9-3.4,3.9-4.6c0-0.7-0.4-1.2-1.2-1.2c-0.3,0-0.7,0.1-1.1,0.2v1.5l-1.3,0.3l-0.1-2.5
+				c0.9-0.5,1.8-0.7,2.8-0.7c1.7,0,2.7,1,2.7,2.4c0,1.5-1.6,3.2-3.6,4.7h3.8l-0.1,1.2H81V89.2z"/>
+		</g>
+		<g>
+			<path class="st3" d="M81.2,125.5c0.9,0.5,1.7,0.7,2.4,0.7c0.9,0,1.5-0.4,1.5-1.2c0-0.7-0.6-1.2-1.5-1.2h-0.9v-1.3h0.7
+				c0.9,0,1.4-0.5,1.4-1.2s-0.5-1.1-1.3-1.1c-0.6,0-1.2,0.1-2.2,0.6l-0.3-1.3c0.9-0.4,1.8-0.6,2.7-0.6c1.6,0,2.7,0.8,2.7,2.2
+				c0,0.8-0.5,1.6-1.3,2c0.9,0.3,1.5,1,1.5,2c0,1.5-1.3,2.3-3,2.3c-1,0-2.1-0.3-2.9-0.7L81.2,125.5z"/>
+		</g>
+		<g>
+			<path class="st3" d="M80.7,161.3l2.4-5.2h1.7l-2.6,5.2h2l0.3-1.8l1.3-0.2v2h1.3l-0.1,1.3h-1.2v1.8h-1.5v-1.8h-3.5v-1.3H80.7z"/>
+		</g>
+		<g>
+			<path class="st3" d="M81.3,199.6c0.7,0.3,1.5,0.5,2.2,0.5c0.8,0,1.5-0.5,1.5-1.4c0-1.2-1.1-1.6-3.3-1.1l-0.3-0.2l0.3-4.5h4.6
+				l-0.1,1.2h-3.3l-0.1,2.1c2.6-0.7,3.9,0.6,3.9,2.3s-1.2,2.7-3.1,2.7c-0.9,0-1.8-0.2-2.5-0.5L81.3,199.6z"/>
+		</g>
+		<g>
+			<path class="st3" d="M85.3,229.9L86,231c-1.8,0.7-2.7,1.6-3.1,2.8c0.6-0.4,1.2-0.6,1.8-0.6c1.4,0,2.4,1.1,2.4,2.5
+				c0,1.5-1.1,2.7-3.1,2.7s-3-1.4-3-3.1C80.8,233,82.5,230.7,85.3,229.9z M82.5,235.3c0,1.1,0.5,1.9,1.4,1.9c0.7,0,1.4-0.5,1.4-1.5
+				c0-0.8-0.6-1.3-1.3-1.3c-0.3,0-0.8,0.1-1.5,0.5C82.5,235,82.5,235.2,82.5,235.3z"/>
+		</g>
+		<g>
+			<path class="st3" d="M81.1,267h5.5v1.2l-2.8,7H82l2.3-5.3l0.8-1.7h-4V267z M82.5,269.8l-1.3,0.3l-0.1-1.8h1.4V269.8z"/>
+		</g>
+		<g>
+			<path class="st3" d="M82.4,307.9c-0.7-0.4-1.3-1-1.3-1.9c0-1.2,1.2-2.2,2.8-2.2c1.8,0,2.8,0.9,2.8,2c0,0.8-0.6,1.4-1.5,1.9
+				c0.9,0.4,1.8,1.1,1.8,2.2c0,1.4-1.6,2.4-3.1,2.4c-2,0-3.1-1-3.1-2.2C80.8,309.1,81.4,308.5,82.4,307.9z M83.4,308.4
+				c-0.6,0.4-1,0.9-1,1.5s0.6,1.2,1.4,1.2s1.5-0.6,1.5-1.2C85.3,309.2,84.4,308.9,83.4,308.4z M84.2,307.4c0.7-0.4,0.9-0.9,0.9-1.4
+				c0-0.6-0.5-1-1.3-1c-0.6,0-1.3,0.3-1.3,1C82.6,306.7,83.3,307,84.2,307.4z"/>
+		</g>
+		<g>
+			<path class="st3" d="M83.9,340.8c1.9,0,3,1.4,3,3.1c0,2.2-1.7,4.6-4.4,5.4l-0.7-1.1c1.8-0.7,2.7-1.6,3.1-2.8
+				c-0.6,0.4-1.2,0.6-1.8,0.6c-1.4,0-2.4-1.1-2.4-2.5C80.8,342.1,82,340.8,83.9,340.8z M83.7,344.8c0.3,0,0.8-0.1,1.5-0.5
+				c0-0.1,0-0.3,0-0.4c0-1.1-0.5-1.9-1.4-1.9c-0.7,0-1.4,0.5-1.4,1.5C82.5,344.3,83.1,344.8,83.7,344.8z"/>
+		</g>
+		<g>
+			<path class="st3" d="M80.2,379.5l-2,1.2l-0.3-1.3l2.4-1.4h1.5v8.2h-1.6V379.5z"/>
+			<path class="st3" d="M86.5,377.8c1.9,0,3.3,1.7,3.3,4.3s-1.4,4.3-3.3,4.3s-3.3-1.7-3.3-4.3S84.6,377.8,86.5,377.8z M86.5,385.1
+				c0.9,0,1.6-1.2,1.6-3s-0.7-3-1.6-3s-1.6,1.2-1.6,3S85.6,385.1,86.5,385.1z"/>
+		</g>
+		<g>
+			<path class="st3" d="M81.7,416.5l-2,1.2l-0.3-1.3l2.4-1.4h1.5v8.2h-1.6V416.5z"/>
+			<path class="st3" d="M86.7,416.5l-2,1.2l-0.3-1.3l2.4-1.4h1.5v8.2h-1.6V416.5z"/>
+		</g>
+		<g>
+			<path class="st3" d="M80.6,453.5l-2,1.2l-0.3-1.3l2.4-1.4h1.5v8.2h-1.6V453.5z"/>
+			<path class="st3" d="M83.6,458.9c2.3-1.9,3.9-3.4,3.9-4.6c0-0.7-0.4-1.2-1.2-1.2c-0.3,0-0.7,0.1-1.1,0.2v1.5l-1.3,0.3l-0.1-2.5
+				c0.9-0.5,1.8-0.7,2.8-0.7c1.7,0,2.7,1,2.7,2.4c0,1.5-1.6,3.2-3.6,4.7h3.8l-0.1,1.2h-5.7v-1.3H83.6z"/>
+		</g>
+		<g>
+			<path class="st3" d="M80.7,490.4l-2,1.2l-0.3-1.3l2.4-1.4h1.5v8.2h-1.6V490.4z"/>
+			<path class="st3" d="M83.8,495.3c0.9,0.5,1.7,0.7,2.4,0.7c0.9,0,1.5-0.4,1.5-1.2c0-0.7-0.6-1.2-1.5-1.2h-0.9v-1.3H86
+				c0.9,0,1.4-0.5,1.4-1.2s-0.5-1.1-1.3-1.1c-0.6,0-1.2,0.1-2.2,0.6l-0.3-1.3c0.9-0.4,1.8-0.6,2.7-0.6c1.6,0,2.7,0.8,2.7,2.2
+				c0,0.8-0.5,1.6-1.3,2c0.9,0.3,1.5,1,1.5,2c0,1.5-1.3,2.3-3,2.3c-1,0-2.1-0.3-2.9-0.7L83.8,495.3z"/>
+		</g>
+		<g>
+			<path class="st3" d="M80.4,527.4l-2,1.2l-0.3-1.3l2.4-1.4H82v8.2h-1.6V527.4z"/>
+			<path class="st3" d="M83.2,531l2.4-5.2h1.7l-2.6,5.2h2l0.3-1.8l1.3-0.2v2h1.3l-0.1,1.3h-1.2v1.8h-1.5v-1.8h-3.5V531H83.2z"/>
+		</g>
+		<g>
+			<path class="st3" d="M80.7,564.3l-2,1.2l-0.3-1.3l2.4-1.4h1.5v8.2h-1.6V564.3z"/>
+			<path class="st3" d="M84,569.4c0.7,0.3,1.5,0.5,2.2,0.5c0.8,0,1.5-0.5,1.5-1.4c0-1.2-1.1-1.6-3.3-1.1l-0.3-0.2l0.3-4.5H89
+				l-0.1,1.2h-3.3l-0.1,2.1c2.6-0.7,3.9,0.6,3.9,2.3s-1.2,2.7-3.1,2.7c-0.9,0-1.8-0.2-2.5-0.5L84,569.4z"/>
+		</g>
+		<g>
+			<path class="st3" d="M80.4,601.4l-2,1.2l-0.3-1.3l2.4-1.4H82v8.2h-1.6V601.4z"/>
+			<path class="st3" d="M87.9,599.7l0.7,1.1c-1.8,0.7-2.7,1.6-3.1,2.8c0.6-0.4,1.2-0.6,1.8-0.6c1.4,0,2.4,1.1,2.4,2.5
+				c0,1.5-1.1,2.7-3.1,2.7s-3-1.4-3-3.1C83.5,602.8,85.2,600.5,87.9,599.7z M85.2,605.1c0,1.1,0.5,1.9,1.4,1.9c0.7,0,1.4-0.5,1.4-1.5
+				c0-0.8-0.6-1.3-1.3-1.3c-0.3,0-0.8,0.1-1.5,0.5C85.2,604.8,85.2,604.9,85.2,605.1z"/>
+		</g>
+		<g>
+			<path class="st3" d="M80.8,638.3l-2,1.2l-0.3-1.3l2.4-1.4h1.5v8.2h-1.6V638.3z"/>
+			<path class="st3" d="M83.7,636.8h5.5v1.2l-2.8,7h-1.8l2.3-5.3l0.8-1.7h-4V636.8z M85.1,639.6l-1.3,0.3l-0.1-1.8h1.4V639.6z"/>
+		</g>
+		<g>
+			<path class="st3" d="M80.4,675.3l-2,1.2l-0.3-1.3l2.4-1.4H82v8.2h-1.6V675.3z"/>
+			<path class="st3" d="M85,677.7c-0.7-0.4-1.3-1-1.3-1.9c0-1.2,1.2-2.2,2.8-2.2c1.8,0,2.8,0.9,2.8,2c0,0.8-0.6,1.4-1.5,1.9
+				c0.9,0.4,1.8,1.1,1.8,2.2c0,1.4-1.6,2.4-3.1,2.4c-2,0-3.1-1-3.1-2.2C83.4,678.9,84.1,678.2,85,677.7z M86.1,678.2
+				c-0.6,0.4-1,0.9-1,1.5s0.6,1.2,1.4,1.2s1.5-0.6,1.5-1.2C88,679,87.1,678.6,86.1,678.2z M86.9,677.1c0.7-0.4,0.9-0.9,0.9-1.4
+				c0-0.6-0.5-1-1.3-1c-0.6,0-1.3,0.3-1.3,1C85.3,676.4,86,676.8,86.9,677.1z"/>
+		</g>
+		<g>
+			<path class="st3" d="M80.5,712.3l-2,1.2l-0.3-1.3l2.4-1.4h1.5v8.2h-1.6V712.3z"/>
+			<path class="st3" d="M86.5,710.6c1.9,0,3,1.4,3,3.1c0,2.2-1.7,4.6-4.4,5.4l-0.7-1.1c1.8-0.7,2.7-1.6,3.1-2.8
+				c-0.6,0.4-1.2,0.6-1.8,0.6c-1.4,0-2.4-1.1-2.4-2.5C83.4,711.8,84.6,710.6,86.5,710.6z M86.4,714.6c0.3,0,0.8-0.1,1.5-0.5
+				c0-0.1,0-0.3,0-0.4c0-1.1-0.5-1.9-1.4-1.9c-0.7,0-1.4,0.5-1.4,1.5C85.1,714.1,85.7,714.6,86.4,714.6z"/>
+		</g>
+		<text transform="matrix(1 0 0 1 105.6152 56.4997)" class="st3 ${kg[0][1]} st5">Energetická bilance</text>
+		<text transform="matrix(1 0 0 1 105.6152 93.4916)" class="st3 ${kg[1][1]} st5">Ekonomická analýza</text>
+		<text transform="matrix(1 0 0 1 105.6152 130.4835)" class="st3 ${kg[2][1]} st5">Založení energetické společnosti („MES“)</text>
+		<text transform="matrix(1 0 0 1 105.6152 167.4755)" class="st3 ${kg[3][1]} st5">Začlenění investorů</text>
+		<text transform="matrix(1 0 0 1 105.6152 204.4675)" class="st3 ${kg[4][1]} st5">Rezervace výkonu</text>
+		<text transform="matrix(1 0 0 1 105.6152 241.4594)" class="st3 ${kg[5][1]} st5">Smlouvy s MES</text>
+		<text transform="matrix(1 0 0 1 105.6152 278.4514)" class="st3 ${kg[6][1]} st5">Výběr projektanta FVE</text>
+		<text transform="matrix(1 0 0 1 105.6152 315.4433)" class="st3 ${kg[7][1]} st5">Projektová dokumentace a rozpočet</text>
+		<text transform="matrix(1 0 0 1 105.6152 352.4352)" class="st3 ${kg[8][1]} st5">Ustanovení odpovědného zástupce</text>
+		<text transform="matrix(1 0 0 1 105.6152 389.4272)" class="st3 ${kg[9][1]} st5">Výběr dodavatele FVE</text>
+		<text transform="matrix(1 0 0 1 105.6152 426.4189)" class="st3 ${kg[10][1]} st5">Územní a stavební řízení</text>
+		<text transform="matrix(1 0 0 1 105.6152 463.4111)" class="st3 ${kg[11][1]} st5">Instalace FVE</text>
+		<text transform="matrix(1 0 0 1 105.6152 500.403)" class="st3 ${kg[12][1]} st5">Licence od ERU</text>
+		<text transform="matrix(1 0 0 1 105.6152 537.395)" class="st3 ${kg[13][1]} st5">Registrace u operátora trhu</text>
+		<text transform="matrix(1 0 0 1 105.6152 574.387)" class="st3 ${kg[14][1]} st5">Smlouva o připojení</text>
+		<text transform="matrix(1 0 0 1 105.6152 611.3789)" class="st3 ${kg[15][1]} st5">Smlouva s obchodníkem s elektřinou</text>
+		<text transform="matrix(1 0 0 1 105.6152 648.3708)" class="st3 ${kg[16][1]} st5">Dodávka elektřiny z FVE</text>
+		<text transform="matrix(1 0 0 1 105.6152 685.3628)" class="st3 ${kg[17][1]} st5">Správa FVE</text>
+		<text transform="matrix(1 0 0 1 105.6152 722.3547)" class="st3 ${kg[18][1]} st5">Založení energetické společnosti</text>
+	</g>
+	</svg>
