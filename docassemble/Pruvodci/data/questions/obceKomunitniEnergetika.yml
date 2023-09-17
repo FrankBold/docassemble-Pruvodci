@@ -26,6 +26,7 @@ default screen parts:
 modules:
   - .integrace
   - .seznamObci
+  - .extract_pdf
 ---
 sections:
   - uvod: Úvod
@@ -37,8 +38,8 @@ sections:
 ---
 objects:
   - Info: DADict.using(gathered=True)
-  - check_true: DAStaticFile.using(filename='icon_check_true.png')
-  - check_false: DAStaticFile.using(filename='icon_check_false.png')
+  - check_true: DAStaticFile.using(filename='icon_true.png')
+  - check_false: DAStaticFile.using(filename='icon_false.png')
   - otazky_seznam: DAStaticFile.using(filename='energo_obce_otazky.json')
   - krokomer_svg: DAFile
 ---
@@ -76,6 +77,7 @@ code: |
   pravo
   komunita
   odpovedi
+  drive_id
   odeslat_analyzu
   odeslat_analyzu_code
 ---
@@ -492,6 +494,32 @@ code: |
   if Info["s3_6"]: Krokomer[17]["icon"] = check_true; pocet_done+=1; Krokomer[17]["value"] = True
   if Info["s4_1"] == "již máme": Krokomer[18]["icon"] = check_true; pocet_done+=1; Krokomer[18]["value"] = True
   
+  zakladni_rady = [5,6,7,8,9,10,11,12,13,14]
+
+  if Info["s1_3"] and Info["s1_7"]:
+    zakladni_rady.remove(5)
+  elif Info["s1_3"] and Info["s1_7"] != True:
+    zakladni_rady.remove(6)
+  elif Info["s1_4"] != True:
+    zakladni_rady.remove(7)
+    
+  if Info["s2_1"]:
+    zakladni_rady.remove(8)
+  elif Info["s2_1"] != True:
+    zakladni_rady.remove(9)
+    
+  if Info["s1_3"]:
+    zakladni_rady.remove(10)
+  elif Info["s1_3"] != True:
+    zakladni_rady.remove(11)
+    
+  if Info["s4_1"] == "již máme":
+    zakladni_rady.remove(12)
+  elif Info["s4_1"] == "plánujeme":
+    zakladni_rady.remove(13)
+  else:
+    zakladni_rady.remove(14)
+
   odpovedi = []
   
   preklad={True: "Ano", False: "Ne", None: "Nevím", "True": "Ano", "False": "Ne", "maybe": "Nevím"}
@@ -523,6 +551,10 @@ code: |
     
     krokomer_svg.write(svg_s.content)
 ---
+sets: drive_id
+code: |
+  drive_id = extract_pdf_pages(analyza_pdf, energie_otazky, zakladni_rady)
+---
 progress: 100
 event: final
 section: |
@@ -543,16 +575,13 @@ subquestion: |
   Pokud souhlasíte, analýzu vám rádi zdarma zašleme na e-mail ${ email }.
 continue button label: Pošlete mi analýzu
 continue button field: odeslat_analyzu
-under: |
-  [Stáhnout PDF](${ analyza.pdf.url_for() }) (dočasné pro testing)
-  [Stáhnout Word](${ analyza.url_for() }) (dočasné pro testing)
 ---
 code: |
   data_all = json.dumps(all_variables())
 ---
 event: odeslat_analyzu_code
 code: |
-  vzor_data = analyza.pdf.url_for(temporary=True, seconds=60)
+  vzor_data = analyza_pdf.url_for(temporary=True, seconds=60)
   emailOdeslan = odeslat_sendgrid('https://hook.eu1.make.com/fri3t2nhfysltlu2qh8esk5vy9ijv85w', data_all)
   final
 ---
@@ -561,13 +590,64 @@ question: |
   Odesláno
 ---
 attachment:
+  name: Otázky
+  filename: otazky
+  variable name: energie_otazky
+  docx template file: energie_otazky.docx
+  valid formats:
+    - pdf
+---
+attachment:
   name: Analýza
   filename: Analyza
-  variable name: analyza
-  docx template file: Analyza_Obce_Energetika.docx
-  valid formats:
-    - docx
-    - pdf
+  variable name: analyza_pdf
+  pdf template file: energie_obce_analyza.pdf
+  pdf/a: True
+  fields:
+    - krok_1: |
+        ${ Krokomer[0]["icon"] }
+    - krok_2: |
+        ${ Krokomer[1]["icon"] } 
+    - krok_3: |
+        ${ Krokomer[2]["icon"] } 
+    - krok_4: |
+        ${ Krokomer[3]["icon"] }
+    - krok_5: |
+        ${ Krokomer[4]["icon"] } 
+    - krok_6: |
+        ${ Krokomer[5]["icon"] } 
+    - krok_7: |
+        ${ Krokomer[6]["icon"] } 
+    - krok_8: |
+        ${ Krokomer[7]["icon"] } 
+    - krok_9: |
+        ${ Krokomer[8]["icon"] } 
+    - krok_10: |
+        ${ Krokomer[9]["icon"] } 
+    - krok_11: |
+        ${ Krokomer[10]["icon"] } 
+    - krok_12: |
+        ${ Krokomer[11]["icon"] } 
+    - krok_13: |
+        ${ Krokomer[12]["icon"] } 
+    - krok_14: |
+        ${ Krokomer[13]["icon"] } 
+    - krok_15: |
+        ${ Krokomer[14]["icon"] } 
+    - krok_16: |
+        ${ Krokomer[15]["icon"] } 
+    - krok_17: |
+        ${ Krokomer[16]["icon"] } 
+    - krok_18: |
+        ${ Krokomer[17]["icon"] } 
+    - krok_19: |
+        ${ Krokomer[18]["icon"] } 
+    - kroky: |
+        Splnili jste ${ str(pocet_done) } z 19 kroků.
+    - obec: |
+        ${ obec }
+    - progress: |
+       [FILE ${ str(pocet_done) }.png]
 ---
 event: save_and_resume
 code: |
