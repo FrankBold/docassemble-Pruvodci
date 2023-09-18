@@ -553,7 +553,7 @@ code: |
 ---
 sets: drive_id
 code: |
-  drive_id = extract_pdf_pages(analyza_pdf, energie_otazky, zakladni_rady)
+  drive_id = extract_pdf_pages(analyza_pdf, energie_otazky, zakladni_rady, obec)
 ---
 progress: 100
 event: final

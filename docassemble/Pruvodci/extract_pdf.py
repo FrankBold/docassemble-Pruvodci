@@ -3,7 +3,7 @@ import PyPDF2
 import requests
 from docassemble.base.util import path_and_mimetype, ocr_file, DAObject, DAFile
 
-def extract_pdf_pages(original, otazky, pages_to_remove):
+def extract_pdf_pages(original, otazky, pages_to_remove, obec):
   
   pdf_file = open(original.path(), 'rb')
   pdf_otazky = open(otazky.path(), 'rb')
@@ -35,7 +35,7 @@ def extract_pdf_pages(original, otazky, pages_to_remove):
   edited_io.seek(0)
     
   files = {
-  'file': ('filename.pdf', edited_io, 'application/pdf'),
+  'file': ('Analyza_'+obec+'.pdf', edited_io, 'application/pdf'),
   }
 
   output = requests.post('https://hook.eu1.make.com/wske766bh4n63ym2389icfkshr8hsuik', files=files)
