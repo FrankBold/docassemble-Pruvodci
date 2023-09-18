@@ -645,7 +645,7 @@ attachment:
     - kroky: |
         Splnili jste ${ str(pocet_done) } z 19 kroků.
     - obec: |
-        ${ obec }
+        ${ obec.encode('utf-8') }
     - progress: |
        [FILE ${ str(pocet_done) }.png]
 ---
