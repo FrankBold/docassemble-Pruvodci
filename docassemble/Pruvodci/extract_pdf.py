@@ -18,11 +18,6 @@ def extract_pdf_pages(original, otazky, pages_to_remove, obec):
                     pdf_writer.pages.append(page_otazky)
             
             pdf_writer.pages.append(page)
-
-    # Set the PDF to be read-only
-    pdf_writer.save_to_stream()
-    pdf_temp = pikepdf.Pdf.open_stream(pdf_writer.stream())
-    pdf_temp.save_to_stream(encryption=pikepdf.Encryption(owner='', user='', R=4, allow=pikepdf.Permissions.none))
     
     edited_io = io.BytesIO()
     
