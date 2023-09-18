@@ -533,9 +533,9 @@ code: |
         odpoved+=[values["question"], ", ".join(Info[keys].true_values()).capitalize()]
       else:
         try: 
-          odpoved+=[values["question"], preklad[Info[keys]].capitalize()]
+          odpoved+=[values["question"], str(preklad[Info[keys]]).capitalize()]
         except:
-          odpoved+=[values["question"], Info[keys].capitalize()]
+          odpoved+=[values["question"], str(Info[keys]).capitalize()]
       odpoved.append(True)
     else:
       odpoved+=[values["question"], "", False]
