@@ -19,7 +19,16 @@ def extract_pdf_pages(original, otazky, pages_to_remove, obec):
             
             pdf_writer.pages.append(page)
 
-    pdf_writer.pdf[pikepdf.Info.Info]['/Permissions'] = pikepdf.Permissions.ReadOnly
+    # Set the PDF to be read-only
+    pdf_writer.save('temp.pdf')
+    pdf_temp = pikepdf.open('temp.pdf')
+    pdf_temp.save('final.pdf', encryption=pikepdf.Encryption(owner='', user='', R=4, allow=pikepdf.Permissions.none))
+    
+    edited_io = io.BytesIO()
+    
+    # Save the edited PDF to the BytesIO stream
+    with open('final.pdf', 'rb') as f:
+        edited_io.write(f.read())
     
     edited_io = io.BytesIO()
     
