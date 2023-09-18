@@ -18,6 +18,8 @@ def extract_pdf_pages(original, otazky, pages_to_remove, obec):
                     pdf_writer.pages.append(page_otazky)
             
             pdf_writer.pages.append(page)
+
+    pdf_writer.pdf[pikepdf.Info.Info]['/Permissions'] = pikepdf.Permissions.ReadOnly
     
     edited_io = io.BytesIO()
     
