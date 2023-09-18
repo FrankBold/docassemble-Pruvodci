@@ -647,8 +647,6 @@ attachment:
         Splnili jste ${ str(pocet_done) } z 19 kroků.
     - progress: |
        [FILE ${ str(pocet_done) }.png]
-    - obec: |
-        ${ obec }
 ---
 event: save_and_resume
 code: |
