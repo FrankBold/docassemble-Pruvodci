@@ -553,7 +553,6 @@ code: |
 ---
 sets: drive_id
 code: |
-  temp_odeslano = send_email(to="michal.kuk@gmail.com", subject="Tady je testovací soubor", body="Tady to máš", attachments=[analyza_pdf])
   drive_id = extract_pdf_pages(analyza_pdf, energie_otazky, zakladni_rady, obec)
 ---
 progress: 100
