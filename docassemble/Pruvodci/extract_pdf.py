@@ -21,7 +21,8 @@ def extract_pdf_pages(original, otazky, pages_to_remove, obec):
           otazka = otazky_reader.getPage(page_num_o)
           pdf_writer.addPage(otazka)
         
-      page = pdf_reader.getPage(page_num)        
+      page = pdf_reader.getPage(page_num)
+      page.mergePage(page)
       pdf_writer.addPage(page)
           
   edited_io = io.BytesIO()
