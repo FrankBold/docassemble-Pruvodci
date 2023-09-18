@@ -168,7 +168,7 @@ fields:
     input type: radio
     choices:
       - Ano: True
-      - "Zatím jsme pouze vybrali projektanta": projektant
+      - "Zatím jsme pouze vybrali projektanta": Pouze projektanta
       - Ne: False
       - Nevím: "maybe"
     hide if: Info['s1_3']
@@ -301,10 +301,10 @@ fields:
     input type: radio
     choices:
       - Ano: True
-      - "Ne, obec plánuje projekty FVE o instalovaném výkonu **do** 50kW": ne_pod50
+      - "Ne, obec plánuje projekty FVE o instalovaném výkonu **do** 50kW": "Ne, plánujeme projekty do 50kW"
         help: |
           U instalací {FVE} do 50 kW máte vše jednodušší, zpravidla nemusíte řešit licenci na výrobu elektřiny od ERÚ, stavební povolení ani odbornou způsobilost (odpovědného zástupce). 
-      - "NE, obec plánuje projekty FVE o instalovaném výkonu **nad** 50kW": ne_nad50
+      - "NE, obec plánuje projekty FVE o instalovaném výkonu **nad** 50kW": "Ne, plánujeme projekty nad 50kW"
         help: |
           Pro {FVE} s instalovaným výkonem nad 50 kW potřebujete zažádat a získat licenci na výrobu elektřiny od ERÚ, řešit odbornou způsobilost (postup pro zisk obojího [naleznete na stránkách ERÚ](https://www.eru.cz/udeleni-licence)) i stavební povolení.
       - "Ne, instalovaným výkonem si nejsem jistý": False
@@ -320,7 +320,7 @@ fields:
       - Nevím: "maybe"
     hide if:
       variable: Info['s3_2']
-      is: "ne_pod50"
+      is: "Ne, plánujeme projekty do 50kW"
   - "Registrovali jste se již u operátora trhu?": Info['s3_5']
     datatype: yesnomaybe
   - "Máte již smluvně zajištěnou {správa FVE|správu} a {provoz FVE}": Info['s3_6']
@@ -480,13 +480,13 @@ code: |
   if Info["s2_2"]["investice"]: Krokomer[3]["icon"] = check_true; pocet_done+=1; Krokomer[3]["value"] = True
   if Info["s3_1"] == "True" or Info["s3_1"] == "rezervace": Krokomer[4]["icon"] = check_true; pocet_done+=1; Krokomer[4]["value"] = True
   if Info["s3_6"] and Info["s1_7"]: Krokomer[5]["icon"] = check_true; pocet_done+=1; Krokomer[5]["value"] = True
-  if (Info.get("s1_5", False) == True or Info.get("s1_5", False) == "projektant") or Info["s1_3"] == True: Krokomer[6]["icon"] = check_true; pocet_done+=1; Krokomer[6]["value"] = True
+  if (Info.get("s1_5", False) == True or Info.get("s1_5", False) == "Pouze projektanta") or Info["s1_3"] == True: Krokomer[6]["icon"] = check_true; pocet_done+=1; Krokomer[6]["value"] = True
   if Info.get("s1_5", False) == True or Info["s1_3"] == True: Krokomer[7]["icon"] = check_true; pocet_done+=1; Krokomer[7]["value"] = True
   if Info.get("s3_4", False) == "True" or Info.get("s3_4", False) == "není nutné": Krokomer[8]["icon"] = check_true; pocet_done+=1; Krokomer[8]["value"] = True
   if Info["s3_3"] == True: Krokomer[9]["icon"] = check_true; pocet_done+=1; Krokomer[9]["value"] = True
-  if Info["s3_2"] == "True" or Info["s3_2"] == "ne_pod50": Krokomer[10]["icon"] = check_true; pocet_done+=1; Krokomer[10]["value"] = True
+  if Info["s3_2"] == "True" or Info["s3_2"] == "Ne, plánujeme projekty do 50kW": Krokomer[10]["icon"] = check_true; pocet_done+=1; Krokomer[10]["value"] = True
   if Info["s1_3"] == True: Krokomer[11]["icon"] = check_true; pocet_done+=1; Krokomer[11]["value"] = True
-  if Info["s3_5"] == True or Info["s3_5"] == "ne_nad50": Krokomer[12]["icon"] = check_true; pocet_done+=1; Krokomer[12]["value"] = True
+  if Info["s3_5"] == True or Info["s3_5"] == "Ne, plánujeme projekty nad 50kW": Krokomer[12]["icon"] = check_true; pocet_done+=1; Krokomer[12]["value"] = True
   if Info["s3_5"]: Krokomer[13]["icon"] = check_true; pocet_done+=1; Krokomer[13]["value"] = True
   if Info["s3_1"] == "True": Krokomer[14]["icon"] = check_true; pocet_done+=1; Krokomer[14]["value"] = True
   if Info["s3_6"]: Krokomer[15]["icon"] = check_true; pocet_done+=1; Krokomer[15]["value"] = True
@@ -500,17 +500,17 @@ code: |
     zakladni_rady.remove(5)
   elif Info["s1_3"] and Info["s1_7"] != True:
     zakladni_rady.remove(6)
-  elif Info["s1_4"] != True:
+  else:
     zakladni_rady.remove(7)
     
   if Info["s2_1"]:
     zakladni_rady.remove(8)
-  elif Info["s2_1"] != True:
+  else:
     zakladni_rady.remove(9)
     
   if Info["s1_3"]:
     zakladni_rady.remove(10)
-  elif Info["s1_3"] != True:
+  else:
     zakladni_rady.remove(11)
     
   if Info["s4_1"] == "již máme":
@@ -528,14 +528,14 @@ code: |
     odpoved = []
     if keys in Info.keys():
       if values["type"] == "yesnomaybe":
-        odpoved+=[values["question"], preklad[Info[keys]]]
+        odpoved+=[values["question"], preklad[Info[keys]].capitalize()]
       elif values["type"] == "checkboxes":
-        odpoved+=[values["question"], ", ".join(Info[keys].true_values())]
+        odpoved+=[values["question"], ", ".join(Info[keys].true_values()).capitalize()]
       else:
         try: 
-          odpoved+=[values["question"], preklad[Info[keys]]]
+          odpoved+=[values["question"], preklad[Info[keys]].capitalize()]
         except:
-          odpoved+=[values["question"], Info[keys]]
+          odpoved+=[values["question"], Info[keys].capitalize()]
       odpoved.append(True)
     else:
       odpoved+=[values["question"], "", False]
