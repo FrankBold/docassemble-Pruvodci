@@ -305,7 +305,7 @@ fields:
       - "Ne, obec plánuje projekty FVE o instalovaném výkonu **do** 50kW": "Ne, plánujeme projekty do 50kW"
         help: |
           U instalací {FVE} do 50 kW máte vše jednodušší, zpravidla nemusíte řešit licenci na výrobu elektřiny od ERÚ, stavební povolení ani odbornou způsobilost (odpovědného zástupce). 
-      - "NE, obec plánuje projekty FVE o instalovaném výkonu **nad** 50kW": "Ne, plánujeme projekty nad 50kW"
+      - "Ne, obec plánuje projekty FVE o instalovaném výkonu **nad** 50kW": "Ne, plánujeme projekty nad 50kW"
         help: |
           Pro {FVE} s instalovaným výkonem nad 50 kW potřebujete zažádat a získat licenci na výrobu elektřiny od ERÚ, řešit odbornou způsobilost (postup pro zisk obojího [naleznete na stránkách ERÚ](https://www.eru.cz/udeleni-licence)) i stavební povolení.
       - "Ne, instalovaným výkonem si nejsem jistý": False
@@ -317,7 +317,7 @@ fields:
     choices:
       - Ano: True
       - Ne: False
-      - "Není nutné jedná se o projekt s nižším instalovaným výkonem": "není nutné"
+      - "Není nutné, jedná se o projekt s nižším instalovaným výkonem": "není nutné"
       - Nevím: "maybe"
     hide if:
       variable: Info['s3_2']
