@@ -115,5 +115,5 @@ h1 {
 
 .da-button-set.da-field-buttons {
   display: flex;
-  justify-content: flex-end;
+  justify-content: space-between;
 }
