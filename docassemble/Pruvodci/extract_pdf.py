@@ -5,8 +5,8 @@ from docassemble.base.util import path_and_mimetype, ocr_file, DAObject, DAFile
 
 def extract_pdf_pages(original, otazky, pages_to_remove, obec):
   
-  pdf_file = open(original.path(), 'rb', encoding='utf-8')
-  pdf_otazky = open(otazky.path(), 'rb', encoding='utf-8')
+  pdf_file = open(original.path(), 'rb')
+  pdf_otazky = open(otazky.path(), 'rb')
   
   pdf_reader = PyPDF2.PdfFileReader(pdf_file)
   otazky_reader = PyPDF2.PdfFileReader(pdf_otazky)
