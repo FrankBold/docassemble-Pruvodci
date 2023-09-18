@@ -554,7 +554,7 @@ code: |
         kg.append(["st2", "st6"])
     
     krokomer_svg.write(svg_s.content)
-    obec_name_file.write(obec_svg.content)
+    obec_svg_file.write(obec_svg.content)
 ---
 sets: drive_id
 code: |
@@ -651,7 +651,7 @@ attachment:
     - progress: |
        [FILE ${ str(pocet_done) }.png]
     - obec_svg: |
-        ${ obec_name_file }
+        ${ obec_svg_file }
 ---
 event: save_and_resume
 code: |
