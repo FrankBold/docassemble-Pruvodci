@@ -644,10 +644,10 @@ attachment:
         ${ Krokomer[18]["icon"] } 
     - kroky: |
         Splnili jste ${ str(pocet_done) } z 19 kroků.
-    - obec: |
-        ${ obec }
     - progress: |
        [FILE ${ str(pocet_done) }.png]
+  code: |
+    {"obec": obec.encode("utf-8")}
 ---
 event: save_and_resume
 code: |
