@@ -42,11 +42,13 @@ objects:
   - check_false: DAStaticFile.using(filename='icon_false.png')
   - otazky_seznam: DAStaticFile.using(filename='energo_obce_otazky.json')
   - krokomer_svg: DAFile
+  - obec_svg_file: DAFile
 ---
 include:
  - obceKomunitniEnergetika_help.yml
  - obceKomunitniEnergetika_doporuceni.yml
  - docassemble.demo:data/questions/examples/cards.yml
+ - obecKomunitniEnergetika_obecSvg.yml
 ---
 mandatory: True
 code: |
@@ -56,6 +58,8 @@ code: |
   nav.progressive = False
   krokomer_svg.initialize(filename="krokomer.svg")
   krokomer_svg.set_mimetype("image/svg+xml")
+  obec_svg_file.initialize(filename="obec_name.svg")
+  obec_svg_file.set_mimetype("image/svg+xml")
 ---
 scan for variables: False
 mandatory: True
@@ -550,6 +554,7 @@ code: |
         kg.append(["st2", "st6"])
     
     krokomer_svg.write(svg_s.content)
+    obec_name_file.write(obec_svg.content)
 ---
 sets: drive_id
 code: |
@@ -645,8 +650,8 @@ attachment:
         Splnili jste ${ str(pocet_done) } z 19 kroků.
     - progress: |
        [FILE ${ str(pocet_done) }.png]
-    - obec: |
-        ${ obec }
+    - obec_svg: |
+        ${ obec_name_file }
 ---
 event: save_and_resume
 code: |
