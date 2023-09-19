@@ -644,7 +644,7 @@ attachment:
     - krok_19: |
         ${ Krokomer[18]["icon"] } 
     - kroky: |
-        Splnili jste ${ str(pocet_done) } z 19 kroků.
+        Splnili jste ${ str(pocet_done) } z 19 kroku.
     - progress: |
        [FILE ${ str(pocet_done) }.png]
 ---
