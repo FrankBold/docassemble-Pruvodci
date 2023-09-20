@@ -73,6 +73,7 @@ code: |
     target = 'normal'
   otazky
   uvod
+  save_email
   technika
   ekonomika
   pravo
@@ -134,12 +135,9 @@ css: |
   }
   </style>
 ---
-event: dohledat_obec
 code: |
-  obec = action_argument("obec")
-  kraj = action_argument("kraj")
-  idds = najitObec(obec, kraj)
-  json_response(dict(idds=idds))
+  import requests
+  save_email = requests.post("https://hook.eu1.make.com/ew3ad5lyyhfud2a2o13tgv2w3c7knop5", data={"email": email, "jmeno": jmeno, "obec": obec})
 ---
 progress: 15
 section: technika
