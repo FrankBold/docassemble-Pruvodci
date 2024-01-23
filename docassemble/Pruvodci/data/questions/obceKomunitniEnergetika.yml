@@ -571,11 +571,11 @@ subquestion: |
 
   Analýzu vám rádi zdarma zašleme na e-mail ${ email }.
 
-  **Máte zájem o online konzultaci zdarma?** Budeme Vás kontaktovat na uvedené telefonní číslo nebo e-mail a domluvíme se Vámi na nejbližším vhodném termínu.
+  **Připravte se na sdílení, rezervujte si odborníky!** Máte zájem o placenou konzultaci? Budeme Vás kontaktovat na uvedené telefonní číslo nebo e-mail a domluvíme se Vámi na vhodném termínu a formátu konzultace.
 
-  - Během 30minutové online konzultace s Vámi projdeme výsledky dotazníku
-  - Zodpovíme Vaše dotazy a nejasnosti
-  - Doporučíme Vám, na jaké kroky se dále zaměřit 
+  - Během konzultace s Vámi projdeme výsledky dotazníku.
+  - Zodpovíme Vaše dotazy a nejasnosti.
+  - Doporučíme Vám, na jaké kroky se dále zaměřit.
   
 fields:
   - no label: konzultace
