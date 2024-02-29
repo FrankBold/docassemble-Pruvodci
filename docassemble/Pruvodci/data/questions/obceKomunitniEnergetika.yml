@@ -520,7 +520,7 @@ code: |
 
   odpovedi = []
   
-  preklad={True: "Ano", False: "Ne", None: "Nevím", "True": "Ano", "False": "Ne", "maybe": "Nevím"}
+  preklad={True: "Ano", False: "Ne", None: "Nevím", "True": "Ano", "False": "Ne", "maybe": "Nevím", "None": "Nevím"}
   
   for keys, values in otazky.items():
     odpoved = []
