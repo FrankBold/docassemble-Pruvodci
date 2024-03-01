@@ -553,8 +553,8 @@ code: |
           kg.append(["st1", "st4"])
         else:
           kg.append(["st2", "st6"])
-        except:
-          kg.append(["st2", "st6"])
+      except:
+        kg.append(["st2", "st6"])
     
     krokomer_svg.write(svg_s.content)
 ---
