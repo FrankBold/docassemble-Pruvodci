@@ -526,9 +526,15 @@ code: |
     odpoved = []
     if keys in Info.keys():
       if values["type"] == "yesnomaybe":
-        odpoved+=[values["question"], preklad[Info[keys]].capitalize()]
+        try:  
+          odpoved+=[values["question"], preklad[Info[keys]].capitalize()]
+        except:
+          odpoved+=[values["question"], "Nevím"]
       elif values["type"] == "checkboxes":
-        odpoved+=[values["question"], ", ".join(Info[keys].true_values()).capitalize()]
+        try:
+          odpoved+=[values["question"], ", ".join(Info[keys].true_values()).capitalize()]
+        except:
+          odpoved+=[values["question"], "Nevím"]
       else:
         try: 
           odpoved+=[values["question"], str(preklad[Info[keys]]).capitalize()]
