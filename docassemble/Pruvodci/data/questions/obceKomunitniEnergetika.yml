@@ -610,6 +610,7 @@ attachment:
   filename: otazky
   variable name: energie_otazky
   docx template file: energie_otazky.docx
+  pdftk: True
   valid formats:
     - pdf
 ---
@@ -618,6 +619,7 @@ attachment:
   filename: Analyza
   variable name: analyza_pdf
   pdf template file: energie_obce_analyza.pdf
+  pdftk: True
   editable: False
   fields:
     - krok_1: |
