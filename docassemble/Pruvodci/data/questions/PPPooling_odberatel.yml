@@ -56,7 +56,8 @@ code: |
     undefine('wants_email')
     undefine('email_sent')
     target = 'normal'
-  vystup
+  Odberatel.forma
+  potvrditVystup
 ---
 ## KONEC SETUPU
 question: |
@@ -180,14 +181,35 @@ fields:
   - Obvyklá doba provozu vašeho objektu: OdbernaMista[i].provoz
     help: |
       Prosím popište časové rozmezí provozu ve vašem odběrném místě. Zejména, jedná-li se o vícesměnný provoz.
+  - Údaje o roční spotřebě – ideálně profil spotřeby (diagram): OdbernaMista[i].podkladSpotreby
+    datatype: radio
+    choices:  
+      - "Nahraju soubor (faktura, diagram, či jiné)": soubor
+      - "Nemám soubor, uvedu ručně": rucne
+    default: rucne
   - Údaje o roční spotřebě - ideálně profil spotřeby (diagram): OdbernaMista[i].spotrebaFile
-    required: False
     datatype: file
-  - Nemám dokument o spotřebě, vyplním ručně: OdbernaMista[i].rucne
-    datatype: yesnoradio
-  - Vaše stávající cena silové elektřiny (v Kč/MWh): OdbernaMista[i].stavajiciCena
-    datatype: integer
+    show if:
+      variable: OdbernaMista[i].podkladSpotreby
+      is: soubor
+  - Údaje o roční spotřebě - ideálně profil spotřeby (diagram): OdbernaMista[i].spotrebaRucne
+    input type: area
+    show if:
+      variable: OdbernaMista[i].podkladSpotreby
+      is: rucne
+  - Vaše stávající cena silové elektřiny: OdbernaMista[i].stavajiciCena
+    datatype: currency
+    min: 0
+    currency symbol: Kč/MWh
   - Typ vašeho stávajícího kontraktu na dodávku elektřiny: OdbernaMista[i].typKontraktu
+    datatype: radio
+    choices:
+      - Fixovaná cena
+      - Spotová cena
+  - Časové rozmezí vašeho kontraktu: OdbernaMista[i].konecKontraktu
+    datatype: date
+  - Poptáváte i záruky původu elektřiny (zelené certifikáty)?: OdbernaMista[i].zarukaPuvodu
+    datatype: yesno
 ---
 table: OdbernaMista.table
 rows: OdbernaMista
@@ -200,18 +222,13 @@ edit:
   - stavajiciCena
   - address
 ---
-event: vystup
 question: |
   Dočasné testovací výstupní údaje
 subquestion: |
-  ${ OdbernaMista.target_number }
-
   ${ OdbernaMista.table }
 
   ${ OdbernaMista.add_action() }
-
-#  ${ Odberatel.address }
-## FINAL CODE
+continue button field: potvrditVystup
 
 ---
 event: save_and_resume
