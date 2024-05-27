@@ -75,6 +75,7 @@ fields:
         Pro položení dotazu musíte se zásadami souhlasit.
 continue button field: uvod
 ---
+section: uvod
 question: |
   Vaše identifikační údaje jakožto odběratele.
 fields:
@@ -164,6 +165,7 @@ script: |
   <script src="/packagestatic/docassemble.VzoryPravnichPodani/mapy_api.js"></script>
 ---
 #### odběrná místa
+section: mista
 question: |
   Odběrná místa
 subquestion: |
@@ -173,6 +175,7 @@ fields:
     datatype: integer
     min: 1
 ---
+section: mista
 question: |
   Údaje o odběrném místu č.
   ${ ordinal(i) }.
@@ -186,7 +189,7 @@ fields:
     choices:  
       - "Nahraju soubor (faktura, diagram, či jiné)": soubor
       - "Nemám soubor, uvedu ručně": rucne
-    default: rucne
+    default: soubor
   - Údaje o roční spotřebě - ideálně profil spotřeby (diagram): OdbernaMista[i].spotrebaFile
     datatype: file
     show if:
@@ -222,6 +225,7 @@ edit:
   - stavajiciCena
   - address
 ---
+section: mista
 question: |
   Dočasné testovací výstupní údaje
 subquestion: |
@@ -229,7 +233,6 @@ subquestion: |
 
   ${ OdbernaMista.add_action() }
 continue button field: potvrditVystup
-
 ---
 event: save_and_resume
 code: |

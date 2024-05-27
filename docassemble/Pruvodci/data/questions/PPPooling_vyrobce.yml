@@ -57,8 +57,11 @@ code: |
     undefine('email_sent')
     target = 'normal'
   vystup
+  Vyrobny.typ
+  potvrditVystup
 ---
-## KONEC SETUPU
+## KONEC SETUP
+section: uvod
 question: |
   Vítejte v průvodci
 subquestion: |
@@ -85,15 +88,17 @@ fields:
   - Číslo licence na výrobu elektřiny: Vyrobce.licence
     datatype: integer
 ---
+section: vyrobny
 question: |
-  Údaje o vznikající výrobně OZE
+  Údaje o výrobnách OZE
 subquestion: |
-  Kolik vznikajících výroben chcete přihlásit?
+  Kolik existujících či vznikajících výroben OZE chcete celkem přihlásit?
 fields:
   - Počet výrobních míst: Vyrobny.target_number
     datatype: integer
     min: 1
 ---
+section: vyrobny
 question: |
   Základní informace o výrobně č. ${ ordinal(i) }.
 fields:
@@ -103,6 +108,7 @@ fields:
     - V provozu: True
     - Plánována: False
 ---
+section: vyrobny
 if: 
   not Vyrobny[i].stav
 question: |
@@ -116,22 +122,31 @@ fields:
   - Adresa výrobny: Vyrobny[i].address
   - Očekávané datum uvedení do provozu: Vyrobny[i].datum
     datatype: date
-  - Instalovaný výkon (v MWp): Vyrobny[i].vykon
-    datatype: float
-  - Předpokládané množství vyrobené elektřiny za rok (v MWh/rok): Vyrobny[i].vyroba
-    datatype: float
+  - Instalovaný výkon: Vyrobny[i].vykon
+    datatype: currency
+    min: 0
+    currency symbol: MWp
+  - Předpokládané množství vyrobené elektřiny za rok: Vyrobny[i].vyroba
+    datatype: currency
+    min: 0
+    currency symbol: MWh/rok
   - Jiné informace: Vyrobny[i].jine
     datatype: area
-  - Celkové nabízené množství elektřiny (v MWh/rok): Vyrobny[i].nabidka
-    datatype: float
+  - Celkové nabízené množství elektřiny: Vyrobny[i].nabidka
+    datatype: currency
+    min: 0
+    currency symbol: MWh/rok
   - Cena za kterou byste chtěli elektřinu prodávat (v Kč/MWh): Vyrobny[i].cena
-    datatype: float
+    datatype: currency
+    min: 0
+    currency symbol: Kč/MWh
   - Doplňující informace k ceně: Vyrobny[i].doplneniCeny
     datatype: area
   - Požadovaná délka kontraktu: Vyrobny[i].kontrakt
   - Nabízíte záruky původu elektřiny (zelené certifikáty)?: Vyrobny[i].zaruky
     datatype: yesnoradio
 ---
+section: vyrobny
 if: 
   Vyrobny[i].stav
 question: |
@@ -146,9 +161,13 @@ fields:
   - Rok uvedení do provozu: Vyrobny[i].rok
     datatype: integer
   - Instalovaný výkon (v MWp): Vyrobny[i].vykon
-    datatype: float
-  - Množství elektřiny vyrobené za rok (v MWh/rok): Vyrobny[i].vyroba
-    datatype: float
+    datatype: currency
+    min: 0
+    currency symbol: MWp
+  - Množství elektřiny vyrobené za rok: Vyrobny[i].vyroba
+    datatype: currency
+    min: 0
+    currency symbol: MWh/rok
   - Nahrát soubor s údaji o výrobě: Vyrobny[i].vyrobaFile
     datatype: file
     required: False
@@ -156,16 +175,21 @@ fields:
     datatype: float
   - Jiné informace: Vyrobny[i].jine
     datatype: area
-  - Celkové nabízené množství elektřiny (v MWh/rok): Vyrobny[i].nabidka
-    datatype: float
-  - Cena za kterou by chtěli elektřinu prodávat (v Kč/MWh): Vyrobny[i].cena
-    datatype: float
+  - Celkové nabízené množství elektřiny: Vyrobny[i].nabidka
+    datatype: currency
+    min: 0
+    currency symbol: MWh/rok
+  - Cena za kterou by chtěli elektřinu prodávat: Vyrobny[i].cena
+    datatype: currency
+    min: 0
+    currency symbol: Kč/MWh
   - Doplňující informace k ceně: Vyrobny[i].doplneniCeny
     datatype: area
   - Požadovaná délka kontraktu: Vyrobny[i].kontrakt
   - Nabízíte záruky původu elektřiny (zelené certifikáty)?: Vyrobny[i].zaruky
     datatype: yesnoradio
 ---
+section: vyrobny
 table: Vyrobny.table
 rows: Vyrobny
 columns:
@@ -186,7 +210,6 @@ edit:
   - vyroba
   - cena
 ---
-event: vystup
 question: |
   Dočasné testovací výstupní údaje
 subquestion: |
@@ -195,9 +218,8 @@ subquestion: |
   ${ Vyrobny.table }
 
   ${ Vyrobce.address }
-  
+continue button field: potvrditVystup
 ## FINAL CODE
-
 ---
 event: save_and_resume
 code: |
