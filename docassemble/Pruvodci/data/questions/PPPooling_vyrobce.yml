@@ -189,7 +189,6 @@ fields:
   - Nabízíte záruky původu elektřiny (zelené certifikáty)?: Vyrobny[i].zaruky
     datatype: yesnoradio
 ---
-section: vyrobny
 table: Vyrobny.table
 rows: Vyrobny
 columns:
@@ -210,6 +209,7 @@ edit:
   - vyroba
   - cena
 ---
+section: vyrobny
 question: |
   Dočasné testovací výstupní údaje
 subquestion: |
