@@ -56,7 +56,8 @@ code: |
     undefine('wants_email')
     undefine('email_sent')
     target = 'normal'
-  vystup
+  uvod
+  Vyrobce.name.text
   Vyrobny.typ
   potvrditVystup
 ---
@@ -193,21 +194,12 @@ table: Vyrobny.table
 rows: Vyrobny
 columns:
   - Typ zdroje: |
-      row_item.typ or row_item.typ
+      row_item.typ
   - Adresa: |
-      row_item.address or row_item.address
-  - Instalovaný výkon (MWp): |
-      row_item.vykon or row_item.vykon
-  - Množství vyrobené elektřiny (MWh/rok): |
-      row_item.vyroba or row_item.vyroba
-  - Cena (Kč/MWh): |
-      row_item.cena or row_item.cena
+      row_item.address
 edit:
   - typ
   - address
-  - vykon
-  - vyroba
-  - cena
 ---
 section: vyrobny
 question: |
