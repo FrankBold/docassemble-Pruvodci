@@ -157,6 +157,7 @@ fields:
     currency symbol: Kč/MWh
   - Doplňující informace k ceně: Vyrobny[i].doplneniCeny
     datatype: area
+    required: False
   - Požadovaná délka kontraktu: Vyrobny[i].kontrakt
   - Nabízíte záruky původu elektřiny (zelené certifikáty)?: Vyrobny[i].zaruky
     datatype: yesnoradio
@@ -179,15 +180,24 @@ fields:
     datatype: currency
     min: 0
     currency symbol: MWp
-  - Množství elektřiny vyrobené za rok: Vyrobny[i].vyroba
+  - Množství elektřiny vyrobené za rok: Vyrobny[i].podkladVyroba
+    datatype: radio
+    choices:  
+      - "Nahraju soubor (proběhlé měření)": soubor
+      - "Nemám soubor, uvedu ručně": rucne
+    default: soubor
+  - Údaje o nožství elektřiny vyrobené za rok: Vyrobny[i].vyrobaFile
+    datatype: file
+    show if:
+      variable: Vyrobny[i].podkladVyroba
+      is: soubor
+  - Údaje o roční spotřebě - ideálně profil spotřeby (diagram): Vyrobny[i].vyrobaRucne
     datatype: currency
     min: 0
     currency symbol: MWh/rok
-  - Nahrát soubor s údaji o výrobě: Vyrobny[i].vyrobaFile
-    datatype: file
-    required: False
-  - Roční objem výroby (vyplnit ručně): Vyrobny[i].vyrobaRucne
-    datatype: float
+    show if:
+      variable: Vyrobny[i].podkladVyroba
+      is: rucne
   - Jiné informace: Vyrobny[i].jine
     datatype: area
   - Celkové nabízené množství elektřiny: Vyrobny[i].nabidka

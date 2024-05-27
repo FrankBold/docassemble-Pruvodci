@@ -57,6 +57,9 @@ code: |
     undefine('email_sent')
     target = 'normal'
   Odberatel.forma
+  OdbernaMista.target_number
+  if OdbernaMista.target_number > 5:
+    vyplnitRucne
   potvrditVystup
 ---
 ## KONEC SETUPU
@@ -174,6 +177,18 @@ fields:
   - Počet odběrných míst: OdbernaMista.target_number
     datatype: integer
     min: 1
+---
+section: vyrobny
+question: |
+  Chcete vyplnit výrobny hromadně?
+subquestion: |
+  Pokud máte více výroben, může pro vás být jednodušší zaslat nám je hromadně, než je vyplňovat ručně zde v rozhraní.
+
+  Připravili jsme vzorový Excel s údaji, které potřebujeme. Můžete si jej stáhnout, vyplnit a tabulku nám zaslat.
+field: vyplnitRucne
+buttons:
+  - "Vyplním ručně zde": True
+  - "Vyplním hromadně": False
 ---
 section: mista
 question: |
