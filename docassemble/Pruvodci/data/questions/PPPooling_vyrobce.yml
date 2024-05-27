@@ -1,0 +1,241 @@
+metadata:
+  title: |
+    Výrobce – Platforma pro pooling
+  short title: |
+    Výrobce
+  description: |
+    Přihlášení výrobce do platformy pro pooling
+  revision_date: 2024-05-23
+---
+features:
+  labels above fields: True
+  question back button: True
+  navigation back button: False
+  progress bar: False
+  hide standard menu: False
+  navigation: True
+  hide navbar: True
+  css: uken.css
+---
+default screen parts:
+  under: |
+    % if show_save_resume_message:
+    ${ action_button_html(url_action('save_and_resume'), label="Uložit a pokračovat později", color="secondary", size="sm", icon="floppy-disk") }
+    % endif
+---
+sections:
+  - uvod: Identifikační údaje
+  - vyrobny: Výrobny OZE
+  - vystup: Výstup
+---
+include:
+  - objektPerson.yml
+---
+objects:
+  - Info: DADict.using(gathered=True)
+  - Vyrobce: Person.using(nazev="výrobce")
+  - Vyrobny: DAList.using(ask_number=True, object_type=DAObject)
+---
+mandatory: True
+code: |
+  target = 'normal'
+  show_save_resume_message = True
+  multi_user = True
+  nav.progressive = False
+---
+scan for variables: False
+mandatory: True
+code: |
+  if target == 'save_and_resume':
+    if wants_email:
+      if email_sent:
+        log("We sent an e-mail to your e-mail address.", "info")
+      else:
+        log("There was a problem with e-mailing.", "danger")
+      show_save_resume_message = False
+    undefine('wants_email')
+    undefine('email_sent')
+    target = 'normal'
+  vystup
+---
+## KONEC SETUPU
+question: |
+  Vítejte v průvodci
+subquestion: |
+  *Nějaké úvodní informace*
+fields:
+  - "[Zásady zpracování osobních údajů](https://frankbold.org/zasady-ochrany-osobnich-udaju-frank-bold)": souhlas
+    datatype: checkboxes
+    minlength: 1
+    choices:
+      - "Souhlasím"
+    validation messages:
+      minlength: |
+        Pro položení dotazu musíte se zásadami souhlasit.
+continue button field: uvod
+---
+question: |
+  Vaše identifikační údaje jakožto výrobce.
+fields:
+  - Název společnosti (jméno): Vyrobce.name.text
+  - Sídlo (Adresa): Vyrobce.address
+  - E-mail: Vyrobce.email
+    datatype: email
+  - Telefon: Vyrobce.tel
+  - Číslo licence na výrobu elektřiny: Vyrobce.licence
+    datatype: integer
+---
+question: |
+  Údaje o vznikající výrobně OZE
+subquestion: |
+  Kolik vznikajících výroben chcete přihlásit?
+fields:
+  - Počet výrobních míst: Vyrobny.target_number
+    datatype: integer
+    min: 1
+---
+question: |
+  Základní informace o výrobně č. ${ ordinal(i) }.
+fields:
+  "Je výrobna už v provozu, nebo teprve plánována?": Vyrobny[i].stav
+  input type: radio
+  choices:
+    - V provozu: True
+    - Plánována: False
+---
+if: 
+  not Vyrobny[i].stav
+question: |
+  Informace o plánované výrobně č. ${ ordinal(i) }.
+fields:
+  - Typ zdroje: Vyrobny[i].typ
+    input type: radio
+    choices:
+      - VTE
+      - FVE
+  - Adresa výrobny: Vyrobny[i].address
+  - Očekávané datum uvedení do provozu: Vyrobny[i].datum
+    datatype: date
+  - Instalovaný výkon (v MWp): Vyrobny[i].vykon
+    datatype: float
+  - Předpokládané množství vyrobené elektřiny za rok (v MWh/rok): Vyrobny[i].vyroba
+    datatype: float
+  - Jiné informace: Vyrobny[i].jine
+    datatype: area
+  - Celkové nabízené množství elektřiny (v MWh/rok): Vyrobny[i].nabidka
+    datatype: float
+  - Cena za kterou byste chtěli elektřinu prodávat (v Kč/MWh): Vyrobny[i].cena
+    datatype: float
+  - Doplňující informace k ceně: Vyrobny[i].doplneniCeny
+    datatype: area
+  - Požadovaná délka kontraktu: Vyrobny[i].kontrakt
+  - Nabízíte záruky původu elektřiny (zelené certifikáty)?: Vyrobny[i].zaruky
+    datatype: yesnoradio
+---
+if: 
+  Vyrobny[i].stav
+question: |
+  Informace o existující výrobně č. ${ ordinal(i) }.
+fields:
+  - Typ zdroje: Vyrobny[i].typ
+    input type: radio
+    choices:
+      - VTE
+      - FVE
+  - Adresa výrobny: Vyrobny[i].address
+  - Rok uvedení do provozu: Vyrobny[i].rok
+    datatype: integer
+  - Instalovaný výkon (v MWp): Vyrobny[i].vykon
+    datatype: float
+  - Množství elektřiny vyrobené za rok (v MWh/rok): Vyrobny[i].vyroba
+    datatype: float
+  - Nahrát soubor s údaji o výrobě: Vyrobny[i].vyrobaFile
+    datatype: file
+    required: False
+  - Roční objem výroby (vyplnit ručně): Vyrobny[i].vyrobaRucne
+    datatype: float
+  - Jiné informace: Vyrobny[i].jine
+    datatype: area
+  - Celkové nabízené množství elektřiny (v MWh/rok): Vyrobny[i].nabidka
+    datatype: float
+  - Cena za kterou by chtěli elektřinu prodávat (v Kč/MWh): Vyrobny[i].cena
+    datatype: float
+  - Doplňující informace k ceně: Vyrobny[i].doplneniCeny
+    datatype: area
+  - Požadovaná délka kontraktu: Vyrobny[i].kontrakt
+  - Nabízíte záruky původu elektřiny (zelené certifikáty)?: Vyrobny[i].zaruky
+    datatype: yesnoradio
+---
+table: Vyrobny.table
+rows: Vyrobny
+columns:
+  - Typ zdroje: |
+      row_item.typ or row_item.typ
+  - Adresa: |
+      row_item.address or row_item.address
+  - Instalovaný výkon (MWp): |
+      row_item.vykon or row_item.vykon
+  - Množství vyrobené elektřiny (MWh/rok): |
+      row_item.vyroba or row_item.vyroba
+  - Cena (Kč/MWh): |
+      row_item.cena or row_item.cena
+edit:
+  - typ
+  - address
+  - vykon
+  - vyroba
+  - cena
+---
+event: vystup
+question: |
+  Dočasné testovací výstupní údaje
+subquestion: |
+  ${ Vyrobny.target_number }
+
+  ${ Vyrobny.table }
+
+  ${ Vyrobce.address }
+  
+## FINAL CODE
+
+---
+event: save_and_resume
+code: |
+  target = 'save_and_resume'
+---
+code: |
+  send_email(to=user_email_address, template=save_resume_template)
+  email_sent = True
+---
+question: |
+  Uložení formuláře na později
+subquestion: |
+  Na e-mail vám zašleme odkaz pod který můžete kdykoli pokračovat ve vyplňování formuláře.
+
+  Odkaz je platný po dobu 30 dní.
+fields:
+  - no label: wants_email
+    input type: radio
+    choices:
+      - "Dobře, pošlete mi e-mail": True
+      - "Ne, děkuji": False
+    default: True
+  - E-mail address: user_email_address
+    default: |
+      ${email}
+    datatype: email
+    show if: wants_email
+under: ""
+---
+event: autosave
+code: |
+  set_save_status('overwrite')
+  for variable_name, variable_value in action_arguments().items():
+    if variable_value:
+      define(variable_name, variable_value)
+---
+template: save_resume_template
+subject: |
+  Váš formulář
+content: |
+  Pro pokračování ve formuláři, [klikněte zde](www.energie-pro-mesta.frankbold.org/nastroj?session=${ user_info().session }).

@@ -1,0 +1,257 @@
+metadata:
+  title: |
+    Odběratel – Platforma pro pooling 
+  short title: |
+    Odběratel
+  description: |
+    Přihlášení odběratele do platformy pro pooling
+  revision_date: 2024-05-23
+---
+features:
+  labels above fields: True
+  question back button: True
+  navigation back button: False
+  progress bar: False
+  hide standard menu: False
+  navigation: True
+  hide navbar: True
+  css: uken.css
+---
+default screen parts:
+  under: |
+    % if show_save_resume_message:
+    ${ action_button_html(url_action('save_and_resume'), label="Uložit a pokračovat později", color="secondary", size="sm", icon="floppy-disk") }
+    % endif
+---
+sections:
+  - uvod: Identifikační údaje
+  - mista: Odběrná místa
+  - vystup: Výstup
+---
+include:
+  - objektPerson.yml
+---
+objects:
+  - Info: DADict.using(gathered=True)
+  - Odberatel: Person.using(nazev="odběratele")
+  - OdbernaMista: DAList.using(ask_number=True, object_type=DAObject)
+---
+mandatory: True
+code: |
+  target = 'normal'
+  show_save_resume_message = True
+  multi_user = True
+  nav.progressive = False
+---
+scan for variables: False
+mandatory: True
+code: |
+  if target == 'save_and_resume':
+    if wants_email:
+      if email_sent:
+        log("We sent an e-mail to your e-mail address.", "info")
+      else:
+        log("There was a problem with e-mailing.", "danger")
+      show_save_resume_message = False
+    undefine('wants_email')
+    undefine('email_sent')
+    target = 'normal'
+  vystup
+---
+## KONEC SETUPU
+question: |
+  Vítejte v průvodci
+subquestion: |
+  *Nějaké úvodní informace*
+fields:
+  - "[Zásady zpracování osobních údajů](https://frankbold.org/zasady-ochrany-osobnich-udaju-frank-bold)": souhlas
+    datatype: checkboxes
+    minlength: 1
+    choices:
+      - "Souhlasím"
+    validation messages:
+      minlength: |
+        Pro položení dotazu musíte se zásadami souhlasit.
+continue button field: uvod
+---
+question: |
+  Vaše identifikační údaje jakožto odběratele.
+fields:
+  - Typ osoby: Odberatel.forma
+    input type: radio
+    choices:
+      - Právnická osoba: PO
+      - Fyzická osoba: FO
+  - Jméno a příjmení: Odberatel.name.text
+    show if:
+      variable: Odberatel.forma
+      is: FO
+  - Trvalé bydliště: Odberatel.address
+    hint: Adresa
+    show if:
+      variable: Odberatel.forma
+      is: FO
+  - Název organizace: Odberatel.name.text
+    show if:
+      variable: Odberatel.forma
+      is: PO
+  - Sídlo: Odberatel.address
+    hint: Sídlo
+    show if:
+      variable: Odberatel.forma
+      is: PO
+  - IČO: Odberatel.ic
+    datatype: integer
+    minlength: 8
+    maxlength: 8
+    show if:
+      variable: Odberatel.forma
+      is: PO
+    hint: 12345678
+    note: |
+      <button id="doplnit" class="btn btn-primary">Doplnit údaje z OR</button>
+  - note: |
+      **Zástupce společnosti**
+    show if:
+      variable: Odberatel.forma
+      is: PO
+  - Vaše jméno: Odberatel.zastupceName
+    required: False
+    show if:
+      variable: Odberatel.forma
+      is: PO
+  - Vaše pozice v organizaci: Odberatel.zastupceFunkce
+    required: False
+    show if:
+      variable: Odberatel.forma
+      is: PO
+  - E-mail: Odberatel.email
+    datatype: email
+  - Telefon: Odberatel.tel
+  - Předmět vaší činnosti: Odberatel.cinnost
+    choices: 
+      - výrobní podnik
+      - zemědělský podnik
+      - developerská společnost
+      - služby
+      - velkoobchod, maloobchod
+      - samospráva
+      - "jiné - možnost písemně specifikovat (freeform)": jine
+  - Specifikujte: Odberatel.cinnostJine
+    show if:
+      variable: Odberatel.cinnost
+      is: jine
+script: |
+  <script type="application/javascript" charset="utf-8">
+    $("#doplnit").click(function(){
+      action_call('doplnUdaje', {ico: val('Odberatel.ic')}, function(data){
+        if (typeof data.test.firma !== 'undefined') {
+        setField("Odberatel.name.text", data.test.firma);
+        setField("Odberatel.ic", data.test.ico);
+        setField("Odberatel.address", data.test.sidlo);
+        } else if (typeof data.test == 'object') {
+          action_perform('vyberFirmy')
+        } else {
+        flash(data.test, "danger")
+        }
+      });
+      return false;
+    });
+  </script>
+  <script src="https://api.mapy.cz/loader.js"></script>
+  <script src="/packagestatic/docassemble.VzoryPravnichPodani/loader.js"></script>
+  <script src="/packagestatic/docassemble.VzoryPravnichPodani/mapy_api.js"></script>
+---
+#### odběrná místa
+question: |
+  Odběrná místa
+subquestion: |
+  Kolik odběrných míst chcete přihlásit?
+fields:
+  - Počet odběrných míst: OdbernaMista.target_number
+    datatype: integer
+    min: 1
+---
+question: |
+  Údaje o odběrném místu č.
+  ${ ordinal(i) }.
+fields:
+  - Adresa vaší provozovny (odběrného místa): OdbernaMista[i].address
+  - Obvyklá doba provozu vašeho objektu: OdbernaMista[i].provoz
+    help: |
+      Prosím popište časové rozmezí provozu ve vašem odběrném místě. Zejména, jedná-li se o vícesměnný provoz.
+  - Údaje o roční spotřebě - ideálně profil spotřeby (diagram): OdbernaMista[i].spotrebaFile
+    required: False
+    datatype: file
+  - Nemám dokument o spotřebě, vyplním ručně: OdbernaMista[i].rucne
+    datatype: yesnoradio
+  - Vaše stávající cena silové elektřiny (v Kč/MWh): OdbernaMista[i].stavajiciCena
+    datatype: integer
+  - Typ vašeho stávajícího kontraktu na dodávku elektřiny: OdbernaMista[i].typKontraktu
+---
+table: OdbernaMista.table
+rows: OdbernaMista
+columns:
+  - Cena: |
+      row_item.stavajiciCena
+  - Adresa: |
+      row_item.address
+edit:
+  - stavajiciCena
+  - address
+---
+event: vystup
+question: |
+  Dočasné testovací výstupní údaje
+subquestion: |
+  ${ OdbernaMista.target_number }
+
+  ${ OdbernaMista.table }
+
+  ${ OdbernaMista.add_action() }
+
+#  ${ Odberatel.address }
+## FINAL CODE
+
+---
+event: save_and_resume
+code: |
+  target = 'save_and_resume'
+---
+code: |
+  send_email(to=user_email_address, template=save_resume_template)
+  email_sent = True
+---
+question: |
+  Uložení formuláře na později
+subquestion: |
+  Na e-mail vám zašleme odkaz pod který můžete kdykoli pokračovat ve vyplňování formuláře.
+
+  Odkaz je platný po dobu 30 dní.
+fields:
+  - no label: wants_email
+    input type: radio
+    choices:
+      - "Dobře, pošlete mi e-mail": True
+      - "Ne, děkuji": False
+    default: True
+  - E-mail address: user_email_address
+    default: |
+      ${email}
+    datatype: email
+    show if: wants_email
+under: ""
+---
+event: autosave
+code: |
+  set_save_status('overwrite')
+  for variable_name, variable_value in action_arguments().items():
+    if variable_value:
+      define(variable_name, variable_value)
+---
+template: save_resume_template
+subject: |
+  Váš formulář
+content: |
+  Pro pokračování ve formuláři, [klikněte zde](www.energie-pro-mesta.frankbold.org/nastroj?session=${ user_info().session }).
+---
