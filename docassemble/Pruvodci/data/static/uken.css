@@ -18,9 +18,9 @@
 } */
 
 .da-form-group {
-    background: #eee;
-    padding: 10px;
-    border-radius:0.4rem;
+  background: none;
+  padding: 10px;
+  border-radius: none;
 }
 
 .btn-light {
