@@ -83,8 +83,55 @@ continue button field: uvod
 question: |
   Vaše identifikační údaje jakožto výrobce.
 fields:
-  - Název společnosti (jméno): Vyrobce.name.text
-  - Sídlo (Adresa): Vyrobce.address
+fields:
+  - Typ osoby: Vyrobce.forma
+    input type: radio
+    choices:
+      - Právnická osoba: PO
+      - Fyzická osoba: FO
+  - Jméno a příjmení: Vyrobce.name.text
+    show if:
+      variable: Vyrobce.forma
+      is: FO
+  - Trvalé bydliště: Vyrobce.address
+    hint: Adresa
+    show if:
+      variable: Vyrobce.forma
+      is: FO
+  - Název organizace: Vyrobce.name.text
+    show if:
+      variable: Vyrobce.forma
+      is: PO
+  - Sídlo: Vyrobce.address
+    hint: Sídlo
+    show if:
+      variable: Vyrobce.forma
+      is: PO
+  - IČO: Vyrobce.ic
+    datatype: integer
+    minlength: 8
+    maxlength: 8
+    show if:
+      variable: Vyrobce.forma
+      is: PO
+    hint: 12345678
+    note: |
+      <button id="doplnit" class="btn btn-primary">Doplnit údaje z OR</button>
+  - note: |
+      **Zástupce společnosti**
+    show if:
+      variable: Vyrobce.forma
+      is: PO
+  - Vaše jméno: Vyrobce.zastupceName
+    required: False
+    show if:
+      variable: Vyrobce.forma
+      is: PO
+  - Vaše pozice v organizaci: Vyrobce.zastupceFunkce
+    required: False
+    show if:
+      variable: Vyrobce.forma
+      is: PO
   - E-mail: Vyrobce.email
     datatype: email
   - Telefon: Vyrobce.tel
