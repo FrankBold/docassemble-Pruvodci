@@ -83,7 +83,6 @@ continue button field: uvod
 question: |
   Vaše identifikační údaje jakožto výrobce.
 fields:
-fields:
   - Typ osoby: Vyrobce.forma
     input type: radio
     choices:
