@@ -132,6 +132,8 @@ fields:
   - E-mail: Odberatel.email
     datatype: email
   - Telefon: Odberatel.tel
+css: |
+  <link rel="stylesheet" href="${url_of('autocomplete.css')}">
 script: |
   <script type="application/javascript" charset="utf-8">
     $("#doplnit").click(function(){
@@ -149,6 +151,8 @@ script: |
       return false;
     });
   </script>
+  <script src="https://cdn.jsdelivr.net/npm/@tarekraafat/autocomplete.js@10.2.7/dist/autoComplete.min.js"></script>
+  <script src="${url_of('mapy_api_suggestion.js')}"></script>
 ---
 section: mista
 question: |
