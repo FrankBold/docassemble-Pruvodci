@@ -34,7 +34,7 @@ include:
 objects:
   - Info: DADict.using(gathered=True)
   - Odberatel: Person.using(nazev="odběratele")
-  - OdbernaMista: DAList.using(ask_number=True, object_type=DAObject)
+  - OdberneMisto: DAObject
 ---
 mandatory: True
 code: |
@@ -57,10 +57,9 @@ code: |
     undefine('email_sent')
     target = 'normal'
   Odberatel.forma
-  OdbernaMista.target_number
-  if OdbernaMista.target_number > 5:
-    vyplnitRucne
-  potvrditVystup
+  OdberneMisto.podkladSpotreby
+  webhook_data
+  hotovo
 ---
 ## KONEC SETUPU
 question: |
@@ -96,15 +95,6 @@ fields:
     show if:
       variable: Odberatel.forma
       is: FO
-  - Název organizace: Odberatel.name.text
-    show if:
-      variable: Odberatel.forma
-      is: PO
-  - Sídlo: Odberatel.address
-    hint: Sídlo
-    show if:
-      variable: Odberatel.forma
-      is: PO
   - IČO: Odberatel.ic
     datatype: integer
     minlength: 8
@@ -115,6 +105,15 @@ fields:
     hint: 12345678
     note: |
       <button id="doplnit" class="btn btn-primary">Doplnit údaje z OR</button>
+  - Název organizace: Odberatel.name.text
+    show if:
+      variable: Odberatel.forma
+      is: PO
+  - Sídlo: Odberatel.address
+    hint: Sídlo
+    show if:
+      variable: Odberatel.forma
+      is: PO
   - note: |
       **Zástupce společnosti**
     show if:
@@ -133,121 +132,55 @@ fields:
   - E-mail: Odberatel.email
     datatype: email
   - Telefon: Odberatel.tel
-  - Předmět vaší činnosti: Odberatel.cinnost
-    choices: 
-      - výrobní podnik
-      - zemědělský podnik
-      - developerská společnost
-      - služby
-      - velkoobchod, maloobchod
-      - samospráva
-      - "jiné - možnost písemně specifikovat (freeform)": jine
-  - Specifikujte: Odberatel.cinnostJine
-    show if:
-      variable: Odberatel.cinnost
-      is: jine
-script: |
-  <script type="application/javascript" charset="utf-8">
-    $("#doplnit").click(function(){
-      action_call('doplnUdaje', {ico: val('Odberatel.ic')}, function(data){
-        if (typeof data.test.firma !== 'undefined') {
-        setField("Odberatel.name.text", data.test.firma);
-        setField("Odberatel.ic", data.test.ico);
-        setField("Odberatel.address", data.test.sidlo);
-        } else if (typeof data.test == 'object') {
-          action_perform('vyberFirmy')
-        } else {
-        flash(data.test, "danger")
-        }
-      });
-      return false;
-    });
-  </script>
-  <script src="https://api.mapy.cz/loader.js"></script>
-  <script src="/packagestatic/docassemble.VzoryPravnichPodani/loader.js"></script>
-  <script src="/packagestatic/docassemble.VzoryPravnichPodani/mapy_api.js"></script>
 ---
-#### odběrná místa
 section: mista
 question: |
-  Odběrná místa
-subquestion: |
-  Kolik odběrných míst chcete přihlásit?
-fields:
-  - Počet odběrných míst: OdbernaMista.target_number
-    datatype: integer
-    min: 1
----
-section: vyrobny
-question: |
-  Chcete vyplnit výrobny hromadně?
+  Informace o odběrných místech
 subquestion: |
   Pokud máte více výroben, může pro vás být jednodušší zaslat nám je hromadně, než je vyplňovat ručně zde v rozhraní.
 
   Připravili jsme vzorový Excel s údaji, které potřebujeme. Můžete si jej stáhnout, vyplnit a tabulku nám zaslat.
-field: vyplnitRucne
-buttons:
-  - "Vyplním ručně zde": True
-  - "Vyplním hromadně": False
----
-section: mista
-question: |
-  Údaje o odběrném místu č.
-  ${ ordinal(i) }.
 fields:
-  - Adresa vaší provozovny (odběrného místa): OdbernaMista[i].address
-  - Obvyklá doba provozu vašeho objektu: OdbernaMista[i].provoz
-    help: |
-      Prosím popište časové rozmezí provozu ve vašem odběrném místě. Zejména, jedná-li se o vícesměnný provoz.
-  - Údaje o roční spotřebě – ideálně profil spotřeby (diagram): OdbernaMista[i].podkladSpotreby
+  - Údaje o roční spotřebě – ideálně profil spotřeby (diagram): OdberneMisto.podkladSpotreby
     datatype: radio
     choices:  
       - "Nahraju soubor (faktura, diagram, či jiné)": soubor
       - "Nemám soubor, uvedu ručně": rucne
     default: soubor
-  - Údaje o roční spotřebě - ideálně profil spotřeby (diagram): OdbernaMista[i].spotrebaFile
-    datatype: file
+  - Údaje o roční spotřebě - ideálně profil spotřeby (diagram): OdberneMisto.spotrebaFiles
+    datatype: files
     show if:
-      variable: OdbernaMista[i].podkladSpotreby
+      variable: OdberneMisto.podkladSpotreby
       is: soubor
-  - Údaje o roční spotřebě - ideálně profil spotřeby (diagram): OdbernaMista[i].spotrebaRucne
+  - Údaje o roční spotřebě - ideálně profil spotřeby (diagram): OdberneMisto.spotrebaRucne
     input type: area
     show if:
-      variable: OdbernaMista[i].podkladSpotreby
+      variable: OdberneMisto.podkladSpotreby
       is: rucne
-  - Vaše stávající cena silové elektřiny: OdbernaMista[i].stavajiciCena
+  - Vaše stávající cena silové elektřiny: OdberneMisto.stavajiciCena
     datatype: currency
     min: 0
     currency symbol: Kč/MWh
-  - Typ vašeho stávajícího kontraktu na dodávku elektřiny: OdbernaMista[i].typKontraktu
+    required: False
+  - "Chcete nám ještě více pomoci zajistit vám lepší nabídku zelené elektřiny? Vyplňte nám 3 další údaje…": OdberneMisto.extraInfo
+    datatype: yesno
+  - Typ vašeho stávajícího kontraktu na dodávku elektřiny: OdberneMisto.typKontraktu
     datatype: radio
     choices:
       - Fixovaná cena
       - Spotová cena
-  - Časové rozmezí vašeho kontraktu: OdbernaMista[i].konecKontraktu
-    datatype: date
-  - Poptáváte i záruky původu elektřiny (zelené certifikáty)?: OdbernaMista[i].zarukaPuvodu
+    show if: OdberneMisto.extraInfo
+  - Požadovaná délka kontraktu na sdílení zelené elektříny (výběr z variant): OdberneMisto.delkaKontraktu
+    choices:
+      - 1–3 roky
+      - 3–5 let
+      - 5–10 let
+      - 10–15 let
+      - 15–25 let
+    show if: OdberneMisto.extraInfo
+  - Poptáváte i záruky původu elektřiny (zelené certifikáty)?: OdberneMisto.zarukaPuvodu
     datatype: yesno
----
-table: OdbernaMista.table
-rows: OdbernaMista
-columns:
-  - Cena: |
-      row_item.stavajiciCena
-  - Adresa: |
-      row_item.address
-edit:
-  - stavajiciCena
-  - address
----
-section: mista
-question: |
-  Dočasné testovací výstupní údaje
-subquestion: |
-  ${ OdbernaMista.table }
-
-  ${ OdbernaMista.add_action() }
-continue button field: potvrditVystup
+    show if: OdberneMisto.extraInfo
 ---
 event: save_and_resume
 code: |
@@ -290,3 +223,20 @@ subject: |
 content: |
   Pro pokračování ve formuláři, [klikněte zde](www.energie-pro-mesta.frankbold.org/nastroj?session=${ user_info().session }).
 ---
+code: |
+  variables = all_variables(make_copy=True)
+  
+  variables["files_links"] = []
+  
+  if defined("OdberneMisto.spotrebaFiles"):
+    for file in OdberneMisto.spotrebaFiles:
+      variables["files_links"].append(file.url_for(temporary=True,seconds=120))
+---
+code: |
+  webhook_data = requests.post('https://hook.eu1.make.com/rppg9pv5vo3mtybkf6rpyphmsogj1soe', data=json.dumps(variables),headers={'Content-Type': 'application/json'})
+---
+event: hotovo
+question: |
+  Hotovo
+subquestion: |
+  Úspěšně odesláno.
