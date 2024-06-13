@@ -72,7 +72,23 @@ inputElems.forEach(inputElem => {
         const origData = event.detail.selection.value.data;
         // data to debug
         console.log(origData);
-        setField("clovek.zip", origData.zip)
-        inputElem.value = origData.name;
+        
+        let street = "";
+        let address = "";
+        let municipality = "";
+
+        origData.regionalStructure.forEach(item => {
+            if (item.type === "regional.street") {
+                street = item.name;
+            }
+            if (item.type === "regional.address") {
+                address = item.name;
+            }
+            if (item.type === "regional.municipality") {
+                municipality = item.name;
+            }
+        });
+
+        inputElem.value = `${origData.name}, ${origData.zip} ${municipality}`;
     });
 });
