@@ -132,6 +132,23 @@ fields:
   - E-mail: Odberatel.email
     datatype: email
   - Telefon: Odberatel.tel
+script: |
+  <script type="application/javascript" charset="utf-8">
+    $("#doplnit").click(function(){
+      action_call('doplnUdaje', {ico: val('VOdberatel.ic')}, function(data){
+        if (typeof data.test.firma !== 'undefined') {
+        setField("Odberatel.name.text", data.test.firma);
+        setField("Odberatel.ic", data.test.ico);
+        setField("Odberatel.address", data.test.sidlo);
+        } else if (typeof data.test == 'object') {
+          action_perform('vyberFirmy')
+        } else {
+        flash(data.test, "danger")
+        }
+      });
+      return false;
+    });
+  </script>
 ---
 section: mista
 question: |

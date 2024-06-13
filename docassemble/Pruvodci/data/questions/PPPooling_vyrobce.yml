@@ -138,6 +138,23 @@ fields:
   - Telefon: Vyrobce.tel
   - Číslo licence na výrobu elektřiny: Vyrobce.licence
     datatype: integer
+script: |
+  <script type="application/javascript" charset="utf-8">
+    $("#doplnit").click(function(){
+      action_call('doplnUdaje', {ico: val('Vyrobce.ic')}, function(data){
+        if (typeof data.test.firma !== 'undefined') {
+        setField("Vyrobce.name.text", data.test.firma);
+        setField("Vyrobce.ic", data.test.ico);
+        setField("Vyrobce.address", data.test.sidlo);
+        } else if (typeof data.test == 'object') {
+          action_perform('vyberFirmy')
+        } else {
+        flash(data.test, "danger")
+        }
+      });
+      return false;
+    });
+  </script>
 ---
 section: vyrobny
 question: |
