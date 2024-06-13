@@ -114,6 +114,7 @@ fields:
       variable: Vyrobce.forma
       is: PO
   - Sídlo: Vyrobce.address
+    css class: addressAutocomplete
     hint: Sídlo
     show if:
       variable: Vyrobce.forma

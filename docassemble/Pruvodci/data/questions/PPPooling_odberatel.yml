@@ -110,7 +110,7 @@ fields:
       variable: Odberatel.forma
       is: PO
   - Sídlo: Odberatel.address
-    hint: Sídlo
+    css class: addressAutocomplete
     show if:
       variable: Odberatel.forma
       is: PO
