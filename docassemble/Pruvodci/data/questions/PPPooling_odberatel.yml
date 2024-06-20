@@ -17,16 +17,9 @@ features:
   hide navbar: True
   css: uken.css
 ---
-default screen parts:
-  under: |
-    % if show_save_resume_message:
-    ${ action_button_html(url_action('save_and_resume'), label="Uložit a pokračovat později", color="secondary", size="sm", icon="floppy-disk") }
-    % endif
----
 sections:
   - uvod: Identifikační údaje
   - mista: Odběrná místa
-  - vystup: Výstup
 ---
 include:
   - objektPerson.yml
@@ -38,24 +31,6 @@ objects:
 ---
 mandatory: True
 code: |
-  target = 'normal'
-  show_save_resume_message = True
-  multi_user = True
-  nav.progressive = False
----
-scan for variables: False
-mandatory: True
-code: |
-  if target == 'save_and_resume':
-    if wants_email:
-      if email_sent:
-        log("We sent an e-mail to your e-mail address.", "info")
-      else:
-        log("There was a problem with e-mailing.", "danger")
-      show_save_resume_message = False
-    undefine('wants_email')
-    undefine('email_sent')
-    target = 'normal'
   Odberatel.forma
   OdberneMisto.podkladSpotreby
   webhook_data
@@ -91,6 +66,7 @@ fields:
       variable: Odberatel.forma
       is: FO
   - Trvalé bydliště: Odberatel.address
+    css class: addressAutocomplete
     hint: Adresa
     show if:
       variable: Odberatel.forma
@@ -111,6 +87,7 @@ fields:
       is: PO
   - Sídlo: Odberatel.address
     css class: addressAutocomplete
+    hint: Sídlo
     show if:
       variable: Odberatel.forma
       is: PO
@@ -132,6 +109,9 @@ fields:
   - E-mail: Odberatel.email
     datatype: email
   - Telefon: Odberatel.tel
+    datatype: integer
+    hint: |
+      ### ### ###
 css: |
   <link rel="stylesheet" href="${url_of('autocomplete.css')}">
 script: |
@@ -158,9 +138,7 @@ section: mista
 question: |
   Informace o odběrných místech
 subquestion: |
-  Pokud máte více výroben, může pro vás být jednodušší zaslat nám je hromadně, než je vyplňovat ručně zde v rozhraní.
-
-  Připravili jsme vzorový Excel s údaji, které potřebujeme. Můžete si jej stáhnout, vyplnit a tabulku nám zaslat.
+  Uveďte souhrný údaj za všechna odběrná místa, které chcete přihlásit.
 fields:
   - Údaje o roční spotřebě – ideálně profil spotřeby (diagram): OdberneMisto.podkladSpotreby
     datatype: radio
@@ -168,12 +146,12 @@ fields:
       - "Nahraju soubor (faktura, diagram, či jiné)": soubor
       - "Nemám soubor, uvedu ručně": rucne
     default: soubor
-  - Údaje o roční spotřebě - ideálně profil spotřeby (diagram): OdberneMisto.spotrebaFiles
+  - Soubory k roční spotřebě: OdberneMisto.spotrebaFiles
     datatype: files
     show if:
       variable: OdberneMisto.podkladSpotreby
       is: soubor
-  - Údaje o roční spotřebě - ideálně profil spotřeby (diagram): OdberneMisto.spotrebaRucne
+  - Informace o roční spotřebě: OdberneMisto.spotrebaRucne
     input type: area
     show if:
       variable: OdberneMisto.podkladSpotreby
@@ -191,58 +169,17 @@ fields:
       - Fixovaná cena
       - Spotová cena
     show if: OdberneMisto.extraInfo
-  - Požadovaná délka kontraktu na sdílení zelené elektříny (výběr z variant): OdberneMisto.delkaKontraktu
+  - Požadovaná délka kontraktu na sdílení zelené elektříny: OdberneMisto.delkaKontraktu
     choices:
-      - 1–3 roky
-      - 3–5 let
-      - 5–10 let
-      - 10–15 let
-      - 15–25 let
+      - 1-3 roky
+      - 3-5 let
+      - 5-10 let
+      - 10-15 let
+      - 15-25 let
     show if: OdberneMisto.extraInfo
   - Poptáváte i záruky původu elektřiny (zelené certifikáty)?: OdberneMisto.zarukaPuvodu
     datatype: yesno
     show if: OdberneMisto.extraInfo
----
-event: save_and_resume
-code: |
-  target = 'save_and_resume'
----
-code: |
-  send_email(to=user_email_address, template=save_resume_template)
-  email_sent = True
----
-question: |
-  Uložení formuláře na později
-subquestion: |
-  Na e-mail vám zašleme odkaz pod který můžete kdykoli pokračovat ve vyplňování formuláře.
-
-  Odkaz je platný po dobu 30 dní.
-fields:
-  - no label: wants_email
-    input type: radio
-    choices:
-      - "Dobře, pošlete mi e-mail": True
-      - "Ne, děkuji": False
-    default: True
-  - E-mail address: user_email_address
-    default: |
-      ${email}
-    datatype: email
-    show if: wants_email
-under: ""
----
-event: autosave
-code: |
-  set_save_status('overwrite')
-  for variable_name, variable_value in action_arguments().items():
-    if variable_value:
-      define(variable_name, variable_value)
----
-template: save_resume_template
-subject: |
-  Váš formulář
-content: |
-  Pro pokračování ve formuláři, [klikněte zde](www.energie-pro-mesta.frankbold.org/nastroj?session=${ user_info().session }).
 ---
 code: |
   variables = all_variables(make_copy=True)
@@ -258,6 +195,8 @@ code: |
 ---
 event: hotovo
 question: |
-  Hotovo
+  To je vše.
 subquestion: |
-  Úspěšně odesláno.
+  Děkujeme za vyplnění formuláře.
+  
+  Na e-mail *${ Odberatel.email }* Vám dorazí e-mail s dalšími informacemi. 
