@@ -58,9 +58,11 @@ code: |
     target = 'normal'
   uvod
   Vyrobce.name.text
+  del(updated_nav)
   Vyrobny.target_number
   if Vyrobny.target_number > 5:
     vyplnitRucne
+  updated_nav
   potvrditVystup
   webhook_data
   hotovo
@@ -95,6 +97,7 @@ fields:
       variable: Vyrobce.forma
       is: FO
   - Trvalé bydliště: Vyrobce.address
+    css class: addressAutocomplete
     hint: Adresa
     show if:
       variable: Vyrobce.forma
@@ -137,8 +140,19 @@ fields:
   - E-mail: Vyrobce.email
     datatype: email
   - Telefon: Vyrobce.tel
+    datatype: integer
+    hint: |
+      ### ### ###
   - Číslo licence na výrobu elektřiny: Vyrobce.licence
     datatype: integer
+    - "[Zásady zpracování osobních údajů](https://frankbold.org/zasady-ochrany-osobnich-udaju-frank-bold)": souhlas
+    datatype: checkboxes
+    minlength: 1
+    choices:
+      - "Souhlasím"
+    validation messages:
+      minlength: |
+        Pro položení dotazu musíte se zásadami souhlasit.
 css: |
   <link rel="stylesheet" href="${url_of('autocomplete.css')}">
 script: |
@@ -175,13 +189,22 @@ section: vyrobny
 question: |
   Chcete vyplnit výrobny hromadně?
 subquestion: |
-  Pokud máte více výroben, může pro vás být jednodušší zaslat nám je hromadně, než je vyplňovat ručně zde v rozhraní.
+  Pokud máte více výroben, může pro vás být jednodušší zaslat nám data hromadně, než je vyplňovat ručně zde v rozhraní.
 
   Připravili jsme vzorový Excel s údaji, které potřebujeme. Můžete si jej stáhnout, vyplnit a tabulku nám zaslat.
 field: vyplnitRucne
 buttons:
   - "Vyplním ručně zde": True
   - "Vyplním hromadně": False
+---
+code: |
+  sections = nav.get_sections()
+  for i in range(0, Vyrobny.target_number+1):
+    sections["vyrobny"]["subsections"].append(f"Výročna č {i}")
+
+  nav.set_sections = sections
+
+  updated_nav = True
 ---
 section: vyrobny
 question: |

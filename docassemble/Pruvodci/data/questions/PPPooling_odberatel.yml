@@ -112,6 +112,14 @@ fields:
     datatype: integer
     hint: |
       ### ### ###
+  - "[Zásady zpracování osobních údajů](https://frankbold.org/zasady-ochrany-osobnich-udaju-frank-bold)": souhlas
+    datatype: checkboxes
+    minlength: 1
+    choices:
+      - "Souhlasím"
+    validation messages:
+      minlength: |
+        Pro položení dotazu musíte se zásadami souhlasit.
 css: |
   <link rel="stylesheet" href="${url_of('autocomplete.css')}">
 script: |
