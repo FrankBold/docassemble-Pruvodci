@@ -89,7 +89,7 @@ fields:
       variable: Vyrobce.forma
       is: PO
     hint: 12345678
-    note: |
+    under text: |
       <button id="doplnit" class="btn btn-primary">Doplnit údaje z OR</button>
   - Název organizace: Vyrobce.name.text
     show if:
