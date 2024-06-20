@@ -26,7 +26,6 @@ default screen parts:
 sections:
   - uvod: Identifikační údaje
   - vyrobny: Výrobny OZE
-  - vystup: Výstup
 ---
 include:
   - objektPerson.yml
@@ -56,33 +55,13 @@ code: |
     undefine('wants_email')
     undefine('email_sent')
     target = 'normal'
-  uvod
   Vyrobce.name.text
-  del(updated_nav)
   Vyrobny.target_number
   if Vyrobny.target_number > 5:
     vyplnitRucne
-  updated_nav
   potvrditVystup
   webhook_data
   hotovo
----
-## KONEC SETUP
-section: uvod
-question: |
-  Vítejte v průvodci
-subquestion: |
-  *Nějaké úvodní informace*
-fields:
-  - "[Zásady zpracování osobních údajů](https://frankbold.org/zasady-ochrany-osobnich-udaju-frank-bold)": souhlas
-    datatype: checkboxes
-    minlength: 1
-    choices:
-      - "Souhlasím"
-    validation messages:
-      minlength: |
-        Pro položení dotazu musíte se zásadami souhlasit.
-continue button field: uvod
 ---
 question: |
   Vaše identifikační údaje jakožto výrobce.
@@ -145,7 +124,7 @@ fields:
       ### ### ###
   - Číslo licence na výrobu elektřiny: Vyrobce.licence
     datatype: integer
-    - "[Zásady zpracování osobních údajů](https://frankbold.org/zasady-ochrany-osobnich-udaju-frank-bold)": souhlas
+  - "[Zásady zpracování osobních údajů](https://frankbold.org/zasady-ochrany-osobnich-udaju-frank-bold)": souhlas
     datatype: checkboxes
     minlength: 1
     choices:
@@ -199,14 +178,19 @@ buttons:
 ---
 code: |
   sections = nav.get_sections()
-  for i in range(0, Vyrobny.target_number+1):
-    sections["vyrobny"]["subsections"].append(f"Výročna č {i}")
+  vyrobny_temp = {}
+  for i in range(1, Vyrobny.target_number+1):
+    vyrobny_temp[f"Výrobna č. {i}"] = f"vyrobna_{i}"
+
+  for section in sections:
+    if "vyrobny" in section:
+      section["subsections"] = vyrobny_temp
+      break
 
   nav.set_sections = sections
 
   updated_nav = True
 ---
-section: vyrobny
 question: |
   Základní informace o výrobně č. ${ ordinal(i) }.
 fields:
@@ -216,7 +200,6 @@ fields:
     - V provozu: True
     - Plánována: False
 ---
-section: vyrobny
 if: 
   not Vyrobny[i].stav
 question: |
@@ -228,6 +211,7 @@ fields:
       - VTE
       - FVE
   - Adresa výrobny: Vyrobny[i].address
+    css class: addressAutocomplete
   - Očekávané datum uvedení do provozu: Vyrobny[i].datum
     datatype: date
   - Instalovaný výkon: Vyrobny[i].vykon
@@ -262,8 +246,12 @@ fields:
       - Ano: True
       - Ne: False
       - Nevím: neví
+css: |
+  <link rel="stylesheet" href="${url_of('autocomplete.css')}">
+script: |
+  <script src="https://cdn.jsdelivr.net/npm/@tarekraafat/autocomplete.js@10.2.7/dist/autoComplete.min.js"></script>
+  <script src="${url_of('mapy_api_suggestions.js')}"></script>
 ---
-section: vyrobny
 if: 
   Vyrobny[i].stav
 question: |
@@ -275,6 +263,7 @@ fields:
       - VTE
       - FVE
   - Adresa výrobny: Vyrobny[i].address
+    css class: addressAutocomplete
   - Rok uvedení do provozu: Vyrobny[i].rok
     datatype: integer
   - Instalovaný výkon (v MWp): Vyrobny[i].vykon
@@ -323,6 +312,11 @@ fields:
       - Ano: True
       - Ne: False
       - Nevím: neví
+css: |
+  <link rel="stylesheet" href="${url_of('autocomplete.css')}">
+script: |
+  <script src="https://cdn.jsdelivr.net/npm/@tarekraafat/autocomplete.js@10.2.7/dist/autoComplete.min.js"></script>
+  <script src="${url_of('mapy_api_suggestions.js')}"></script>
 ---
 table: Vyrobny.table
 rows: Vyrobny
@@ -339,11 +333,7 @@ section: vyrobny
 question: |
   Dočasné testovací výstupní údaje
 subquestion: |
-  ${ Vyrobny.target_number }
-
   ${ Vyrobny.table }
-
-  ${ Vyrobce.address }
 continue button field: potvrditVystup
 ## FINAL CODE
 ---
@@ -402,6 +392,6 @@ code: |
 ---
 event: hotovo
 question: |
-  Hotovo
+  To je vše.
 subquestion: |
-  Úspěšně odesláno.
+  Děkujeme za vyplnění. Na e-mail *${Vyrobce.email}* vám příjde potvrzení o přihlášení.
