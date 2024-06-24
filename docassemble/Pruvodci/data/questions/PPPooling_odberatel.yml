@@ -81,7 +81,7 @@ fields:
     hint: 12345678
     under text: |
       <button id="doplnit" class="btn btn-primary">Doplnit údaje z OR</button>
-  - Název organizace: Odberatel.name.text
+  - Název organizace: Odberatel.firma
     show if:
       variable: Odberatel.forma
       is: PO
