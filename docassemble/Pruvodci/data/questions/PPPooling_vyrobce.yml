@@ -91,7 +91,7 @@ fields:
     hint: 12345678
     under text: |
       <button id="doplnit" class="btn btn-primary">Doplnit údaje z OR</button>
-  - Název organizace: Vyrobce.name.text
+  - Název organizace: Vyrobce.firma
     show if:
       variable: Vyrobce.forma
       is: PO
@@ -139,7 +139,7 @@ script: |
     $("#doplnit").click(function(){
       action_call('doplnUdaje', {ico: val('Vyrobce.ic')}, function(data){
         if (typeof data.test.firma !== 'undefined') {
-        setField("Vyrobce.name.text", data.test.firma);
+        setField("Vyrobce.firma", data.test.firma);
         setField("Vyrobce.ic", data.test.ico);
         setField("Vyrobce.address", data.test.sidlo);
         } else if (typeof data.test == 'object') {

@@ -127,7 +127,7 @@ script: |
     $("#doplnit").click(function(){
       action_call('doplnUdaje', {ico: val('Odberatel.ic')}, function(data){
         if (typeof data.test.firma !== 'undefined') {
-        setField("Odberatel.name.text", data.test.firma);
+        setField("Odberatel.firma", data.test.firma);
         setField("Odberatel.ic", data.test.ico);
         setField("Odberatel.address", data.test.sidlo);
         } else if (typeof data.test == 'object') {
