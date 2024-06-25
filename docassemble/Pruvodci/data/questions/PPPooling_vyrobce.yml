@@ -59,6 +59,8 @@ code: |
   Vyrobny.target_number
   if Vyrobny.target_number > 5:
     vyplnitRucne
+    if not vyplnitRucne:
+      downloadExcel
   potvrditVystup
   webhook_data
   hotovo
@@ -176,6 +178,18 @@ field: vyplnitRucne
 buttons:
   - "Vyplním ručně zde": True
   - "Vyplním hromadně": False
+---
+event: downloadExcel
+question: |
+  Hromadné vyplnění
+subquestion: |
+  Stáhněte si Excelový soubor, který obsahuje strukturu dat, kterou od vás potřebujeme:
+
+  [**Stáhnout tabulku**](#)
+
+  Vyplněnou tabulku s daty a případnými přílohami nám zašlete na e-mail: jan.bakule@frankbold.org
+
+  V případě jakýchkoli dotazů, nebo potřeby odeslání nadlimitních příloh, se nám prosím též ozvěte a domluvíme se individuálně.
 ---
 code: |
   sections = nav.get_sections()
