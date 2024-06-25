@@ -207,7 +207,7 @@ code: |
       variables["files_links"].append(file.url_for(temporary=True,seconds=120))
 ---
 code: |
-  save_user = requests.post('https://hook.eu1.make.com/jt3nrov4lt5uq27swhqpp4oksupon568', data=json.dumps(variables),headers={'Content-Type': 'application/json'})
+  save_user = requests.post('https://hook.eu1.make.com/jt3nrov4lt5uq27swhqpp4oksupon568', data=json.dumps(all_variables(make_copy=True)),headers={'Content-Type': 'application/json'})
 ---
 code: |
   webhook_data = requests.post('https://hook.eu1.make.com/rxzicjnivce9i4y1n4da6lnwett1e6kk', data=json.dumps(variables),headers={'Content-Type': 'application/json'})

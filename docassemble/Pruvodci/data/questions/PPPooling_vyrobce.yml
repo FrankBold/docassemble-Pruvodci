@@ -395,7 +395,7 @@ content: |
   Pro pokračování ve formuláři, [klikněte zde](www.energie-pro-mesta.frankbold.org/nastroj?session=${ user_info().session }).
 ---
 code: |
-  save_user = requests.post('https://hook.eu1.make.com/jt3nrov4lt5uq27swhqpp4oksupon568', data=json.dumps(variables),headers={'Content-Type': 'application/json'})
+  save_user = requests.post('https://hook.eu1.make.com/jt3nrov4lt5uq27swhqpp4oksupon568', data=json.dumps(all_variables(make_copy=True)),headers={'Content-Type': 'application/json'})
 ---
 code: |
   variables = all_variables(make_copy=True)
