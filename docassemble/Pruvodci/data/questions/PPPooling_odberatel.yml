@@ -162,7 +162,7 @@ fields:
   - Informace o roční spotřebě: OdberneMisto.spotrebaRucne
     datatype: currency
     min: 0
-    currency symbol: Kč/MWh
+    currency symbol: MWh
     show if:
       variable: OdberneMisto.podkladSpotreby
       is: rucne  
