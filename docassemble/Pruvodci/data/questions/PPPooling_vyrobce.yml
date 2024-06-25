@@ -56,6 +56,7 @@ code: |
     undefine('email_sent')
     target = 'normal'
   Vyrobce.forma
+  save_user
   Vyrobny.target_number
   if Vyrobny.target_number > 5:
     vyplnitRucne
@@ -392,6 +393,9 @@ subject: |
   Váš formulář
 content: |
   Pro pokračování ve formuláři, [klikněte zde](www.energie-pro-mesta.frankbold.org/nastroj?session=${ user_info().session }).
+---
+code: |
+  save_user = requests.post('https://hook.eu1.make.com/jt3nrov4lt5uq27swhqpp4oksupon568', data=json.dumps(variables),headers={'Content-Type': 'application/json'})
 ---
 code: |
   variables = all_variables(make_copy=True)
