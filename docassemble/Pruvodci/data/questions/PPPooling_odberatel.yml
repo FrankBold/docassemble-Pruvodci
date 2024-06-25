@@ -19,7 +19,7 @@ features:
 ---
 sections:
   - uvod: Identifikační údaje
-  - mista: Odběrná místa
+  - mista: Udáje o spotřebě
 ---
 include:
   - objektPerson.yml
@@ -144,11 +144,11 @@ script: |
 ---
 section: mista
 question: |
-  Informace o odběrných místech
+  Informace o spotřebě a ceně elektřiny
 subquestion: |
-  Uveďte souhrný údaj za všechna odběrná místa, které chcete přihlásit.
+  Uveďte souhrný údaj **o roční spotřebě** za všechna odběrná místa, které chcete přihlásit.
 fields:
-  - Údaje o roční spotřebě – ideálně profil spotřeby (diagram): OdberneMisto.podkladSpotreby
+  - Údaje o roční spotřebě – ideálně co nejdetailnější (faktura, spotřební diagram, apod.): OdberneMisto.podkladSpotreby
     datatype: radio
     choices:  
       - "Nahraju soubor (faktura, diagram, či jiné)": soubor
@@ -160,23 +160,28 @@ fields:
       variable: OdberneMisto.podkladSpotreby
       is: soubor
   - Informace o roční spotřebě: OdberneMisto.spotrebaRucne
-    input type: area
+    datatype: currency
+    min: 0
+    currency symbol: Kč/MWh
     show if:
       variable: OdberneMisto.podkladSpotreby
-      is: rucne
+      is: rucne  
+  - Typ vašeho stávajícího kontraktu na dodávku elektřiny: OdberneMisto.typKontraktu
+    datatype: radio
+    choices:
+      - Fixovaná či pevná cena
+      - Spotová cena
+    required: False
   - Vaše stávající cena silové elektřiny: OdberneMisto.stavajiciCena
     datatype: currency
     min: 0
     currency symbol: Kč/MWh
     required: False
-  - "Chcete nám ještě více pomoci zajistit vám lepší nabídku zelené elektřiny? Vyplňte nám 3 další údaje…": OdberneMisto.extraInfo
+    show if: 
+      variable: OdberneMisto.typKontraktu
+      is: Fixovaná či pevná cena
+  - "Chcete nám ještě více pomoci zajistit vám lepší nabídku zelené elektřiny? Vyplňte nám 2 další údaje…": OdberneMisto.extraInfo
     datatype: yesno
-  - Typ vašeho stávajícího kontraktu na dodávku elektřiny: OdberneMisto.typKontraktu
-    datatype: radio
-    choices:
-      - Fixovaná cena
-      - Spotová cena
-    show if: OdberneMisto.extraInfo
   - Požadovaná délka kontraktu na sdílení zelené elektříny: OdberneMisto.delkaKontraktu
     choices:
       - 1-3 roky
@@ -185,9 +190,11 @@ fields:
       - 10-15 let
       - 15-25 let
     show if: OdberneMisto.extraInfo
+    required: False
   - Poptáváte i záruky původu elektřiny (zelené certifikáty)?: OdberneMisto.zarukaPuvodu
-    datatype: yesno
+    datatype: yesnoradio
     show if: OdberneMisto.extraInfo
+    required: False
 ---
 code: |
   variables = all_variables(make_copy=True)
