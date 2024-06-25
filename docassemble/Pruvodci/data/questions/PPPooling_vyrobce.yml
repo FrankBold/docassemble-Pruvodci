@@ -55,7 +55,7 @@ code: |
     undefine('wants_email')
     undefine('email_sent')
     target = 'normal'
-  Vyrobce.address
+  Vyrobce.forma
   Vyrobny.target_number
   if Vyrobny.target_number > 5:
     vyplnitRucne
