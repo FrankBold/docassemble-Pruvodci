@@ -19,7 +19,7 @@ features:
 ---
 default screen parts:
   under: |
-    % if show_save_resume_message:
+    % if False:
     ${ action_button_html(url_action('save_and_resume'), label="Uložit a pokračovat později", color="secondary", size="sm", icon="floppy-disk") }
     % endif
 ---
@@ -361,7 +361,7 @@ fields:
     default: True
   - E-mail address: user_email_address
     default: |
-      ${email}
+      ${Vyrobce.email}
     datatype: email
     show if: wants_email
 under: ""
