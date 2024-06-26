@@ -409,7 +409,7 @@ code: |
       for file in vyrobna.vyrobaFiles:
         variables["files_links"].append(file.url_for(temporary=True,seconds=120))
 
-  ecomail_tag = "výrobce-vyplnil formulář"
+  variables["ecomail_tag"] = "výrobce-vyplnil formulář"
   
   webhook_data = requests.post('https://hook.eu1.make.com/rxzicjnivce9i4y1n4da6lnwett1e6kk', data=json.dumps(variables),headers={'Content-Type': 'application/json'})
 ---

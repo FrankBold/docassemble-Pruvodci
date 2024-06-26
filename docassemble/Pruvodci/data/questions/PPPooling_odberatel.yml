@@ -199,14 +199,14 @@ fields:
 ---
 code: |
   variables = all_variables(make_copy=True)
-  
-  variables["files_links"] = []
 
-  ecomail_tag = "odběratel-vyplnil formulář"
+  variables["ecomail_tag"] = "odběratel-vyplnil formulář"
 
   if defined("OdberneMisto.spotrebaRucne"):
     if OdberneMisto.spotrebaRucne <= 100:
-      ecomail_tag = "odběratel-vyplnil formulář(do 100MW)"
+      variables["ecomail_tag"] = "odběratel-vyplnil formulář(do 100MW)"
+  
+  variables["files_links"] = []
 
   
   if defined("OdberneMisto.spotrebaFiles"):
