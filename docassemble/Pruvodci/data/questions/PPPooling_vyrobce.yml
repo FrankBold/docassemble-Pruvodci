@@ -214,7 +214,7 @@ fields:
   input type: radio
   choices:
     - V provozu: True
-    - Plánována: False
+    - Plánovaná / ve výstavbě: False
 ---
 if: 
   not Vyrobny[i].stav
@@ -230,7 +230,7 @@ fields:
     css class: addressAutocomplete
   - Očekávané datum uvedení do provozu: Vyrobny[i].datum
     datatype: date
-  - Instalovaný výkon: Vyrobny[i].vykon
+  - Instalovaný výkon výrobny: Vyrobny[i].vykon
     datatype: currency
     min: 0
     currency symbol: MWp
@@ -280,7 +280,7 @@ fields:
       - FVE
   - Adresa výrobny: Vyrobny[i].address
     css class: addressAutocomplete
-  - Rok uvedení do provozu: Vyrobny[i].rok
+  - Rok uvedení výrobny do provozu: Vyrobny[i].rok
     datatype: integer
   - Instalovaný výkon (v MWp): Vyrobny[i].vykon
     datatype: currency
@@ -289,8 +289,10 @@ fields:
   - Celkové nabízené množství elektřiny: Vyrobny[i].podkladVyroba
     datatype: radio
     choices:  
-      - "Nahraju soubor (proběhlé měření)": soubor
+      - "Nahraju soubor (např. údaje o výrobě z průběhového měření)": soubor
       - "Nemám soubor, uvedu ručně": rucne
+    help: |
+      Tímto je myšleno celkové množství zelené elektřiny, které jste ochotni sdílet s protistranou (vaším potenciálním odběratelem). Nezapočítává se tedy elektřina spotřebovaná v daném odběrném místě, ale ta dodávaná do sítě.
     default: soubor
   - Celkové nabízené množství elektřiny - Soubor: Vyrobny[i].vyrobaFiles
     datatype: files
@@ -304,9 +306,7 @@ fields:
     show if:
       variable: Vyrobny[i].podkladVyroba
       is: rucne
-  - Jiné informace: Vyrobny[i].jine
-    datatype: area
-  - Cena za kterou by chtěli elektřinu prodávat: Vyrobny[i].cena
+  - Cena za kterou byste elektřinu prodávat: Vyrobny[i].cena
     datatype: currency
     min: 0
     currency symbol: Kč/MWh
