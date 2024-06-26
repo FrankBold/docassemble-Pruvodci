@@ -164,7 +164,7 @@ question: |
 subquestion: |
   Kolik existujících či vznikajících výroben OZE chcete celkem přihlásit?
 fields:
-  - Počet výrobních míst: Vyrobny.target_number
+  - Počet vašich výroben (OZE): Vyrobny.target_number
     datatype: integer
     min: 1
 ---
