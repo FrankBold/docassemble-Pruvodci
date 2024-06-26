@@ -208,7 +208,6 @@ code: |
   
   variables["files_links"] = []
 
-  
   if defined("OdberneMisto.spotrebaFiles"):
     for file in OdberneMisto.spotrebaFiles:
       variables["files_links"].append(file.url_for(temporary=True,seconds=120))
@@ -217,7 +216,7 @@ code: |
   save_user = requests.post('https://hook.eu1.make.com/jt3nrov4lt5uq27swhqpp4oksupon568', data=json.dumps(all_variables(make_copy=True)),headers={'Content-Type': 'application/json'})
 ---
 code: |
-  webhook_data = requests.post('https://hook.eu1.make.com/rxzicjnivce9i4y1n4da6lnwett1e6kk', data=json.dumps(variables),headers={'Content-Type': 'application/json'})
+  webhook_data = requests.post('https://hook.eu1.make.com/rppg9pv5vo3mtybkf6rpyphmsogj1soe', data=json.dumps(variables),headers={'Content-Type': 'application/json'})
 ---
 event: hotovo
 question: |
