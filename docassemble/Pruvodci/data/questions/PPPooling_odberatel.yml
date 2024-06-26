@@ -201,6 +201,13 @@ code: |
   variables = all_variables(make_copy=True)
   
   variables["files_links"] = []
+
+  ecomail_tag = "odběratel-vyplnil formulář"
+
+  if defined("OdberneMisto.spotrebaRucne"):
+    if OdberneMisto.spotrebaRucne <= 100:
+      ecomail_tag = "odběratel-vyplnil formulář(do 100MW)"
+
   
   if defined("OdberneMisto.spotrebaFiles"):
     for file in OdberneMisto.spotrebaFiles:
